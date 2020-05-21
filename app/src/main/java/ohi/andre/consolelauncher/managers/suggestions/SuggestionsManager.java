@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -562,7 +563,7 @@ public class SuggestionsManager {
 
         beforeLastSpace  = beforeLastSpace .trim();
         lastWord = lastWord.trim();
-
+        Log.e("VALUES", "'" + beforeLastSpace + "' '" + lastWord + "'");
 //        lastword = 0
         if (lastWord.length() == 0) {
 
@@ -1074,7 +1075,6 @@ public class SuggestionsManager {
 
     private void suggestApp(List<AppsManager.LaunchInfo> apps, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace, boolean canClickToLaunch) {
         if(apps == null || apps.size() == 0) return;
-
         apps = new ArrayList<>(apps);
 
         int canInsert = counts[Suggestion.TYPE_APP];
@@ -1088,8 +1088,7 @@ public class SuggestionsManager {
         } else {
             int counter = quickCompare(afterLastSpace, apps, suggestions, beforeLastSpace, canInsert, canClickToLaunch && clickToLaunch, Suggestion.TYPE_APP, canClickToLaunch && clickToLaunch);
             if(canInsert - counter <= 0) return;
-
-            AppsManager.LaunchInfo[] infos = CompareObjects.topMatchesWithDeadline(AppsManager.LaunchInfo.class, afterLastSpace, apps.size(), apps, canInsert - counter, suggestionsDeadline, SPLITTERS, algInstance, alg);
+            AppsManager.LaunchInfo[] infos = CompareObjects.topAppMatchesWithDeadline(AppsManager.LaunchInfo.class, afterLastSpace, apps.size(), apps, canInsert - counter, suggestionsDeadline, SPLITTERS, algInstance, alg);
             for(AppsManager.LaunchInfo i : infos) {
                 if(i == null) break;
 
