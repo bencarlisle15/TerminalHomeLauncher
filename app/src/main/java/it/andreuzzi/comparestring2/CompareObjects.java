@@ -25,10 +25,9 @@
 
 package it.andreuzzi.comparestring2;
 
-import android.util.Log;
-
 import java.util.Arrays;
 import java.util.Iterator;
+
 import it.andreuzzi.comparestring2.AlgMap.Alg;
 import it.andreuzzi.comparestring2.algs.interfaces.Algorithm;
 import ohi.andre.consolelauncher.managers.AppsManager;
