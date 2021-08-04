@@ -13,8 +13,9 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
 
 import java.io.IOException;
 import java.util.Collections;

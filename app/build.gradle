@@ -1,15 +1,13 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 27
-    buildToolsVersion '28.0.3'
-    dexOptions {
-    }
+    compileSdkVersion 29
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId "ohi.andre.consolelauncher"
 
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 29
         flavorDimensions "default"
 
         versionName "v6.15"
@@ -34,7 +32,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     dependencies {
-        implementation 'com.android.support:appcompat-v7:27.1.1'
+        implementation 'com.android.support:appcompat-v7:29.0.0'
     }
     lintOptions {
         checkReleaseBuilds false

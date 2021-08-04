@@ -10,9 +10,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.RemoteInput;
 import android.text.SpannableString;
 import android.text.TextUtils;
 
@@ -29,6 +26,10 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 import static ohi.andre.consolelauncher.managers.TerminalManager.FORMAT_INPUT;
 import static ohi.andre.consolelauncher.managers.TerminalManager.FORMAT_NEWLINE;
 import static ohi.andre.consolelauncher.managers.TerminalManager.FORMAT_PREFIX;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.RemoteInput;
 
 public class KeeperService extends Service {
 
