@@ -21,7 +21,7 @@ public class Vibrate implements CommandAbstraction {
 
         char separator = Tuils.firstNonDigit(text);
 
-        if(separator == 0) {
+        if (separator == 0) {
             int ms;
             try {
                 ms = Integer.parseInt(text);
@@ -33,9 +33,9 @@ public class Vibrate implements CommandAbstraction {
                 return e.toString();
             }
         } else {
-            if(separator == ' ') {
+            if (separator == ' ') {
                 char s2 = Tuils.firstNonDigit(Tuils.removeSpaces(text));
-                if(s2 != 0) {
+                if (s2 != 0) {
                     text = Tuils.removeSpaces(text);
                     separator = s2;
                 }
@@ -44,7 +44,7 @@ public class Vibrate implements CommandAbstraction {
             String[] split = text.split(separator + Tuils.EMPTYSTRING);
             long[] pattern = new long[split.length];
 
-            for(int c = 0; c < split.length; c++) {
+            for (int c = 0; c < split.length; c++) {
                 try {
                     pattern[c] = Long.parseLong(split[c]);
                 } catch (Exception e) {
@@ -60,7 +60,7 @@ public class Vibrate implements CommandAbstraction {
 
     @Override
     public int[] argType() {
-        return new int[] {CommandAbstraction.PLAIN_TEXT};
+        return new int[]{CommandAbstraction.PLAIN_TEXT};
     }
 
     @Override

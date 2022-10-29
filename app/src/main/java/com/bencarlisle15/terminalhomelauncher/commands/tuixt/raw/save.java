@@ -19,7 +19,7 @@ public class save implements CommandAbstraction {
         String text = pack.editText.getText().toString();
 
         String error = FileManager.writeOn(pack.editFile, text);
-        if(error == null) {
+        if (error == null) {
             return pack.resources.getString(R.string.tuixt_saved);
         } else {
             return error;

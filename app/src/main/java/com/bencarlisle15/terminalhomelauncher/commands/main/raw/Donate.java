@@ -24,7 +24,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 
 public class Donate implements CommandAbstraction {
 
-    private final String DONATE_URL = "https://www.paypal.me/fandreuzzi";
+    private final static String DONATE_URL = "https://www.paypal.me/fandreuzzi";
 
     @Override
     public String exec(ExecutePack pack) {

@@ -18,8 +18,8 @@ public class XMLPrefsEntry {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof XMLPrefsEntry) return this == obj;
-        else if(obj instanceof XMLPrefsSave) return this.key.equals(((XMLPrefsSave) obj).label());
+        if (obj instanceof XMLPrefsEntry) return this == obj;
+        else if (obj instanceof XMLPrefsSave) return this.key.equals(((XMLPrefsSave) obj).label());
         return obj.equals(key);
     }
 

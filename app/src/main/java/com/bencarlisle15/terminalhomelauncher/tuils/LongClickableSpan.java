@@ -65,7 +65,8 @@ public class LongClickableSpan extends ClickableSpan {
         this.longIntentKey = longIntentKey;
     }
 
-    public void updateDrawState(TextPaint ds) {}
+    public void updateDrawState(TextPaint ds) {
+    }
 
     @Override
     public void onClick(View widget) {
@@ -73,7 +74,8 @@ public class LongClickableSpan extends ClickableSpan {
     }
 
     public void onLongClick(View widget) {
-        if(execute(widget, longClickO, longIntentKey) && longPressVibrateDuration > 0) ((Vibrator) widget.getContext().getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(longPressVibrateDuration);
+        if (execute(widget, longClickO, longIntentKey) && longPressVibrateDuration > 0)
+            ((Vibrator) widget.getContext().getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(longPressVibrateDuration);
     }
 
     private static void execute(View v, Object o) {
@@ -81,9 +83,9 @@ public class LongClickableSpan extends ClickableSpan {
     }
 
     private static boolean execute(final View v, Object o, String intentKey) {
-        if(o == null) return false;
+        if (o == null) return false;
 
-        if(!set) {
+        if (!set) {
             set = true;
 
             showExcludeApp = XMLPrefsManager.getBoolean(Notifications.notification_popup_exclude_app);
@@ -93,17 +95,17 @@ public class LongClickableSpan extends ClickableSpan {
             showMenu = (showExcludeApp && showExcludeNotification) || (showExcludeApp && showReply) || (showExcludeNotification && showReply);
         }
 
-        if(o instanceof String) {
+        if (o instanceof String) {
             Intent intent = new Intent(intentKey != null ? intentKey : MainManager.ACTION_EXEC);
             intent.putExtra(PrivateIOReceiver.TEXT, (String) o);
 
-            if(intentKey == null || intentKey.equals(MainManager.ACTION_EXEC)) {
+            if (intentKey == null || intentKey.equals(MainManager.ACTION_EXEC)) {
                 intent.putExtra(MainManager.NEED_WRITE_INPUT, false);
                 intent.putExtra(MainManager.CMD_COUNT, MainManager.commandCount);
             }
 
             LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
-        } else if(o instanceof PendingIntent) {
+        } else if (o instanceof PendingIntent) {
             PendingIntent pi = (PendingIntent) o;
 
             try {
@@ -111,7 +113,7 @@ public class LongClickableSpan extends ClickableSpan {
             } catch (PendingIntent.CanceledException e) {
                 Tuils.log(e);
             }
-        } else if(o instanceof Uri) {
+        } else if (o instanceof Uri) {
             Intent i = new Intent(Intent.ACTION_VIEW, (Uri) o);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -120,10 +122,10 @@ public class LongClickableSpan extends ClickableSpan {
             } catch (Exception e) {
                 Tuils.sendOutput(Color.RED, v.getContext(), e.toString());
             }
-        } else if(o instanceof NotificationService.Notification) {
+        } else if (o instanceof NotificationService.Notification) {
             final NotificationService.Notification n = (NotificationService.Notification) o;
 
-            if(showMenu) {
+            if (showMenu) {
                 PopupMenu menu = new PopupMenu(v.getContext().getApplicationContext(), v);
                 menu.getMenuInflater().inflate(R.menu.notification_menu, menu.getMenu());
 
@@ -145,7 +147,7 @@ public class LongClickableSpan extends ClickableSpan {
 
                         LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
                     } else {
-                            return false;
+                        return false;
                     }
 
                     return true;
@@ -153,14 +155,13 @@ public class LongClickableSpan extends ClickableSpan {
 
                 menu.show();
             } else {
-                if(showReply) {
+                if (showReply) {
                     Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
                     intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
 
                     LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
-                }
-                else if(showExcludeNotification) NotificationManager.addFilter(n.text, -1);
-                else if(showExcludeApp) NotificationManager.setState(n.pkg, false);
+                } else if (showExcludeNotification) NotificationManager.addFilter(n.text, -1);
+                else if (showExcludeApp) NotificationManager.setState(n.pkg, false);
             }
         }
 

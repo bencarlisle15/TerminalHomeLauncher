@@ -19,14 +19,14 @@ import android.os.Looper;
 import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.LauncherActivity;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TuiLocationManager {
 
@@ -36,7 +36,6 @@ public class TuiLocationManager {
 
     private static final int MAX_DELAY = 10000;
 
-    final Context context;
     final BroadcastReceiver receiver;
 
     final LocationListener locationListener;
@@ -49,13 +48,13 @@ public class TuiLocationManager {
     private final List<String> actionsPool;
 
     private static TuiLocationManager instance;
+
     public static TuiLocationManager instance(Context context) {
-        if(instance == null) instance = new TuiLocationManager(context);
+        if (instance == null) instance = new TuiLocationManager(context);
         return instance;
     }
 
     private TuiLocationManager(final Context context) {
-        this.context = context;
         actionsPool = new ArrayList<>();
 
         locationListener = new LocationListener() {
@@ -70,7 +69,7 @@ public class TuiLocationManager {
 
                 LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
-                for(String s : actionsPool) {
+                for (String s : actionsPool) {
                     Intent i = new Intent(s);
                     i.putExtra(LATITUDE, location.getLatitude());
                     i.putExtra(LONGITUDE, location.getLongitude());
@@ -99,9 +98,9 @@ public class TuiLocationManager {
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
 
-                if(action.equals(ACTION_GOT_PERMISSION)) {
+                if (action.equals(ACTION_GOT_PERMISSION)) {
                     if (intent.getIntExtra(XMLPrefsManager.VALUE_ATTRIBUTE, 1) == PackageManager.PERMISSION_GRANTED) {
-                        register();
+                        register(context);
                     }
                 }
             }
@@ -116,14 +115,14 @@ public class TuiLocationManager {
     private boolean registered = false;
 
     @SuppressLint("MissingPermission")
-    private void register() {
+    private void register(final Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) context, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LauncherActivity.LOCATION_REQUEST_PERMISSION);
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LauncherActivity.LOCATION_REQUEST_PERMISSION);
             return;
         }
 
-        if(registered) return;
+        if (registered) return;
         registered = true;
 
         Criteria c = new Criteria();
@@ -149,43 +148,43 @@ public class TuiLocationManager {
         handler.postDelayed(() -> {
             LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
-            for(String s : actionsPool) {
+            for (String s : actionsPool) {
                 Intent i = new Intent(s);
                 i.putExtra(FAIL, true);
                 localBroadcastManager.sendBroadcast(i);
             }
 
-            dispose();
+            dispose(context);
         }, MAX_DELAY);
     }
 
-    public void add(String action) {
+    public void add(final Context context, String action) {
         actionsPool.add(action);
 
-        register();
+        register(context);
     }
 
     public void rm(String action) {
         actionsPool.remove(action);
     }
 
-    private void dispose() {
+    private void dispose(final Context context) {
         actionsPool.clear();
         LocalBroadcastManager.getInstance(context.getApplicationContext()).unregisterReceiver(receiver);
 
         LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if(manager != null) manager.removeUpdates(locationListener);
+        if (manager != null) manager.removeUpdates(locationListener);
 
         clearHandler();
     }
 
-    public static void disposeStatic() {
-        if(instance != null) instance.dispose();
+    public static void disposeStatic(final Context context) {
+        if (instance != null) instance.dispose(context);
         instance = null;
     }
 
     private void clearHandler() {
-        if(handler != null) {
+        if (handler != null) {
             handler.removeCallbacksAndMessages(null);
             handler = null;
         }

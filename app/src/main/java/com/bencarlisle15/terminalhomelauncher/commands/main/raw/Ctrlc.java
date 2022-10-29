@@ -1,9 +1,8 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.io.File;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.MainManager;
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -14,6 +13,8 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
 import com.bencarlisle15.terminalhomelauncher.tuils.StoppableThread;
+
+import java.io.File;
 
 /**
  * Created by francescoandreuzzi on 26/07/2017.

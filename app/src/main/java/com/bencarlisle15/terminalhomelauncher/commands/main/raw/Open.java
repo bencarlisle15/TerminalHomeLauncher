@@ -1,13 +1,13 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
-import java.io.File;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.managers.FileManager;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
 
 public class Open implements CommandAbstraction {
 
@@ -18,7 +18,8 @@ public class Open implements CommandAbstraction {
 
         int result = FileManager.openFile(info.context, file);
 
-        if (result == FileManager.ISDIRECTORY) return info.res.getString(R.string.output_isdirectory);
+        if (result == FileManager.ISDIRECTORY)
+            return info.res.getString(R.string.output_isdirectory);
         if (result == FileManager.IOERROR) return info.res.getString(R.string.output_error);
 
         return Tuils.EMPTYSTRING;

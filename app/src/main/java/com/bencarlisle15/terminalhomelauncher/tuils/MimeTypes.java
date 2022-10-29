@@ -48,14 +48,14 @@ public final class MimeTypes {
     public static final String ALL_MIME_TYPES = "*/*";
 
     // construct a with an approximation of the capacity
-    private static final HashMap<String, String> MIME_TYPES = new HashMap<>(1 + (int)(66 / 0.75));
+    private static final HashMap<String, String> MIME_TYPES = new HashMap<>(1 + (int) (66 / 0.75));
 
     static {
 
 
-		/*
+        /*
          * ================= MIME TYPES ====================
-		 */
+         */
         MIME_TYPES.put("asm", "text/x-asm");
         MIME_TYPES.put("json", "application/json");
         MIME_TYPES.put("js", "application/javascript");
@@ -137,6 +137,7 @@ public final class MimeTypes {
 
     /**
      * Get Mime Type of a file
+     *
      * @param path the file of which mime type to get
      * @return Mime type in form of String
      */
@@ -149,7 +150,7 @@ public final class MimeTypes {
         final String extension = getExtension(path);
 
         // mapping extension to system mime types
-        if (extension != null && !extension.isEmpty()) {
+        if (!extension.isEmpty()) {
             final String extensionLowerCase = extension.toLowerCase(Locale
                     .getDefault());
             final MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -158,7 +159,7 @@ public final class MimeTypes {
                 type = MIME_TYPES.get(extensionLowerCase);
             }
         }
-        if(type == null) type = ALL_MIME_TYPES;
+        if (type == null) type = ALL_MIME_TYPES;
         return type;
     }
 
@@ -170,11 +171,12 @@ public final class MimeTypes {
     /**
      * Helper method for {@link #getMimeType(String, boolean)}
      * to calculate the last '.' extension of files
+     *
      * @param path the path of file
      * @return extension extracted from name in lowercase
      */
     public static String getExtension(String path) {
-        if(path.contains(".")) return path.substring(path.lastIndexOf(".") + 1).toLowerCase();
+        if (path.contains(".")) return path.substring(path.lastIndexOf(".") + 1).toLowerCase();
         else return "";
     }
 

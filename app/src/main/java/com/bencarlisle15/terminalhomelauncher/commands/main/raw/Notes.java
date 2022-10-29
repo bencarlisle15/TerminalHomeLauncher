@@ -1,6 +1,7 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -22,7 +23,7 @@ public class Notes extends ParamCommand {
         add {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -38,7 +39,7 @@ public class Notes extends ParamCommand {
         rm {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -54,7 +55,7 @@ public class Notes extends ParamCommand {
         cp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -90,7 +91,7 @@ public class Notes extends ParamCommand {
         lock {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -107,7 +108,7 @@ public class Notes extends ParamCommand {
         unlock {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -152,7 +153,7 @@ public class Notes extends ParamCommand {
             Param[] ps = values();
             String[] ss = new String[ps.length];
 
-            for(int count = 0; count < ps.length; count++) {
+            for (int count = 0; count < ps.length; count++) {
                 ss[count] = ps[count].label();
             }
 

@@ -1,5 +1,9 @@
 package com.bencarlisle15.terminalhomelauncher.managers.notifications;
 
+import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_INPUT;
+import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_NEWLINE;
+import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_PREFIX;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +17,10 @@ import android.os.IBinder;
 import android.text.SpannableString;
 import android.text.TextUtils;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.RemoteInput;
+
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.managers.TimeManager;
@@ -22,14 +30,6 @@ import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Ui;
 import com.bencarlisle15.terminalhomelauncher.tuils.PrivateIOReceiver;
 import com.bencarlisle15.terminalhomelauncher.tuils.PublicIOReceiver;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-
-import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_INPUT;
-import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_NEWLINE;
-import static com.bencarlisle15.terminalhomelauncher.managers.TerminalManager.FORMAT_PREFIX;
-
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.RemoteInput;
 
 public class KeeperService extends Service {
 
@@ -49,7 +49,7 @@ public class KeeperService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(startId == 1 || startId == 0) {
+        if (startId == 1 || startId == 0) {
 
             title = XMLPrefsManager.get(Behavior.tui_notification_title);
             subtitle = XMLPrefsManager.get(Behavior.tui_notification_subtitle);
@@ -63,8 +63,8 @@ public class KeeperService extends Service {
             suPrefix = XMLPrefsManager.get(Ui.input_root_prefix);
 
             priority = XMLPrefsManager.getInt(Behavior.tui_notification_priority);
-            if(priority > 2) priority = 2;
-            if(priority < -2) priority = -2;
+            if (priority > 2) priority = 2;
+            if (priority < -2) priority = -2;
 
             String path = intent != null ? intent.getStringExtra(PATH_KEY) : Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -72,7 +72,7 @@ public class KeeperService extends Service {
                     clickCmd, showHome, lastCommands, upDown, priority));
 
             int lastCmdSize = XMLPrefsManager.getInt(Behavior.tui_notification_lastcmds_size);
-            if(lastCmdSize > 0) {
+            if (lastCmdSize > 0) {
                 lastCommands = new CharSequence[lastCmdSize];
             }
 
@@ -80,7 +80,7 @@ public class KeeperService extends Service {
 //            new cmd
 //            update the list
 
-            if(lastCommands != null) updateCmds(intent.getStringExtra(CMD_KEY));
+            if (lastCommands != null) updateCmds(intent.getStringExtra(CMD_KEY));
 
             String path = intent != null ? intent.getStringExtra(PATH_KEY) : Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -95,7 +95,7 @@ public class KeeperService extends Service {
     //    0 = most recent
 //    4 = oldest
 
-//    * = null
+    //    * = null
 //    3 cases
 //    1: |*|*|*|*|*| -> lastNull = 0
 //    2: |a|b|c|*|*| -> lastNull = n < length
@@ -112,21 +112,21 @@ public class KeeperService extends Service {
     }
 
     private static CharSequence formatInput(String cmd, String inputFormat, String prefix, String suPrefix, int inputColor, int timeColor) {
-        if(cmd == null) return null;
+        if (cmd == null) return null;
         boolean su = cmd.startsWith("su ");
 
         SpannableString si = Tuils.span(inputFormat, inputColor);
 
         CharSequence s = TimeManager.instance.replace(si, timeColor);
         s = TextUtils.replace(s,
-                new String[] {FORMAT_INPUT, FORMAT_PREFIX, FORMAT_NEWLINE, FORMAT_INPUT.toUpperCase(), FORMAT_PREFIX.toUpperCase(), FORMAT_NEWLINE.toUpperCase()},
-                new CharSequence[] {cmd, su ? suPrefix : prefix, Tuils.NEWLINE, cmd, su ? suPrefix : prefix, Tuils.NEWLINE});
+                new String[]{FORMAT_INPUT, FORMAT_PREFIX, FORMAT_NEWLINE, FORMAT_INPUT.toUpperCase(), FORMAT_PREFIX.toUpperCase(), FORMAT_NEWLINE.toUpperCase()},
+                new CharSequence[]{cmd, su ? suPrefix : prefix, Tuils.NEWLINE, cmd, su ? suPrefix : prefix, Tuils.NEWLINE});
 
         return s;
     }
 
     private int lastNull() {
-        for(int c = 0; c < lastCommands.length; c++) if(lastCommands[c] == null) return c;
+        for (int c = 0; c < lastCommands.length; c++) if (lastCommands[c] == null) return c;
         return -1;
     }
 
@@ -137,15 +137,15 @@ public class KeeperService extends Service {
     }
 
     public static Notification buildNotification(Context c, String title, String subtitle, String cmdLabel, String clickCmd, boolean showHome, CharSequence[] lastCommands, boolean upDown, int priority) {
-        if(priority < -2 || priority > 2) priority = NotificationCompat.PRIORITY_DEFAULT;
+        if (priority < -2 || priority > 2) priority = NotificationCompat.PRIORITY_DEFAULT;
 
         PendingIntent pendingIntent;
-        if(showHome) {
+        if (showHome) {
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            if(clickCmd != null && clickCmd.length() > 0) {
+            if (clickCmd != null && clickCmd.length() > 0) {
                 startMain.putExtra(PrivateIOReceiver.TEXT, clickCmd);
             }
 
@@ -153,9 +153,9 @@ public class KeeperService extends Service {
                     c,
                     0,
                     startMain,
-                    PendingIntent.FLAG_CANCEL_CURRENT|PendingIntent.FLAG_IMMUTABLE
+                    PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
-        } else if(clickCmd != null && clickCmd.length() > 0) {
+        } else if (clickCmd != null && clickCmd.length() > 0) {
             Intent cmdIntent = new Intent(PublicIOReceiver.ACTION_CMD);
             cmdIntent.putExtra(PrivateIOReceiver.TEXT, clickCmd);
 
@@ -171,8 +171,9 @@ public class KeeperService extends Service {
 
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                int oPriority = Tuils.scale(new int[] {0, 4}, new int[] {2,4}, priority + 2);
-                if(oPriority < 2 || oPriority > 4) oPriority = NotificationManager.IMPORTANCE_UNSPECIFIED;
+                int oPriority = Tuils.scale(new int[]{0, 4}, new int[]{2, 4}, priority + 2);
+                if (oPriority < 2 || oPriority > 4)
+                    oPriority = NotificationManager.IMPORTANCE_UNSPECIFIED;
 
                 NotificationChannel notificationChannel = new NotificationChannel(BuildConfig.APPLICATION_ID, c.getString(R.string.app_name), oPriority);
                 ((NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
@@ -187,17 +188,17 @@ public class KeeperService extends Service {
                     .setContentIntent(pendingIntent);
 
             NotificationCompat.Style style = null;
-            if(lastCommands != null && lastCommands[0] != null) {
+            if (lastCommands != null && lastCommands[0] != null) {
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
-                if(upDown) {
+                if (upDown) {
                     for (CharSequence lastCommand : lastCommands) {
                         if (lastCommand == null) break;
                         inboxStyle.addLine(lastCommand);
                     }
                 } else {
-                    for(int j = lastCommands.length - 1; j >= 0; j--) {
-                        if(lastCommands[j] == null) continue;
+                    for (int j = lastCommands.length - 1; j >= 0; j--) {
+                        if (lastCommands[j] == null) continue;
                         inboxStyle.addLine(lastCommands[j]);
                     }
                 }
@@ -205,7 +206,7 @@ public class KeeperService extends Service {
                 style = inboxStyle;
             }
 
-            if(style != null) builder.setStyle(style);
+            if (style != null) builder.setStyle(style);
             else {
                 builder.setContentTitle(title);
                 builder.setContentText(subtitle);
@@ -220,8 +221,8 @@ public class KeeperService extends Service {
             NotificationCompat.Action.Builder actionBuilder = new NotificationCompat.Action.Builder(
                     R.mipmap.ic_launcher,
                     cmdLabel,
-                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE))
-                        .addRemoteInput(remoteInput);
+                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE))
+                    .addRemoteInput(remoteInput);
 
             builder.addAction(actionBuilder.build());
 

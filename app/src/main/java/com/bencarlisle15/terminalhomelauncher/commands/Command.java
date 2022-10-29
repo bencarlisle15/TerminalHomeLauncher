@@ -16,8 +16,8 @@ public class Command {
     public String exec(ExecutePack info) throws Exception {
         info.set(mArgs);
 
-        if(cmd instanceof ParamCommand) {
-            if(indexNotFound == 0) {
+        if (cmd instanceof ParamCommand) {
+            if (indexNotFound == 0) {
                 return info.context.getString(R.string.output_invalid_param) + Tuils.SPACE + mArgs[0];
             }
 
@@ -26,23 +26,22 @@ public class Command {
 
             int[] args = param.args();
 
-            if(indexNotFound != -1) {
+            if (indexNotFound != -1) {
                 return param.onArgNotFound(info, indexNotFound);
             }
 
-            if(pCmd.defaultParamReference() != null) {
-                if(args.length > nArgs) {
+            if (pCmd.defaultParamReference() != null) {
+                if (args.length > nArgs) {
                     return param.onNotArgEnough(info, nArgs);
                 }
             } else {
-                if(args.length + 1 > nArgs) {
+                if (args.length + 1 > nArgs) {
                     return param.onNotArgEnough(info, nArgs);
                 }
             }
-        } else if(indexNotFound != -1) {
+        } else if (indexNotFound != -1) {
             return cmd.onArgNotFound(info, indexNotFound);
-        }
-        else {
+        } else {
             int[] args = cmd.argType();
             if (nArgs < args.length || (mArgs == null && args.length > 0)) {
                 return cmd.onNotArgEnough(info, nArgs);
@@ -57,7 +56,7 @@ public class Command {
 
         int[] args;
         if (useParamArgs) {
-            if(!(mArgs[0] instanceof Param)) args = null;
+            if (!(mArgs[0] instanceof Param)) args = null;
             else args = ((Param) mArgs[0]).args();
         } else {
             args = cmd.argType();

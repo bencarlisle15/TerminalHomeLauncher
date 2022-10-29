@@ -3,17 +3,17 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 import android.app.Activity;
 import android.content.Intent;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.bencarlisle15.terminalhomelauncher.LauncherActivity;
 import com.bencarlisle15.terminalhomelauncher.R;
-import com.bencarlisle15.terminalhomelauncher.commands.tuixt.TuixtActivity;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
+import com.bencarlisle15.terminalhomelauncher.commands.tuixt.TuixtActivity;
 import com.bencarlisle15.terminalhomelauncher.managers.FileManager;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by francescoandreuzzi on 18/01/2017.
@@ -25,7 +25,7 @@ public class Tuixt implements CommandAbstraction {
     public String exec(ExecutePack pack) {
         MainPack info = (MainPack) pack;
         File file = info.get(File.class);
-        if(file.isDirectory()) {
+        if (file.isDirectory()) {
             return info.res.getString(R.string.output_isdirectory);
         }
 
@@ -39,7 +39,7 @@ public class Tuixt implements CommandAbstraction {
 
     @Override
     public int[] argType() {
-        return new int[] {CommandAbstraction.FILE};
+        return new int[]{CommandAbstraction.FILE};
     }
 
     @Override
@@ -57,14 +57,15 @@ public class Tuixt implements CommandAbstraction {
         MainPack info = (MainPack) pack;
 
         String path = info.getString();
-        if(path == null || path.length() == 0) {
+        if (path == null || path.length() == 0) {
             return onNotArgEnough(info, info.args.length);
         }
 
         FileManager.DirInfo dirInfo = FileManager.cd(info.currentDirectory, path);
 
         File file = new File(dirInfo.getCompletePath());
-        if(!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+        File parentFile = file.getParentFile();
+        if (parentFile == null || !parentFile.exists() && !parentFile.mkdirs()) {
             return info.res.getString(R.string.output_error);
         }
 

@@ -18,17 +18,17 @@ public class AllowEqualsSequence {
         this.sequence = new ArrayList<>();
 
         for (int count = 0; count < values.length; count++) {
-            if(values[count] == Integer.MAX_VALUE) continue;
+            if (values[count] == Integer.MAX_VALUE) continue;
             sequence.add(new Entry(values[count], objs[count]));
         }
         Collections.sort(this.sequence);
 
         int counter = -1, last = Integer.MAX_VALUE;
-        for(int count = 0; count < sequence.size(); count++) {
+        for (int count = 0; count < sequence.size(); count++) {
             Entry entry = sequence.get(count);
 
             int i = (int) entry.value;
-            if(i != last) counter++;
+            if (i != last) counter++;
 
             entry.key = counter;
             last = i;
@@ -37,21 +37,21 @@ public class AllowEqualsSequence {
 
     public Object[] get(int key) {
         List<Object> o = new ArrayList<>();
-        for(Entry entry : sequence) {
-            if(entry.key == key) o.add(entry.obj);
-            else if(o.size() > 0) break;
+        for (Entry entry : sequence) {
+            if (entry.key == key) o.add(entry.obj);
+            else if (o.size() > 0) break;
         }
 
         return o.toArray(new Object[0]);
     }
 
     public int getMaxKey() {
-        if(sequence.size() == 0) return -1;
+        if (sequence.size() == 0) return -1;
         return sequence.get(sequence.size() - 1).key;
     }
 
     public int getMinKey() {
-        if(sequence.size() == 0) return -1;
+        if (sequence.size() == 0) return -1;
         return sequence.get(0).key;
     }
 
@@ -75,8 +75,8 @@ public class AllowEqualsSequence {
         public int compareTo(@NonNull Entry o) {
             float result = value - o.value;
 
-            if(result == 0) return 0;
-            if(result < 0) return -1;
+            if (result == 0) return 0;
+            if (result < 0) return -1;
             return 1;
         }
 

@@ -1,20 +1,20 @@
 /*
  * =============================================================================
- * 
+ *
  *   Copyright (c) 2014-2017, The UNBESCAPE team (http://www.unbescape.org)
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *       http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  * =============================================================================
  */
 package com.bencarlisle15.terminalhomelauncher.tuils.html_escape;
@@ -23,13 +23,11 @@ import java.util.Arrays;
 
 /**
  * <p>
- *   This class initializes the  structure.
+ * This class initializes the  structure.
  * </p>
- * 
- * @author Daniel Fern&aacute;ndez
- * 
- * @since 1.0.0
  *
+ * @author Daniel Fern&aacute;ndez
+ * @since 1.0.0
  */
 final class Html4EscapeSymbolsInitializer {
 
@@ -325,7 +323,7 @@ final class Html4EscapeSymbolsInitializer {
          *    - Level 4 : All characters
          */
         final byte[] escapeLevels = new byte[0x7f + 2];
-        Arrays.fill(escapeLevels, (byte)3);
+        Arrays.fill(escapeLevels, (byte) 3);
         for (char c = 'A'; c <= 'Z'; c++) {
             escapeLevels[c] = 4;
         }

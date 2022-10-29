@@ -12,8 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -38,11 +39,24 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.bencarlisle15.terminalhomelauncher.BuildConfig;
+import com.bencarlisle15.terminalhomelauncher.R;
+import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
+import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
+import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager;
+import com.bencarlisle15.terminalhomelauncher.managers.music.Song;
+import com.bencarlisle15.terminalhomelauncher.managers.notifications.NotificationService;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Ui;
+import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.OnBatteryUpdate;
+import com.bencarlisle15.terminalhomelauncher.tuils.stuff.FakeLauncherActivity;
 
 import org.xml.sax.SAXParseException;
 
@@ -59,7 +73,6 @@ import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
@@ -77,19 +90,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import dalvik.system.DexFile;
-import com.bencarlisle15.terminalhomelauncher.BuildConfig;
-import com.bencarlisle15.terminalhomelauncher.R;
-import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
-import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
-import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager2;
-import com.bencarlisle15.terminalhomelauncher.managers.music.Song;
-import com.bencarlisle15.terminalhomelauncher.managers.notifications.NotificationService;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Ui;
-import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.OnBatteryUpdate;
-import com.bencarlisle15.terminalhomelauncher.tuils.stuff.FakeLauncherActivity;
 
 public class Tuils {
 
@@ -307,7 +307,7 @@ public class Tuils {
             if (file.isDirectory()) {
                 List<Song> s = getSongsInFolder(file);
                 songs.addAll(s);
-            } else if (containsExtension(MusicManager2.MUSIC_EXTENSIONS, file.getName())) {
+            } else if (containsExtension(MusicManager.MUSIC_EXTENSIONS, file.getName())) {
                 songs.add(new Song(file));
             }
         }
@@ -550,8 +550,12 @@ public class Tuils {
         if (files == null) return;
 
         for (File f : Objects.requireNonNull(dir.listFiles())) {
-            if (f.isDirectory()) delete(f);
-            f.delete();
+            if (f.isDirectory()) {
+                delete(f);
+            }
+            if (!f.delete()) {
+                Tuils.log("Could not delete dir at " + f.getAbsolutePath());
+            }
         }
     }
 
@@ -560,10 +564,16 @@ public class Tuils {
         if (files == null) return;
 
         for (File f : Objects.requireNonNull(dir.listFiles())) {
-            if (f.isDirectory()) delete(f);
-            f.delete();
+            if (f.isDirectory()) {
+                delete(f);
+            }
+            if (!f.delete()) {
+                Tuils.log("Could not delete file at " + f.getAbsolutePath());
+            }
         }
-        dir.delete();
+        if (!dir.delete()) {
+            Tuils.log("Could not delete dir at " + dir.getAbsolutePath());
+        }
     }
 
     public static void insertOld(File oldFile) {
@@ -572,13 +582,17 @@ public class Tuils {
         String oldPath = oldFile.getAbsolutePath();
 
         File oldFolder = new File(Tuils.getFolder(), "old");
-        if (!oldFolder.exists()) oldFolder.mkdir();
+        if (!oldFolder.exists() && !oldFolder.mkdir()) {
+            Tuils.log("Could not mkdir at " + oldFolder.getAbsolutePath());
+        }
 
         File dest = new File(oldFolder, oldFile.getName());
-        if (dest.exists()) dest.delete();
+        if (dest.exists() && !dest.delete()) {
+            Tuils.log("Could not delete file at " + dest.getAbsolutePath());
+        }
 
-        if (oldFile.renameTo(dest)) {
-            new File(oldPath).delete();
+        if (oldFile.renameTo(dest) && !new File(oldPath).delete()) {
+            Tuils.log("Could not delete file at " + oldPath);
         }
     }
 
@@ -1195,7 +1209,7 @@ public class Tuils {
             ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData.Item item = manager.getPrimaryClip().getItemAt(0);
             return item.getText().toString();
-      } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -1291,24 +1305,10 @@ public class Tuils {
     }
 
     public static void setCursorDrawableColor(Context context, EditText editText, int color) {
-//        todo remove reflection
-        try {
-            Field fCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-            fCursorDrawableRes.setAccessible(true);
-            int mCursorDrawableRes = fCursorDrawableRes.getInt(editText);
-            Field fEditor = TextView.class.getDeclaredField("mEditor");
-            fEditor.setAccessible(true);
-            Object editor = fEditor.get(editText);
-            Class<?> clazz = editor.getClass();
-            Field fCursorDrawable = clazz.getDeclaredField("mCursorDrawable");
-            fCursorDrawable.setAccessible(true);
-            Drawable[] drawables = new Drawable[2];
-            drawables[0] = editText.getContext().getResources().getDrawable(mCursorDrawableRes, context.getTheme());
-            drawables[1] = editText.getContext().getResources().getDrawable(mCursorDrawableRes, context.getTheme());
-            drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            fCursorDrawable.set(editor, drawables);
-        } catch (Throwable ignored) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Drawable drawable = editText.getTextCursorDrawable();
+            drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
+            editText.setTextCursorDrawable(drawable);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -27,9 +28,9 @@ public class Tuiweather extends ParamCommand {
         update {
             @Override
             public String exec(ExecutePack pack) {
-                if(!XMLPrefsManager.getBoolean(Ui.show_weather)) {
+                if (!XMLPrefsManager.getBoolean(Ui.show_weather)) {
                     return pack.context.getString(R.string.weather_disabled);
-                } else if(!XMLPrefsManager.wasChanged(Behavior.weather_key, false)) {
+                } else if (!XMLPrefsManager.wasChanged(Behavior.weather_key, false)) {
                     return pack.context.getString(R.string.weather_cant_update);
                 } else {
                     LocalBroadcastManager.getInstance(pack.context.getApplicationContext()).sendBroadcast(new Intent(UIManager.ACTION_WEATHER_MANUAL_UPDATE));
@@ -72,7 +73,7 @@ public class Tuiweather extends ParamCommand {
         set_key {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override

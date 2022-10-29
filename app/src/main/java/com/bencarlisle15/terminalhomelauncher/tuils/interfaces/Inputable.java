@@ -6,6 +6,8 @@ package com.bencarlisle15.terminalhomelauncher.tuils.interfaces;
 
 public interface Inputable {
     void in(String s);
+
     void changeHint(String s);
+
     void resetHint();
 }

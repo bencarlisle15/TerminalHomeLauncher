@@ -1,5 +1,10 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -10,11 +15,6 @@ import android.view.WindowManager;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
-
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 /**
  * Created by francescoandreuzzi on 27/03/2018.
@@ -33,8 +33,8 @@ public class Brightness implements CommandAbstraction {
         ((Activity) pack.context).runOnUiThread(() -> {
             int b = brightness;
 
-            if(b < 0) b = 0;
-            else if(b > 100) b = 100;
+            if (b < 0) b = 0;
+            else if (b > 100) b = 100;
 
             b = b * 255 / 100;
 
@@ -45,7 +45,8 @@ public class Brightness implements CommandAbstraction {
                 autobrightnessState = SCREEN_BRIGHTNESS_MODE_MANUAL;
             }
 
-            if(autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC) Settings.System.putInt(pack.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            if (autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC)
+                Settings.System.putInt(pack.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
 
             ContentResolver cResolver = pack.context.getApplicationContext().getContentResolver();
             Settings.System.putInt(cResolver, SCREEN_BRIGHTNESS, b);
@@ -70,7 +71,7 @@ public class Brightness implements CommandAbstraction {
 
     @Override
     public int[] argType() {
-        return new int[] {CommandAbstraction.INT};
+        return new int[]{CommandAbstraction.INT};
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 import android.content.Context;
 import android.os.Build;
 
+import com.bencarlisle15.terminalhomelauncher.commands.main.specific.APICommand;
+import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -10,17 +13,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.bencarlisle15.terminalhomelauncher.commands.main.specific.APICommand;
-import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-
 public class CommandGroup {
 
-    private final String packageName;
     private CommandAbstraction[] commands;
     private String[] commandNames;
 
     public CommandGroup(Context c, String packageName) {
-        this.packageName = packageName;
 
         List<String> cmds;
         try {
@@ -42,7 +40,7 @@ public class CommandGroup {
             String s = iterator.next();
             CommandAbstraction ca = buildCommand(s);
 
-            if(ca != null && ( !(ca instanceof APICommand) || ((APICommand) ca).willWorkOn(Build.VERSION.SDK_INT))) {
+            if (ca != null && (!(ca instanceof APICommand) || ((APICommand) ca).willWorkOn(Build.VERSION.SDK_INT))) {
                 cmdAbs.add(ca);
                 commandNamesList.add(ca.getCommandName());
             }
@@ -56,8 +54,8 @@ public class CommandGroup {
     }
 
     public CommandAbstraction getCommandByName(String name) {
-        for(CommandAbstraction c : commands) {
-            if(c.getCommandName().equals(name)) {
+        for (CommandAbstraction c : commands) {
+            if (c.getCommandName().equals(name)) {
                 return c;
             }
         }
@@ -68,7 +66,7 @@ public class CommandGroup {
     private CommandAbstraction buildCommand(String fullCmdName) {
         try {
             Class<CommandAbstraction> clazz = (Class<CommandAbstraction>) Class.forName(fullCmdName);
-            if(CommandAbstraction.class.isAssignableFrom(clazz)) {
+            if (CommandAbstraction.class.isAssignableFrom(clazz)) {
                 Constructor<CommandAbstraction> constructor = clazz.getConstructor();
                 return constructor.newInstance();
             }

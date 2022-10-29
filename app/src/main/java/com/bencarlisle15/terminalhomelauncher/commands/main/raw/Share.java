@@ -2,13 +2,13 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
 
-import java.io.File;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
 
 public class Share implements CommandAbstraction {
 

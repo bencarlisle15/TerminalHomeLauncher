@@ -353,7 +353,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
+            return new String[]{"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
         }
     },
     input_bgrectcolor {
@@ -369,7 +369,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     output_bgrectcolor {
@@ -385,7 +385,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     toolbar_bgrectcolor {
@@ -401,7 +401,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     suggestions_bgrectcolor {
@@ -417,7 +417,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     status_lines_bg {
@@ -433,7 +433,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
+            return new String[]{"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
         }
     },
     input_bg {
@@ -449,7 +449,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     output_bg {
@@ -465,7 +465,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     suggestions_bg {
@@ -481,7 +481,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     status_lines_shadow_color {
@@ -497,7 +497,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
+            return new String[]{"#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000,#ff000000"};
         }
     },
     input_shadow_color {
@@ -513,7 +513,7 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
     },
     output_shadow_color {
@@ -529,10 +529,9 @@ public enum Theme implements XMLPrefsSave {
 
         @Override
         public String[] invalidValues() {
-            return new String[] {"#ff000000"};
+            return new String[]{"#ff000000"};
         }
-    }
-    ;
+    };
 
     @Override
     public XMLPrefsElement parent() {

@@ -6,8 +6,6 @@ import android.app.NotificationManager;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import java.util.List;
-
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
@@ -15,6 +13,8 @@ import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamCommand;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.List;
 
 /**
  * Created by francescoandreuzzi on 22/08/2017.
@@ -31,10 +31,10 @@ public class devutils extends ParamCommand {
                 List<String> text = pack.getList();
 
                 String title, txt = null;
-                if(text.size() == 0) return null;
+                if (text.size() == 0) return null;
                 else {
                     title = text.remove(0);
-                    if(text.size() >= 2) txt = Tuils.toPlanString(text, Tuils.SPACE);
+                    if (text.size() >= 2) txt = Tuils.toPlanString(text, Tuils.SPACE);
                 }
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -47,17 +47,17 @@ public class devutils extends ParamCommand {
 
                 NotificationManagerCompat.from(pack.context).notify(200,
                         new NotificationCompat.Builder(pack.context, CHANNEL_ID)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(title)
-                            .setContentText(txt)
-                            .build());
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentTitle(title)
+                                .setContentText(txt)
+                                .build());
 
                 return null;
             }
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.TEXTLIST};
+                return new int[]{CommandAbstraction.TEXTLIST};
             }
         },
         check_notifications {

@@ -2,10 +2,10 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-
 import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
+
+import java.util.ArrayList;
 
 public abstract class ExecutePack {
 
@@ -24,12 +24,12 @@ public abstract class ExecutePack {
     }
 
     public <T> T get(Class<T> c, int index) {
-        if(index < args.length) return (T) args[index];
+        if (index < args.length) return (T) args[index];
         return null;
     }
 
     public Object get() {
-        if(currentIndex < args.length) return args[currentIndex++];
+        if (currentIndex < args.length) return args[currentIndex++];
         return null;
     }
 

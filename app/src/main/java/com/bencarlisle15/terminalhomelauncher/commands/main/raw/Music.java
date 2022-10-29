@@ -5,7 +5,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamCommand;
-import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager2;
+import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager;
 import com.bencarlisle15.terminalhomelauncher.managers.music.Song;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 import com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.Shell;
@@ -14,61 +14,59 @@ public class Music extends ParamCommand {
 
     private enum Param implements com.bencarlisle15.terminalhomelauncher.commands.main.Param {
         next {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) {
+                if (((MainPack) pack).player == null) {
                     execute("NEXT");
                     return null;
                 }
 
                 String title = ((MainPack) pack).player.playNext();
-                if(title != null) return pack.context.getString(R.string.output_playing) + Tuils.SPACE + title;
+                if (title != null)
+                    return pack.context.getString(R.string.output_playing) + Tuils.SPACE + title;
                 return null;
             }
         },
         previous {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) {
+                if (((MainPack) pack).player == null) {
                     execute("PREVIOUS");
                     return null;
                 }
 
                 String title = ((MainPack) pack).player.playPrev();
-                if(title != null) return pack.context.getString(R.string.output_playing) + Tuils.SPACE + title;
+                if (title != null)
+                    return pack.context.getString(R.string.output_playing) + Tuils.SPACE + title;
                 return null;
             }
         },
         ls {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) return pack.context.getString(R.string.output_musicdisabled);
+                if (((MainPack) pack).player == null)
+                    return pack.context.getString(R.string.output_musicdisabled);
 
                 return ((MainPack) pack).player.lsSongs();
             }
         },
         play {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) {
+                if (((MainPack) pack).player == null) {
                     execute("PLAY_PAUSE");
                     return null;
                 }
 
                 String title = ((MainPack) pack).player.play();
-                if(title == null) return null;
+                if (title == null) return null;
                 return pack.context.getString(R.string.output_playing) + Tuils.SPACE + title;
             }
         },
         stop {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) {
+                if (((MainPack) pack).player == null) {
                     execute("CLOSE");
                     return null;
                 }
@@ -80,12 +78,13 @@ public class Music extends ParamCommand {
         select {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.SONG};
+                return new int[]{CommandAbstraction.SONG};
             }
 
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) return pack.context.getString(R.string.output_musicdisabled);
+                if (((MainPack) pack).player == null)
+                    return pack.context.getString(R.string.output_musicdisabled);
 
                 String s = pack.getString();
                 ((MainPack) pack).player.select(s);
@@ -98,31 +97,32 @@ public class Music extends ParamCommand {
             }
         },
         info {
-
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) return pack.context.getString(R.string.output_musicdisabled);
+                if (((MainPack) pack).player == null)
+                    return pack.context.getString(R.string.output_musicdisabled);
 
                 StringBuilder builder = new StringBuilder();
 
-                MusicManager2 m = ((MainPack) pack).player;
+                MusicManager m = ((MainPack) pack).player;
                 Song song = m.get(m.getSongIndex());
-                if(song == null) return pack.context.getString(R.string.output_songnotfound);
+                if (song == null) return pack.context.getString(R.string.output_songnotfound);
 
                 builder.append("Name: ").append(song.getTitle()).append(Tuils.NEWLINE);
-                if(song.getID() == -1) builder.append("Path: ").append(song.getPath()).append(Tuils.NEWLINE);
+                if (song.getID() == -1)
+                    builder.append("Path: ").append(song.getPath()).append(Tuils.NEWLINE);
                 builder.append(Tuils.NEWLINE);
 
                 int curS = m.getCurrentPosition() / 1000;
                 int curMin = 0;
-                if(curS >= 60) {
+                if (curS >= 60) {
                     curMin = curS / 60;
                     curS = curS % 60;
                 }
 
                 int s = m.getDuration() / 1000;
                 int min = 0;
-                if(s >= 60) {
+                if (s >= 60) {
                     min = s / 60;
                     s = s % 60;
                 }
@@ -134,12 +134,13 @@ public class Music extends ParamCommand {
         seekto {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
 
             @Override
             public String exec(ExecutePack pack) {
-                if(((MainPack) pack).player == null) return pack.context.getString(R.string.output_musicdisabled);
+                if (((MainPack) pack).player == null)
+                    return pack.context.getString(R.string.output_musicdisabled);
 
                 ((MainPack) pack).player.seekTo(pack.getInt() * 1000);
                 return null;

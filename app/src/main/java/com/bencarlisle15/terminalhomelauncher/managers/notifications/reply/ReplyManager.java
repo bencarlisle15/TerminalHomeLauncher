@@ -1,5 +1,9 @@
 package com.bencarlisle15.terminalhomelauncher.managers.notifications.reply;
 
+import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.VALUE_ATTRIBUTE;
+import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.set;
+import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.writeTo;
+
 import android.app.Notification;
 import android.app.RemoteInput;
 import android.content.BroadcastReceiver;
@@ -10,6 +14,18 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.bencarlisle15.terminalhomelauncher.BuildConfig;
+import com.bencarlisle15.terminalhomelauncher.R;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsList;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Reply;
+import com.bencarlisle15.terminalhomelauncher.tuils.PrivateIOReceiver;
+import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,22 +39,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.bencarlisle15.terminalhomelauncher.BuildConfig;
-import com.bencarlisle15.terminalhomelauncher.R;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsList;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
-import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Reply;
-import com.bencarlisle15.terminalhomelauncher.tuils.PrivateIOReceiver;
-import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-
-import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.VALUE_ATTRIBUTE;
-import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.set;
-import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager.writeTo;
-
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * Created by francescoandreuzzi on 17/01/2018.
@@ -66,8 +66,6 @@ public class ReplyManager implements XMLPrefsElement {
 
     private boolean enabled;
 
-    private Context context;
-
     public static int nextUsableId;
 
     @Override
@@ -77,18 +75,16 @@ public class ReplyManager implements XMLPrefsElement {
 
     public ReplyManager(Context context) {
         enabled = true;
-        if(!enabled) return;
 
         notificationWears = new HashSet<>();
         values = new XMLPrefsList();
-        this.context = context;
 
         instance = this;
 
-        load(true);
+        load(context, true);
 
         enabled = Boolean.parseBoolean(values.get(Reply.reply_enabled).value);
-        if(!enabled) {
+        if (!enabled) {
             notificationWears = null;
             boundApps = null;
         } else {
@@ -100,7 +96,7 @@ public class ReplyManager implements XMLPrefsElement {
             receiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if(intent.getAction().equals(ACTION)) {
+                    if (intent.getAction().equals(ACTION)) {
                         String app = intent.getStringExtra(ID);
                         String what = intent.getStringExtra(WHAT);
 
@@ -109,7 +105,7 @@ public class ReplyManager implements XMLPrefsElement {
                             id = Integer.parseInt(app);
                         } catch (Exception e) {
                             BoundApp bapp = findApp(app);
-                            if(bapp == null) {
+                            if (bapp == null) {
                                 Tuils.sendOutput(context, context.getString(R.string.reply_app_not_found) + Tuils.SPACE + app);
                                 return;
                             }
@@ -117,15 +113,15 @@ public class ReplyManager implements XMLPrefsElement {
                             id = bapp.applicationId;
                         }
 
-                        if(what == null) {
-                            check(id);
+                        if (what == null) {
+                            check(context, id);
                         } else {
-                            if(id == -1) return;
-                            replyTo(ReplyManager.this.context, id, what);
+                            if (id == -1) return;
+                            replyTo(context, id, what);
                         }
-                    } else if(intent.getAction().equals(ACTION_UPDATE)) {
-                        load(false);
-                    } else if(intent.getAction().equals(ACTION_LS)) {
+                    } else if (intent.getAction().equals(ACTION_UPDATE)) {
+                        load(context, false);
+                    } else if (intent.getAction().equals(ACTION_LS)) {
                         ls(context);
                     }
                 }
@@ -135,8 +131,8 @@ public class ReplyManager implements XMLPrefsElement {
         }
     }
 
-    private void load(boolean loadPrefs) {
-        if(boundApps != null) boundApps.clear();
+    private void load(Context context, boolean loadPrefs) {
+        if (boundApps != null) boundApps.clear();
         else boundApps = new ArrayList<>();
 
         List<Reply> enums = new ArrayList<>(Arrays.asList(Reply.values()));
@@ -146,7 +142,7 @@ public class ReplyManager implements XMLPrefsElement {
         Object[] o;
         try {
             o = XMLPrefsManager.buildDocument(file, NAME);
-            if(o == null) {
+            if (o == null) {
                 Tuils.sendXMLParseError(context, PATH);
                 return;
             }
@@ -171,7 +167,7 @@ public class ReplyManager implements XMLPrefsElement {
                 String nn = node.getNodeName();
 
                 if (Tuils.find(nn, enums) != -1) {
-                    if(loadPrefs) {
+                    if (loadPrefs) {
                         values.add(nn, node.getAttributes().getNamedItem(VALUE_ATTRIBUTE).getNodeValue());
 
                         for (int en = 0; en < enums.size(); en++) {
@@ -218,18 +214,18 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     public void onNotification(StatusBarNotification notification, CharSequence text) {
-        if(!enabled) return;
+        if (!enabled) return;
 
         BoundApp app = findApp(notification.getPackageName());
-        if(app == null) return;
+        if (app == null) return;
 
         NotificationWear w = extractWearNotification(notification);
-        if(w == null) return;
 
         NotificationWear old = findNotificationWear(app);
 
-        if(old != null && (w.pendingIntent == null || w.remoteInputs == null || w.remoteInputs.length == 0)) return;
-        if(old != null) notificationWears.remove(old);
+        if (old != null && (w.pendingIntent == null || w.remoteInputs == null || w.remoteInputs.length == 0))
+            return;
+        if (old != null) notificationWears.remove(old);
 
         w.text = text;
         w.app = app;
@@ -238,16 +234,16 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     private void replyTo(Context context, int applicationId, String what) {
-        if(!enabled) return;
+        if (!enabled) return;
 
         BoundApp app = findApp(applicationId);
-        if(app == null) {
+        if (app == null) {
             Tuils.sendOutput(context, context.getString(R.string.reply_id_not_found) + Tuils.SPACE + applicationId);
             return;
         }
 
         NotificationWear wear = findNotificationWear(applicationId);
-        if(wear != null) replyTo(context, wear, what);
+        if (wear != null) replyTo(context, wear, what);
         else Tuils.sendOutput(context, R.string.reply_notification_not_found);
     }
 
@@ -271,9 +267,9 @@ public class ReplyManager implements XMLPrefsElement {
         NotificationWear notificationWear = new NotificationWear();
 
         Notification.WearableExtender wearableExtender = new Notification.WearableExtender(statusBarNotification.getNotification());
-        for(Notification.Action action : wearableExtender.getActions()) {
+        for (Notification.Action action : wearableExtender.getActions()) {
             RemoteInput[] rs = action.getRemoteInputs();
-            if(rs != null && rs.length > 0) {
+            if (rs != null && rs.length > 0) {
                 notificationWear.remoteInputs = rs;
 //                Actually I assume that there's only one action
                 notificationWear.pendingIntent = action.actionIntent;
@@ -288,9 +284,9 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     private BoundApp findApp(int applicationId) {
-        if(boundApps != null) {
-            for(BoundApp a : boundApps) {
-                if(a.applicationId == applicationId) return a;
+        if (boundApps != null) {
+            for (BoundApp a : boundApps) {
+                if (a.applicationId == applicationId) return a;
             }
         }
 
@@ -298,9 +294,9 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     private BoundApp findApp(String pkg) {
-        if(boundApps != null) {
-            for(BoundApp a : boundApps) {
-                if(a.packageName.equals(pkg)) return a;
+        if (boundApps != null) {
+            for (BoundApp a : boundApps) {
+                if (a.packageName.equals(pkg)) return a;
             }
         }
 
@@ -308,15 +304,15 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     private NotificationWear findNotificationWear(BoundApp bapp) {
-        for(NotificationWear h : notificationWears) {
-            if(h.app != null && h.app.packageName.equals(bapp.packageName)) return h;
+        for (NotificationWear h : notificationWears) {
+            if (h.app != null && h.app.packageName.equals(bapp.packageName)) return h;
         }
         return null;
     }
 
     private NotificationWear findNotificationWear(int id) {
-        for(NotificationWear h : notificationWears) {
-            if(h.app != null && h.app.applicationId == id) return h;
+        for (NotificationWear h : notificationWears) {
+            if (h.app != null && h.app.applicationId == id) return h;
         }
         return null;
     }
@@ -328,15 +324,15 @@ public class ReplyManager implements XMLPrefsElement {
             e.printStackTrace();
         }
 
-        if(notificationWears != null) {
+        if (notificationWears != null) {
             notificationWears.clear();
             notificationWears = null;
         }
-        if(boundApps != null) {
+        if (boundApps != null) {
             boundApps.clear();
             boundApps = null;
         }
-        if(values != null) {
+        if (values != null) {
             values.list.clear();
             values = null;
         }
@@ -351,7 +347,7 @@ public class ReplyManager implements XMLPrefsElement {
 
     @Override
     public void write(XMLPrefsSave save, String value) {
-        set(new File(Tuils.getFolder(), PATH), save.label(), new String[] {VALUE_ATTRIBUTE}, new String[] {value});
+        set(new File(Tuils.getFolder(), PATH), save.label(), new String[]{VALUE_ATTRIBUTE}, new String[]{value});
     }
 
     @Override
@@ -359,17 +355,17 @@ public class ReplyManager implements XMLPrefsElement {
         return null;
     }
 
-    public void check(int id) {
-        if(!enabled) return;
+    public void check(Context context, int id) {
+        if (!enabled) return;
 
         BoundApp app = findApp(id);
-        if(app == null) {
+        if (app == null) {
             Tuils.sendOutput(context, context.getString(R.string.reply_id_not_found) + Tuils.SPACE + id);
             return;
         }
 
         NotificationWear wear = findNotificationWear(app);
-        if(wear == null) {
+        if (wear == null) {
             Tuils.sendOutput(context, R.string.reply_notification_not_found);
             return;
         }
@@ -378,7 +374,7 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     public static String bind(String pkg) {
-        return XMLPrefsManager.set(new File(Tuils.getFolder(), PATH), pkg, new String[] {ID_ATTRIBUTE}, new String[] {String.valueOf(nextUsableId)});
+        return XMLPrefsManager.set(new File(Tuils.getFolder(), PATH), pkg, new String[]{ID_ATTRIBUTE}, new String[]{String.valueOf(nextUsableId)});
     }
 
     public static String unbind(String pkg) {
@@ -390,28 +386,29 @@ public class ReplyManager implements XMLPrefsElement {
         while (true) {
             boolean shouldRestart = false;
 
-            for(BoundApp b : boundApps) {
-                if(b.applicationId == nextUsableID) {
+            for (BoundApp b : boundApps) {
+                if (b.applicationId == nextUsableID) {
                     shouldRestart = true;
                     break;
                 }
             }
 
-            if(!shouldRestart) return nextUsableID;
+            if (!shouldRestart) return nextUsableID;
 
             nextUsableID++;
         }
     }
 
-    public void ls(Context c) {
-        if(!enabled) return;
+    public void ls(Context context) {
+        if (!enabled) return;
 
         StringBuilder builder = new StringBuilder();
-        if(instance != null) {
-            for(BoundApp a : boundApps) builder.append(a.packageName).append(" -> ").append(a.applicationId).append(Tuils.NEWLINE);
+        if (instance != null) {
+            for (BoundApp a : boundApps)
+                builder.append(a.packageName).append(" -> ").append(a.applicationId).append(Tuils.NEWLINE);
         }
         String s = builder.toString();
-        if(s.length() == 0) s = "[]";
+        if (s.length() == 0) s = "[]";
 
         Tuils.sendOutput(context, s);
     }

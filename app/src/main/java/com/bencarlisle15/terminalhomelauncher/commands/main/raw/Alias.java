@@ -1,8 +1,5 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
@@ -10,6 +7,9 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.AliasManager;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by bencarlisle15 on 15/11/15.
@@ -22,7 +22,7 @@ public class Alias extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
                 ArrayList<String> args = pack.getList();
-                if(args.size() < 2) return pack.context.getString(R.string.output_lessarg);
+                if (args.size() < 2) return pack.context.getString(R.string.output_lessarg);
 
                 ((MainPack) pack).aliasManager.add(pack.context, args.remove(0), Tuils.toPlanString(args, Tuils.SPACE));
                 return null;
@@ -30,21 +30,21 @@ public class Alias extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.TEXTLIST};
+                return new int[]{CommandAbstraction.TEXTLIST};
             }
         },
         rm {
             @Override
             public String exec(ExecutePack pack) {
                 ArrayList<String> args = pack.getList();
-                if(args.size() < 1) return pack.context.getString(R.string.output_lessarg);
+                if (args.size() < 1) return pack.context.getString(R.string.output_lessarg);
                 ((MainPack) pack).aliasManager.remove(pack.context, args.get(0));
                 return null;
             }
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.TEXTLIST};
+                return new int[]{CommandAbstraction.TEXTLIST};
             }
         },
         file {

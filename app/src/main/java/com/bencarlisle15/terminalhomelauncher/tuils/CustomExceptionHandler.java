@@ -10,7 +10,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     private final Thread.UncaughtExceptionHandler _defaultEH;
 
-    public CustomExceptionHandler(){
+    public CustomExceptionHandler() {
         _defaultEH = Thread.getDefaultUncaughtExceptionHandler();
     }
 

@@ -3,8 +3,8 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
-import com.bencarlisle15.terminalhomelauncher.commands.main.specific.PermanentSuggestionCommand;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
+import com.bencarlisle15.terminalhomelauncher.commands.main.specific.PermanentSuggestionCommand;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 /**
@@ -24,7 +24,7 @@ public class Calc extends PermanentSuggestionCommand {
 
     @Override
     public int[] argType() {
-        return new int[] {CommandAbstraction.PLAIN_TEXT};
+        return new int[]{CommandAbstraction.PLAIN_TEXT};
     }
 
     @Override
@@ -50,6 +50,6 @@ public class Calc extends PermanentSuggestionCommand {
 
     @Override
     public String[] permanentSuggestions() {
-        return new String[] {"(", ")", "+", "-", "*", "/", "%", "^", "sqrt"};
+        return new String[]{"(", ")", "+", "-", "*", "/", "%", "^", "sqrt"};
     }
 }

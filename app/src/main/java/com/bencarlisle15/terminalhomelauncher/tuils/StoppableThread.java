@@ -7,6 +7,7 @@ package com.bencarlisle15.terminalhomelauncher.tuils;
 public class StoppableThread extends Thread {
 
     private volatile boolean stopped = false;
+
     public StoppableThread() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             Tuils.log(e);

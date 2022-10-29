@@ -9,8 +9,6 @@ import android.provider.ContactsContract;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.util.List;
-
 import com.bencarlisle15.terminalhomelauncher.LauncherActivity;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
@@ -19,6 +17,8 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.ContactManager;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.List;
 
 /**
  * Created by francescoandreuzzi on 11/05/2017.
@@ -70,7 +70,7 @@ public class Cntcts extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.CONTACTNUMBER};
+                return new int[]{CommandAbstraction.CONTACTNUMBER};
             }
 
             @Override
@@ -90,7 +90,7 @@ public class Cntcts extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.CONTACTNUMBER};
+                return new int[]{CommandAbstraction.CONTACTNUMBER};
             }
 
             @Override
@@ -111,7 +111,7 @@ public class Cntcts extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.CONTACTNUMBER};
+                return new int[]{CommandAbstraction.CONTACTNUMBER};
             }
 
             @Override

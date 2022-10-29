@@ -16,8 +16,12 @@
 
 package com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser;
 
+import static com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.StreamGobbler.OnLineListener;
+
 import android.os.Handler;
 import android.os.Looper;
+
+import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -35,10 +39,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-
-import static com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.StreamGobbler.*;
 
 /**
  * Class providing functionality to execute commands in a (root) shell
@@ -144,7 +144,7 @@ public class Shell {
                 STDIN.write("exit\n".getBytes(StandardCharsets.UTF_8));
                 STDIN.flush();
             } catch (IOException e) {
-                if (!e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
+                if (e.getMessage() != null && !e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
                     // Method most horrid to catch broken pipe, in which case we
                     // do nothing. The command is not a shell, the shell closed
                     // STDIN, the script already contained the exit command, etc.
@@ -346,7 +346,7 @@ public class Shell {
 
                 List<String> ret = Shell.run(
                         internal ? "su -V" : "su -v",
-                        new String[] { "exit" },
+                        new String[]{"exit"},
                         null,
                         false
                 );
@@ -927,7 +927,6 @@ public class Shell {
      */
     public static class Interactive {
         private final Handler handler;
-        private final boolean autoHandler;
         private final String shell;
         private final boolean wantSTDERR;
         private final List<Command> commands;
@@ -964,7 +963,7 @@ public class Shell {
          */
         private Interactive(final Builder builder,
                             final OnCommandResultListener onCommandResultListener) {
-            autoHandler = builder.autoHandler;
+            boolean autoHandler = builder.autoHandler;
             shell = builder.shell;
             wantSTDERR = builder.wantSTDERR;
             commands = builder.commands;
@@ -1409,70 +1408,70 @@ public class Shell {
                 STDIN = new DataOutputStream(process.getOutputStream());
                 STDOUT = new StreamGobbler(shell.toUpperCase(Locale.ENGLISH) + "-",
                         process.getInputStream(), line -> {
-                            synchronized (Interactive.this) {
-                                if (command == null) {
-                                    return;
-                                }
+                    synchronized (Interactive.this) {
+                        if (command == null) {
+                            return;
+                        }
 
-                                String contentPart = line;
-                                String markerPart = null;
+                        String contentPart = line;
+                        String markerPart = null;
 
-                                int markerIndex = line.indexOf(command.marker);
-                                if (markerIndex == 0) {
-                                    contentPart = null;
-                                    markerPart = line;
-                                } else if (markerIndex > 0) {
-                                    contentPart = line.substring(0, markerIndex);
-                                    markerPart = line.substring(markerIndex);
-                                }
+                        int markerIndex = line.indexOf(command.marker);
+                        if (markerIndex == 0) {
+                            contentPart = null;
+                            markerPart = line;
+                        } else if (markerIndex > 0) {
+                            contentPart = line.substring(0, markerIndex);
+                            markerPart = line.substring(markerIndex);
+                        }
 
-                                if (contentPart != null) {
-                                    addBuffer(contentPart);
-                                    processLine(contentPart, onSTDOUTLineListener);
-                                    processLine(contentPart, command.onCommandLineListener);
-                                }
+                        if (contentPart != null) {
+                            addBuffer(contentPart);
+                            processLine(contentPart, onSTDOUTLineListener);
+                            processLine(contentPart, command.onCommandLineListener);
+                        }
 
-                                if (markerPart != null) {
-                                    try {
-                                        lastExitCode = Integer.valueOf(
-                                                markerPart.substring(command.marker.length() + 1), 10);
-                                    } catch (Exception e) {
-                                        // this really shouldn't happen
-                                        e.printStackTrace();
-                                    }
-                                    lastMarkerSTDOUT = command.marker;
-                                    processMarker();
-                                }
+                        if (markerPart != null) {
+                            try {
+                                lastExitCode = Integer.valueOf(
+                                        markerPart.substring(command.marker.length() + 1), 10);
+                            } catch (Exception e) {
+                                // this really shouldn't happen
+                                e.printStackTrace();
                             }
-                        });
+                            lastMarkerSTDOUT = command.marker;
+                            processMarker();
+                        }
+                    }
+                });
                 STDERR = new StreamGobbler(shell.toUpperCase(Locale.ENGLISH) + "*",
                         process.getErrorStream(), line -> {
-                            synchronized (Interactive.this) {
-                                if (command == null) {
-                                    return;
-                                }
+                    synchronized (Interactive.this) {
+                        if (command == null) {
+                            return;
+                        }
 
-                                String contentPart = line;
+                        String contentPart = line;
 
-                                int markerIndex = line.indexOf(command.marker);
-                                if (markerIndex == 0) {
-                                    contentPart = null;
-                                } else if (markerIndex > 0) {
-                                    contentPart = line.substring(0, markerIndex);
-                                }
+                        int markerIndex = line.indexOf(command.marker);
+                        if (markerIndex == 0) {
+                            contentPart = null;
+                        } else if (markerIndex > 0) {
+                            contentPart = line.substring(0, markerIndex);
+                        }
 
-                                if (contentPart != null) {
-                                    if (wantSTDERR)
-                                        addBuffer(contentPart);
-                                    processLine(contentPart, onSTDERRLineListener);
-                                }
+                        if (contentPart != null) {
+                            if (wantSTDERR)
+                                addBuffer(contentPart);
+                            processLine(contentPart, onSTDERRLineListener);
+                        }
 
-                                if (markerIndex >= 0) {
-                                    lastMarkerSTDERR = command.marker;
-                                    processMarker();
-                                }
-                            }
-                        });
+                        if (markerIndex >= 0) {
+                            lastMarkerSTDERR = command.marker;
+                            processMarker();
+                        }
+                    }
+                });
 
                 // start gobbling and write our commands to the shell
                 STDOUT.start();
@@ -1515,7 +1514,7 @@ public class Shell {
                     STDIN.write(("exit\n").getBytes(StandardCharsets.UTF_8));
                     STDIN.flush();
                 } catch (IOException e) {
-                    if (!e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
+                    if (e.getMessage() != null && !e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
                         // we're not running a shell, the shell closed STDIN,
                         // the script already contained the exit command, etc.                        
 
@@ -1636,7 +1635,6 @@ public class Shell {
          * See {@link Interactive} for further details on threading and
          * handlers
          * </p>
-         *
          */
         public void waitForIdle() {
             if (isRunning()) {

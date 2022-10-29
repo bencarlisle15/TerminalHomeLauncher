@@ -1,14 +1,14 @@
 package com.bencarlisle15.terminalhomelauncher.commands.tuixt.raw;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.tuixt.TuixtPack;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by francescoandreuzzi on 24/01/2017.
@@ -27,7 +27,7 @@ public class help implements CommandAbstraction {
 
     @Override
     public int[] argType() {
-        return new int[] {CommandAbstraction.COMMAND};
+        return new int[]{CommandAbstraction.COMMAND};
     }
 
     @Override

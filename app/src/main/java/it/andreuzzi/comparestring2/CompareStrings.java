@@ -121,7 +121,7 @@ public class CompareStrings {
      */
     public static String bestMatch(String s1, String[] ss, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
         String[] matches = topNmatches(s1, ss, 1, splitters, algInstance, alg);
-        if(matches == null || matches.length == 0) return null;
+        if(matches.length == 0) return null;
         return matches[0];
     }
     
@@ -355,7 +355,7 @@ public class CompareStrings {
      */
     public static String bestMatch(String s1, int size, Iterable<String> ss, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
         String[] matches = topNmatches(s1, size, ss, 1, splitters, algInstance, alg);
-        if(matches == null || matches.length == 0) return null;
+        if(matches.length == 0) return null;
         return matches[0];
     }
     

@@ -20,49 +20,49 @@ public class Regex extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
                 String output = RegexManager.instance.add(pack.getInt(), pack.getString());
-                if(output == null) return null;
-                if(output.length() == 0) return pack.context.getString(R.string.id_already);
+                if (output == null) return null;
+                if (output.length() == 0) return pack.context.getString(R.string.id_already);
                 else return output;
             }
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
             }
         },
         rm {
             @Override
             public String exec(ExecutePack pack) {
                 String output = RegexManager.instance.rm(pack.getInt());
-                if(output == null) return null;
-                if(output.length() == 0) return pack.context.getString(R.string.id_notfound);
+                if (output == null) return null;
+                if (output.length() == 0) return pack.context.getString(R.string.id_notfound);
                 return output;
             }
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
         },
         get {
             @Override
             public String exec(ExecutePack pack) {
                 RegexManager.Regex r = RegexManager.instance.get(pack.getInt());
-                if(r == null) return pack.context.getString(R.string.id_notfound);
+                if (r == null) return pack.context.getString(R.string.id_notfound);
 
                 return r.regex != null ? r.regex.pattern() : r.literalPattern;
             }
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
         },
         test {
             @Override
             public String exec(ExecutePack pack) {
                 CharSequence s = RegexManager.instance.test(pack.getInt(), pack.getString());
-                if(s.length() == 0) return pack.context.getString(R.string.id_notfound);
+                if (s.length() == 0) return pack.context.getString(R.string.id_notfound);
 
                 Tuils.sendOutput(pack.context, s);
                 return null;
@@ -70,7 +70,7 @@ public class Regex extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
             }
         };
 

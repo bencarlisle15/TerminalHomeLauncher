@@ -24,10 +24,10 @@ public class OutlineEditText extends AppCompatEditText {
 
     @Override
     public void draw(Canvas canvas) {
-        if(drawTimes == -1) {
+        if (drawTimes == -1) {
             drawTimes = getTag() == null ? 1 : OutlineTextView.redrawTimes;
         }
 
-        for(int c = 0; c < drawTimes; c++) super.draw(canvas);
+        for (int c = 0; c < drawTimes; c++) super.draw(canvas);
     }
 }

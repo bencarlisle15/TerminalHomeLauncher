@@ -6,8 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
-import java.io.File;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
@@ -17,6 +15,8 @@ import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
+import java.io.File;
+
 public class Apps extends ParamCommand {
 
     private enum Param implements com.bencarlisle15.terminalhomelauncher.commands.main.Param {
@@ -24,7 +24,7 @@ public class Apps extends ParamCommand {
         ls {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -40,7 +40,7 @@ public class Apps extends ParamCommand {
         lsh {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -56,7 +56,7 @@ public class Apps extends ParamCommand {
         show {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.HIDDEN_PACKAGE};
+                return new int[]{CommandAbstraction.HIDDEN_PACKAGE};
             }
 
             @Override
@@ -69,7 +69,7 @@ public class Apps extends ParamCommand {
         hide {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -82,7 +82,7 @@ public class Apps extends ParamCommand {
         l {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -100,7 +100,7 @@ public class Apps extends ParamCommand {
         ps {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -112,7 +112,7 @@ public class Apps extends ParamCommand {
         default_app {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.DEFAULT_APP};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.DEFAULT_APP};
             }
 
             @Override
@@ -122,7 +122,7 @@ public class Apps extends ParamCommand {
                 Object o = pack.get();
 
                 String marker;
-                if(o instanceof AppsManager.LaunchInfo) {
+                if (o instanceof AppsManager.LaunchInfo) {
                     AppsManager.LaunchInfo i = (AppsManager.LaunchInfo) o;
                     marker = i.componentName.getPackageName() + "-" + i.componentName.getClassName();
                 } else {
@@ -141,7 +141,7 @@ public class Apps extends ParamCommand {
             @Override
             public String onArgNotFound(ExecutePack pack, int index) {
                 int res;
-                if(index == 1) res = R.string.invalid_integer;
+                if (index == 1) res = R.string.invalid_integer;
                 else res = R.string.output_appnotfound;
 
                 return pack.context.getString(res);
@@ -150,7 +150,7 @@ public class Apps extends ParamCommand {
         st {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -162,7 +162,7 @@ public class Apps extends ParamCommand {
         frc {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.ALL_PACKAGES};
+                return new int[]{CommandAbstraction.ALL_PACKAGES};
             }
 
             @Override
@@ -185,7 +185,7 @@ public class Apps extends ParamCommand {
                 return null;
             }
         },
-//        services {
+        //        services {
 //            @Override
 //            public int[] args() {
 //                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
@@ -268,7 +268,7 @@ public class Apps extends ParamCommand {
         reset {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -283,7 +283,7 @@ public class Apps extends ParamCommand {
         mkgp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.NO_SPACE_STRING};
+                return new int[]{CommandAbstraction.NO_SPACE_STRING};
             }
 
             @Override
@@ -295,7 +295,7 @@ public class Apps extends ParamCommand {
         rmgp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP};
+                return new int[]{CommandAbstraction.APP_GROUP};
             }
 
             @Override
@@ -307,7 +307,7 @@ public class Apps extends ParamCommand {
         gp_bg_color {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP, CommandAbstraction.COLOR};
+                return new int[]{CommandAbstraction.APP_GROUP, CommandAbstraction.COLOR};
             }
 
             @Override
@@ -319,7 +319,7 @@ public class Apps extends ParamCommand {
 
             @Override
             public String onNotArgEnough(ExecutePack pack, int n) {
-                if(n == 2) {
+                if (n == 2) {
                     String name = pack.getString();
                     return ((MainPack) pack).appsManager.groupBgColor(name, Tuils.EMPTYSTRING);
                 }
@@ -334,7 +334,7 @@ public class Apps extends ParamCommand {
         gp_fore_color {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP, CommandAbstraction.COLOR};
+                return new int[]{CommandAbstraction.APP_GROUP, CommandAbstraction.COLOR};
             }
 
             @Override
@@ -346,7 +346,7 @@ public class Apps extends ParamCommand {
 
             @Override
             public String onNotArgEnough(ExecutePack pack, int n) {
-                if(n == 2) {
+                if (n == 2) {
                     String name = pack.getString();
                     return ((MainPack) pack).appsManager.groupForeColor(name, Tuils.EMPTYSTRING);
                 }
@@ -361,7 +361,7 @@ public class Apps extends ParamCommand {
         lsgp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP};
+                return new int[]{CommandAbstraction.APP_GROUP};
             }
 
             @Override
@@ -378,7 +378,7 @@ public class Apps extends ParamCommand {
         addtogp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP, CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.APP_GROUP, CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -391,7 +391,7 @@ public class Apps extends ParamCommand {
         rmfromgp {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.APP_GROUP, CommandAbstraction.APP_INSIDE_GROUP};
+                return new int[]{CommandAbstraction.APP_GROUP, CommandAbstraction.APP_INSIDE_GROUP};
             }
 
             @Override

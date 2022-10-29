@@ -23,7 +23,7 @@ public class PublicIOReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action;
-        if(intent.getAction().equals(ACTION_CMD)) {
+        if (intent.getAction().equals(ACTION_CMD)) {
             Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
             if (remoteInput != null) {
                 String cmd = remoteInput.getString(PrivateIOReceiver.TEXT);
@@ -38,7 +38,7 @@ public class PublicIOReceiver extends BroadcastReceiver {
             action = MainManager.ACTION_EXEC;
 
             intent.putExtra(MainManager.CMD_COUNT, MainManager.commandCount);
-        } else if(intent.getAction().equals(ACTION_OUTPUT)) {
+        } else if (intent.getAction().equals(ACTION_OUTPUT)) {
             action = PrivateIOReceiver.ACTION_OUTPUT;
         } else return;
 

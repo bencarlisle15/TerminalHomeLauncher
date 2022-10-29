@@ -2,12 +2,12 @@ package com.bencarlisle15.terminalhomelauncher.managers.xml.options;
 
 import android.os.Environment;
 
-import java.io.File;
-
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
 
 /**
  * Created by francescoandreuzzi on 24/09/2017.
@@ -547,10 +547,10 @@ public enum Behavior implements XMLPrefsSave {
         @Override
         public String defaultValue() {
             String path = System.getenv("SECONDARY_STORAGE");
-            if(path == null) return Tuils.EMPTYSTRING;
+            if (path == null) return Tuils.EMPTYSTRING;
 
             File file = new File(path);
-            if(file != null && file.exists()) return file.getAbsolutePath();
+            if (file.exists()) return file.getAbsolutePath();
 
             return Tuils.EMPTYSTRING;
         }

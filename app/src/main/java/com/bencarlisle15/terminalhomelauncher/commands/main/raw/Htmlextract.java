@@ -1,9 +1,8 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.io.File;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
@@ -13,6 +12,8 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamComman
 import com.bencarlisle15.terminalhomelauncher.managers.HTMLExtractManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
 
 /**
  * Created by francescoandreuzzi on 29/03/2018.
@@ -25,7 +26,7 @@ public class Htmlextract extends ParamCommand {
         query {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -43,9 +44,9 @@ public class Htmlextract extends ParamCommand {
 
             @Override
             public String onArgNotFound(ExecutePack pack, int index) {
-                if(index == 1) return pack.context.getString(R.string.invalid_integer);
+                if (index == 1) return pack.context.getString(R.string.invalid_integer);
 
-                if(index == 2) {
+                if (index == 2) {
 //                    the user was trying to use the default format
 
 //                    waste the first
@@ -66,7 +67,7 @@ public class Htmlextract extends ParamCommand {
         add {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.DATASTORE_PATH_TYPE, CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.DATASTORE_PATH_TYPE, CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -83,14 +84,14 @@ public class Htmlextract extends ParamCommand {
 
             @Override
             public String onArgNotFound(ExecutePack pack, int index) {
-                if(index == 1) return pack.context.getString(R.string.invalid_datastoretype);
+                if (index == 1) return pack.context.getString(R.string.invalid_datastoretype);
                 return super.onArgNotFound(pack, index);
             }
         },
         rm {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
 
             @Override
@@ -106,7 +107,7 @@ public class Htmlextract extends ParamCommand {
         edit {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -123,7 +124,7 @@ public class Htmlextract extends ParamCommand {
         ls {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.DATASTORE_PATH_TYPE};
+                return new int[]{CommandAbstraction.DATASTORE_PATH_TYPE};
             }
 
             @Override

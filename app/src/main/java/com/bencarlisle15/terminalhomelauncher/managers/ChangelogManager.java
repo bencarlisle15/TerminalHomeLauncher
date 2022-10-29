@@ -7,13 +7,15 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import java.util.regex.Pattern;
-
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Theme;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.Objects;
+import java.util.regex.Pattern;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -34,17 +36,15 @@ public class ChangelogManager {
 
         final String originalUrl = "https://pastebin.com/n5AYHd26";
         String url;
-        if(!originalUrl.contains("raw")) {
-            url = originalUrl.replace(".com/", ".com/raw/");
-        } else url = originalUrl;
+        url = originalUrl.replace(".com/", ".com/raw/");
 
         final SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, 0);
 
 //        if true, it's the first time the user opens the app. no need to show changelog
-        if(!force && MessagesManager.isShowingFirstTimeTutorial(context)) {
+        if (!force && MessagesManager.isShowingFirstTimeTutorial(context)) {
             preferences.edit()
-                .putBoolean(url, true)
-                .apply();
+                    .putBoolean(url, true)
+                    .apply();
 
             return;
         }
@@ -53,14 +53,14 @@ public class ChangelogManager {
 
         final String changelogUrl = url;
 
-        if(force || !preferences.getBoolean(changelogUrl, false)) {
+        if (force || !preferences.getBoolean(changelogUrl, false)) {
             new Thread() {
                 @Override
                 public void run() {
                     super.run();
 
                     if (Tuils.hasNoInternetAccess()) {
-                        if(force) Tuils.sendOutput(context, R.string.no_internet);
+                        if (force) Tuils.sendOutput(context, R.string.no_internet);
                         return;
                     }
 
@@ -74,21 +74,22 @@ public class ChangelogManager {
                         Response response = client.newCall(builder.build()).execute();
 
                         if (!response.isSuccessful() || response.code() == 304) {
-                            if(force) Tuils.sendOutput(context, R.string.internet_error + Tuils.SPACE + response.code());
+                            if (force)
+                                Tuils.sendOutput(context, R.string.internet_error + Tuils.SPACE + response.code());
                             return;
                         }
 
                         String header = "Changelog " + BuildConfig.VERSION_NAME;
 
-                        String log = response.body().string();
+                        String log = Objects.requireNonNull(response.body()).string();
                         log = newlinePattern.matcher(log).replaceAll(Tuils.DOUBLE_SPACE + "-");
 
                         boolean cut = !force && log.length() >= MAX_LENGTH;
-                        if(cut) log = log.substring(0, MAX_LENGTH) + "...";
+                        if (cut) log = log.substring(0, MAX_LENGTH) + "...";
 
                         Tuils.sendOutput(context, header + Tuils.NEWLINE + log);
 
-                        if(cut) {
+                        if (cut) {
                             SpannableString sp = new SpannableString("Click here to see the full changelog");
                             sp.setSpan(new ForegroundColorSpan(XMLPrefsManager.getColor(Theme.output_color)), 0, sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             sp.setSpan(new ForegroundColorSpan(XMLPrefsManager.getColor(Theme.link_color)), 6, 10, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -50,9 +50,9 @@ public class Location implements APICommand, CommandAbstraction {
 //        }, handler);
 
         TuiLocationManager l = TuiLocationManager.instance(context);
-        if(l.locationAvailable) return "Lat: " + l.latitude + "; Long: " + l.longitude;
+        if (l.locationAvailable) return "Lat: " + l.latitude + "; Long: " + l.longitude;
         else {
-            l.add(ACTION_LOCATION_CMD_GOT);
+            l.add(context, ACTION_LOCATION_CMD_GOT);
         }
 
         return null;

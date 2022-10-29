@@ -138,7 +138,7 @@ public class CompareObjects {
      */
     public static <T extends StringableObject> T bestMatch(Class<T> clazz, String s1, T[] ss, String[] splitters, Algorithm algInstance, Alg alg) {
         T[] matches = topNmatches(clazz, s1,ss, 1, splitters, algInstance, alg);
-        if(matches == null || matches.length == 0) return null;
+        if(matches.length == 0) return null;
         return matches[0];
     }
     
@@ -404,7 +404,7 @@ public class CompareObjects {
      */
     public static <T extends StringableObject> T bestMatch(Class<T> clazz, String s1, int size, Iterable<T> ss, String[] splitters, Algorithm algInstance, Alg alg) {
         T[] matches = topNmatches(clazz, s1,size, ss, 1, splitters, algInstance, alg);
-        if(matches == null || matches.length == 0) return null;
+        if(matches.length == 0) return null;
         return matches[0];
     }
     

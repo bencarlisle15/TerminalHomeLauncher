@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import java.util.List;
-
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
@@ -15,6 +13,8 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.specific.ParamComman
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Cmd;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.util.List;
 
 public class Search extends ParamCommand {
 
@@ -38,7 +38,7 @@ public class Search extends ParamCommand {
                 return playstore(args, pack.context);
             }
         },
-//        file {
+        //        file {
 //            @Override
 //            public String exec(ExecutePack pack) {
 //                List<String> args = pack.get(ArrayList.class, 1);
@@ -77,7 +77,7 @@ public class Search extends ParamCommand {
 
         @Override
         public int[] args() {
-            return new int[] {CommandAbstraction.TEXTLIST};
+            return new int[]{CommandAbstraction.TEXTLIST};
         }
 
         static Param get(String p) {

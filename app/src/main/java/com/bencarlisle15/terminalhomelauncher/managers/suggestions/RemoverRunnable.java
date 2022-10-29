@@ -18,7 +18,7 @@ public class RemoverRunnable implements Runnable {
 
     @Override
     public void run() {
-        if(stop) {
+        if (stop) {
             stop = false;
         } else suggestionsView.removeAllViews();
 

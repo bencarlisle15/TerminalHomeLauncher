@@ -5,9 +5,6 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 
-import java.io.File;
-import java.lang.reflect.Method;
-
 import com.bencarlisle15.terminalhomelauncher.commands.CommandGroup;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandsPreferences;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
@@ -17,11 +14,15 @@ import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.ContactManager;
 import com.bencarlisle15.terminalhomelauncher.managers.RssManager;
 import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
-import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager2;
+import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
 import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.Redirectator;
 import com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.ShellHolder;
+
+import java.io.File;
+import java.lang.reflect.Method;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -48,7 +49,7 @@ public class MainPack extends ExecutePack {
     public final ContactManager contacts;
 
     //	music
-    public final MusicManager2 player;
+    public final MusicManager player;
 
     //	apps & assocs
     public final AliasManager aliasManager;
@@ -68,7 +69,7 @@ public class MainPack extends ExecutePack {
 
     public int commandColor = TerminalManager.NO_COLOR;
 
-    public MainPack(Context context, CommandGroup commandGroup, AliasManager alMgr, AppsManager appmgr, MusicManager2 p,
+    public MainPack(Context context, CommandGroup commandGroup, AliasManager alMgr, AppsManager appmgr, MusicManager p,
                     ContactManager c, Redirectator redirectator, RssManager rssManager, OkHttpClient client) {
         super(commandGroup);
 
@@ -98,9 +99,9 @@ public class MainPack extends ExecutePack {
     }
 
     public void destroy() {
-        if(player != null) player.destroy();
+        if (player != null) player.destroy();
         appsManager.onDestroy();
-        if(rssManager != null) rssManager.dispose();
+        if (rssManager != null) rssManager.dispose();
         contacts.destroy(context);
     }
 

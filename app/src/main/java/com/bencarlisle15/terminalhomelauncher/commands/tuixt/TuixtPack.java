@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.widget.EditText;
 
-import java.io.File;
-
 import com.bencarlisle15.terminalhomelauncher.commands.CommandGroup;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
+
+import java.io.File;
 
 /**
  * Created by francescoandreuzzi on 25/01/2017.

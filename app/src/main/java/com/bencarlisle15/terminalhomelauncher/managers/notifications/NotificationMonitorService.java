@@ -23,7 +23,7 @@ public class NotificationMonitorService extends Service {
     }
 
     private void ensureCollectorRunning() {
-        if(Tuils.notificationServiceIsRunning(this)) toggleNotificationListenerService();
+        if (Tuils.notificationServiceIsRunning(this)) toggleNotificationListenerService();
     }
 
     private void toggleNotificationListenerService() {

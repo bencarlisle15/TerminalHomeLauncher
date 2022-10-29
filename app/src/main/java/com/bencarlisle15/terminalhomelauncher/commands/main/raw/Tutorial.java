@@ -18,7 +18,7 @@ public class Tutorial implements CommandAbstraction {
     @Override
     public String exec(ExecutePack pack) throws Exception {
         Intent intent = Tuils.webPage(url);
-        if(intent != null) pack.context.startActivity(intent);
+        pack.context.startActivity(intent);
         return null;
     }
 

@@ -9,5 +9,6 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCom
 public interface Redirectator {
 
     void prepareRedirection(RedirectCommand cmd);
+
     void cleanup();
 }

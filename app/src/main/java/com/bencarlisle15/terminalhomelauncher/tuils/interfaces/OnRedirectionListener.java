@@ -9,5 +9,6 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCom
 public interface OnRedirectionListener {
 
     void onRedirectionRequest(RedirectCommand cmd);
+
     void onRedirectionEnd(RedirectCommand cmd);
 }

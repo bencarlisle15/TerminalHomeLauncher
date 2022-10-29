@@ -27,10 +27,15 @@ public interface CommandAbstraction {
     int DATASTORE_PATH_TYPE = 32;
 
     String exec(ExecutePack pack) throws Exception;
+
     int[] argType();
+
     int priority();
+
     int helpRes();
+
     String onArgNotFound(ExecutePack pack, int indexNotFound);
+
     String onNotArgEnough(ExecutePack pack, int nArgs);
 
     default String getCommandName() {

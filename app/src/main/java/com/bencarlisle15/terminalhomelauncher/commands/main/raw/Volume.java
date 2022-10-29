@@ -24,7 +24,7 @@ public class Volume extends ParamCommand {
         set {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT, CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT, CommandAbstraction.INT};
             }
 
             @Override
@@ -39,8 +39,8 @@ public class Volume extends ParamCommand {
                 int type = pack.getInt();
                 int volume = pack.getInt();
 
-                if(volume < 0) volume = 0;
-                else if(volume > 100) volume = 100;
+                if (volume < 0) volume = 0;
+                else if (volume > 100) volume = 100;
 
                 AudioManager manager = (AudioManager) pack.context.getSystemService(Context.AUDIO_SERVICE);
                 int maxIndex = manager.getStreamMaxVolume(type);
@@ -60,7 +60,7 @@ public class Volume extends ParamCommand {
         profile {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
 
             @Override
@@ -93,7 +93,7 @@ public class Volume extends ParamCommand {
 
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.INT};
+                return new int[]{CommandAbstraction.INT};
             }
 
             @Override
@@ -118,7 +118,7 @@ public class Volume extends ParamCommand {
                 AudioManager manager = (AudioManager) pack.context.getSystemService(Context.AUDIO_SERVICE);
 
                 StringBuilder builder = new StringBuilder();
-                for(int c = 0; c < labels.length; c++) {
+                for (int c = 0; c < labels.length; c++) {
                     appendInfo(builder, manager, c);
                 }
 

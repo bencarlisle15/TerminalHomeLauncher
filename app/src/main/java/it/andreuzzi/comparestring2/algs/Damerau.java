@@ -102,7 +102,7 @@ public class Damerau implements MetricStringDistance {
 
             // look at each character in b
             for (int j = 1; j <= s2.length(); j++) {
-                int i1 = da.get(s2.charAt(j - 1));
+                @SuppressWarnings("ConstantConditions") int i1 = da.get(s2.charAt(j - 1));
                 int j1 = db;
 
                 int cost = 1;

@@ -2,6 +2,7 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
 import android.os.Build;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -24,7 +25,7 @@ public class Reply extends ParamCommand implements APICommand {
         to {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.BOUND_REPLY_APP, CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.BOUND_REPLY_APP, CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -41,7 +42,7 @@ public class Reply extends ParamCommand implements APICommand {
         bind {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -54,7 +55,7 @@ public class Reply extends ParamCommand implements APICommand {
         check {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.BOUND_REPLY_APP};
+                return new int[]{CommandAbstraction.BOUND_REPLY_APP};
             }
 
             @Override
@@ -69,7 +70,7 @@ public class Reply extends ParamCommand implements APICommand {
         unbind {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.VISIBLE_PACKAGE};
+                return new int[]{CommandAbstraction.VISIBLE_PACKAGE};
             }
 
             @Override
@@ -77,7 +78,8 @@ public class Reply extends ParamCommand implements APICommand {
                 String output = ReplyManager.unbind(pack.getLaunchInfo().componentName.getPackageName());
                 LocalBroadcastManager.getInstance(pack.context).sendBroadcast(new Intent(ReplyManager.ACTION_UPDATE));
 
-                if(output != null && output.length() == 0) return pack.context.getString(R.string.reply_app_not_found) + pack.getLaunchInfo().componentName.getPackageName();
+                if (output != null && output.length() == 0)
+                    return pack.context.getString(R.string.reply_app_not_found) + pack.getLaunchInfo().componentName.getPackageName();
                 return output;
             }
         },

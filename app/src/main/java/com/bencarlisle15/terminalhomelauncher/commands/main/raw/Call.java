@@ -29,16 +29,16 @@ public class Call implements CommandAbstraction {
         }
 
         String number = info.getString();
-        if(number == null) return pack.context.getString(R.string.invalid_number);
+        if (number == null) return pack.context.getString(R.string.invalid_number);
 
         StringBuilder s = new StringBuilder(Tuils.EMPTYSTRING);
-        for(char c : number.toCharArray()) {
-            if(c == '#') s.append(Uri.encode("#"));
+        for (char c : number.toCharArray()) {
+            if (c == '#') s.append(Uri.encode("#"));
             else s.append(c);
         }
 
         Uri uri = Uri.parse("tel:" + s);
-        if(uri == null) return pack.context.getString(R.string.invalid_number);
+        if (uri == null) return pack.context.getString(R.string.invalid_number);
 
         final Intent intent = new Intent(Intent.ACTION_CALL, uri);
 

@@ -1,6 +1,7 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.content.Intent;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -22,7 +23,7 @@ public class Theme extends ParamCommand {
         apply {
             @Override
             public int[] args() {
-                return new int[] {CommandAbstraction.PLAIN_TEXT};
+                return new int[]{CommandAbstraction.PLAIN_TEXT};
             }
 
             @Override
@@ -36,7 +37,7 @@ public class Theme extends ParamCommand {
         standard {
             @Override
             public int[] args() {
-                return new int[] {};
+                return new int[]{};
             }
 
             @Override

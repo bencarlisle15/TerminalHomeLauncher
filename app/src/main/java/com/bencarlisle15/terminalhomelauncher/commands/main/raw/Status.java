@@ -1,5 +1,9 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -17,10 +21,6 @@ import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-
 /**
  * Created by francescoandreuzzi on 05/04/16.
  */
@@ -29,7 +29,7 @@ public class Status implements CommandAbstraction {
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        for (Network network: connectivityManager.getAllNetworks()) {
+        for (Network network : connectivityManager.getAllNetworks()) {
             NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI && networkInfo.isConnected()) {
                 return true;
@@ -41,7 +41,7 @@ public class Status implements CommandAbstraction {
     public static boolean isMobileDataConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        for (Network network: connectivityManager.getAllNetworks()) {
+        for (Network network : connectivityManager.getAllNetworks()) {
             NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
             if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE && networkInfo.isConnected()) {
                 return true;
@@ -94,12 +94,12 @@ public class Status implements CommandAbstraction {
 
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         try {
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -107,7 +107,7 @@ public class Status implements CommandAbstraction {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         boolean bluetoothOn;
 
-        if(adapter == null) bluetoothOn = false;
+        if (adapter == null) bluetoothOn = false;
         else bluetoothOn = adapter.isEnabled();
 
         return info.res.getString(R.string.battery_label) + Tuils.SPACE + level + "%" + Tuils.NEWLINE +

@@ -2,13 +2,13 @@ package com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser;
 
 import android.content.Context;
 
-import java.io.File;
-import java.util.regex.Pattern;
-
 import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
+
+import java.io.File;
+import java.util.regex.Pattern;
 
 /**
  * Created by francescoandreuzzi on 18/08/2017.
