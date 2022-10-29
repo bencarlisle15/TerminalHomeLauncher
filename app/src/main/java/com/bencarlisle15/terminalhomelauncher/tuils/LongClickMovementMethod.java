@@ -52,9 +52,7 @@ public class LongClickMovementMethod extends LinkMovementMethod {
 
                 if(runnable != null) {
 //                        long click, do nothing
-                    if(runnable.wasActivated) {}
-//                        single click
-                    else {
+                    if(!runnable.wasActivated) {
                         widget.removeCallbacks(runnable);
                         if(link.length > 0) link[0].onClick(widget);
                     }

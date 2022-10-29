@@ -7,7 +7,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;

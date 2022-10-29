@@ -609,9 +609,7 @@ public class SuggestionsManager {
                         suggestPermanentSuggestions(suggestionList, (PermanentSuggestionCommand) cmd.cmd);
                     }
 
-                    if (cmd.mArgs != null && cmd.mArgs.length > 0 && cmd.cmd instanceof ParamCommand && cmd.nArgs >= 1 && cmd.mArgs[0] instanceof Param && ((Param) cmd.mArgs[0]).args().length + 1 == cmd.nArgs) {
-//                        nothing
-                    } else {
+                    if (!(cmd.mArgs != null && cmd.mArgs.length > 0 && cmd.cmd instanceof ParamCommand && cmd.nArgs >= 1 && cmd.mArgs[0] instanceof Param && ((Param) cmd.mArgs[0]).args().length + 1 == cmd.nArgs)) {
                         if(cmd.cmd instanceof ParamCommand && (cmd.mArgs == null || cmd.mArgs.length == 0 || cmd.mArgs[0] instanceof String))
                             suggestParams(pack, suggestionList, (ParamCommand) cmd.cmd, beforeLastSpace, null);
                         else suggestArgs(pack, cmd.nextArg(), suggestionList, beforeLastSpace );

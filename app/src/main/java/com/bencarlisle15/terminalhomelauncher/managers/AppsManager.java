@@ -258,7 +258,7 @@ public class AppsManager implements XMLPrefsElement {
                                         External:
                                         for(String s : split) {
                                             for(int c = 0; c < as.size(); c++) {
-                                                if(as.get(c).equals(s)) {
+                                                if(as.get(c).componentName.getPackageName().equals(s)) {
                                                     g.add(as.remove(c), false);
                                                     continue External;
                                                 }
@@ -930,7 +930,7 @@ public class AppsManager implements XMLPrefsElement {
             apps.sort(comparator);
         }
 
-        public boolean contains(LaunchInfo info) {
+        public boolean contains(GroupLaunchInfo info) {
             return apps.contains(info);
         }
 
@@ -1314,7 +1314,7 @@ public class AppsManager implements XMLPrefsElement {
             }
         }
 
-        final Comparator<LaunchInfo> mostUsedComparator = (lhs, rhs) -> Integer.compare(lhs.launchedTimes, rhs.launchedTimes);
+        final Comparator<LaunchInfo> mostUsedComparator = Comparator.comparingInt(lhs -> lhs.launchedTimes);
 
         public AppsHolder(List<LaunchInfo> infos, XMLPrefsList values) {
             this.infos = infos;
@@ -1377,7 +1377,7 @@ public class AppsManager implements XMLPrefsElement {
             if(name == null) return null;
 
             for(LaunchInfo i : appList) {
-                if(i.equals(name)) return i;
+                if(i.componentName.equals(name)) return i;
             }
 
             return null;

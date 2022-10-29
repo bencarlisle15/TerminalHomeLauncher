@@ -45,7 +45,8 @@ public class ThemeManager {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(ACTION_APPLY)) {
                 String name = intent.getStringExtra(NAME);
-                if(name == null) return;
+                if(name == null) {
+                }
 
             } else if(intent.getAction().equals(ACTION_REVERT)) {
                 revert();

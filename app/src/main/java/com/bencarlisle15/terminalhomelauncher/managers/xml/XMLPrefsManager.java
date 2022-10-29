@@ -730,6 +730,7 @@ public class XMLPrefsManager {
             stream.flush();
             stream.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -20,7 +20,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.Command;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandGroup;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandTuils;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
-import com.bencarlisle15.terminalhomelauncher.commands.main.raw.location;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.Location;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.AliasManager;
 import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
@@ -185,7 +185,7 @@ public class MainManager {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_EXEC);
-        filter.addAction(location.ACTION_LOCATION_CMD_GOT);
+        filter.addAction(Location.ACTION_LOCATION_CMD_GOT);
 
         receiver = new BroadcastReceiver() {
             @Override
@@ -218,9 +218,9 @@ public class MainManager {
                     } else {
                         onCommand(cmd, aliasName, intent.getBooleanExtra(MainManager.MUSIC_SERVICE, false));
                     }
-                } else if(action.equals(location.ACTION_LOCATION_CMD_GOT)) {
+                } else if(action.equals(Location.ACTION_LOCATION_CMD_GOT)) {
                     Tuils.sendOutput(context, "Lat: " + intent.getDoubleExtra(TuiLocationManager.LATITUDE, 0) + "; Long: " + intent.getDoubleExtra(TuiLocationManager.LONGITUDE, 0));
-                    TuiLocationManager.instance(context).rm(location.ACTION_LOCATION_CMD_GOT);
+                    TuiLocationManager.instance(context).rm(Location.ACTION_LOCATION_CMD_GOT);
                 }
             }
         };

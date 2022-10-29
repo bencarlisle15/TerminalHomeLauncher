@@ -2,10 +2,12 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +45,9 @@ public class CommandGroup {
 
         Collections.sort(cmds);
         commandNames = new String[cmds.size()];
-        cmds.toArray(commandNames);
+        for (int i = 0; i < commandNames.length; i++) {
+            commandNames[i] = cmds.get(i).toLowerCase();
+        }
 
         cmdAbs.sort((o1, o2) -> o2.priority() - o1.priority());
         commands = new CommandAbstraction[cmdAbs.size()];

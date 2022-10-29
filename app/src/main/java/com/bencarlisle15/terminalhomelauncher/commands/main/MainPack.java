@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandGroup;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandsPreferences;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
-import com.bencarlisle15.terminalhomelauncher.commands.main.raw.flash;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.Flash;
 import com.bencarlisle15.terminalhomelauncher.managers.AliasManager;
 import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.ContactManager;
@@ -94,7 +94,7 @@ public class MainPack extends ExecutePack {
     }
 
     public void dispose() {
-        flash.modifyTorchMode(context, false);
+        Flash.modifyTorchMode(context, false);
     }
 
     public void destroy() {

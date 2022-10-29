@@ -27,22 +27,22 @@ package com.bencarlisle15.terminalhomelauncher.tuils.html_escape;
  * <ul>
  *     <li><tt><strong>HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL</strong></tt>: Replace escaped characters
  *         with HTML 4 <em>Named Character References</em> (<em>Character Entity References</em>) whenever
- *         possible (depending on the specified {@link org.unbescape.html.HtmlEscapeLevel}), and default to
+ *         possible (depending on the specified {@link HtmlEscapeLevel}), and default to
  *         using <em>Decimal Character References</em> for escaped characters that do not have an associated
  *         NCR.</li>
  *     <li><tt><strong>HTML4_NAMED_REFERENCES_DEFAULT_TO_HEXA</strong></tt>: Replace escaped characters
  *         with HTML 4 <em>Named Character References</em> (<em>Character Entity References</em>) whenever
- *         possible (depending on the specified {@link org.unbescape.html.HtmlEscapeLevel}), and default to
+ *         possible (depending on the specified {@link HtmlEscapeLevel}), and default to
  *         using <em>Hexadecimal Character References</em> for escaped characters that do not have an associated
  *         NCR.</li>
  *     <li><tt><strong>HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL</strong></tt>: Replace escaped characters
  *         with HTML5 <em>Named Character References</em> whenever
- *         possible (depending on the specified {@link org.unbescape.html.HtmlEscapeLevel}), and default to
+ *         possible (depending on the specified {@link HtmlEscapeLevel}), and default to
  *         using <em>Decimal Character References</em> for escaped characters that do not have an associated
  *         NCR.</li>
  *     <li><tt><strong>HTML5_NAMED_REFERENCES_DEFAULT_TO_HEXA</strong></tt>: Replace escaped characters
  *         with HTML5 <em>Named Character References</em> whenever
- *         possible (depending on the specified {@link org.unbescape.html.HtmlEscapeLevel}), and default to
+ *         possible (depending on the specified {@link HtmlEscapeLevel}), and default to
  *         using <em>Hexadecimal Character References</em> for escaped characters that do not have an associated
  *         NCR.</li>
  *     <li><tt><strong>DECIMAL_REFERENCES</strong></tt>: Replace escaped characters with
@@ -53,7 +53,7 @@ package com.bencarlisle15.terminalhomelauncher.tuils.html_escape;
  *
  * <p>
  *   For further information, see the <em>Glossary</em> and the <em>References</em> sections at the
- *   documentation for the {@link org.unbescape.html.HtmlEscape} class.
+ *   documentation for the {@link HtmlEscape} class.
  * </p>
  *
  * @author Daniel Fern&aacute;ndez

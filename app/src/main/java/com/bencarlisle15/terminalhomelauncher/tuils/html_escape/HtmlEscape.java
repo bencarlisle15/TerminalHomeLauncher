@@ -36,12 +36,12 @@ import java.io.Writer;
  * <ul>
  *   <li><em>Level</em>, which defines how deep the escape operation must be (what
  *       chars are to be considered eligible for escaping, depending on the specific
- *       needs of the scenario). Its values are defined by the {@link org.unbescape.html.HtmlEscapeLevel}
+ *       needs of the scenario). Its values are defined by the {@link HtmlEscapeLevel}
  *       enum.</li>
  *   <li><em>Type</em>, which defines whether escaping should be performed by means of NCRs
  *       (Named Character References), by means of decimal/hexadecimal numerical references,
  *       using the HTML5 or the HTML 4 NCR set, etc. Its values are defined by the
- *       {@link org.unbescape.html.HtmlEscapeType} enum.</li>
+ *       {@link HtmlEscapeType} enum.</li>
  * </ul>
  * <p>
  *   <strong>Unescape</strong> operations need no configuration parameters. Unescape operations
@@ -324,7 +324,7 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *   This method will perform an escape operation according to the specified
-     *   {@link org.unbescape.html.HtmlEscapeType} and {@link org.unbescape.html.HtmlEscapeLevel}
+     *   {@link HtmlEscapeType} and {@link HtmlEscapeLevel}
      *   argument values.
      * </p>
      * <p>
@@ -336,8 +336,8 @@ public final class HtmlEscape {
      * </p>
      *
      * @param text the <tt>String</tt> to be escaped.
-     * @param type the type of escape operation to be performed, see {@link org.unbescape.html.HtmlEscapeType}.
-     * @param level the escape level to be applied, see {@link org.unbescape.html.HtmlEscapeLevel}.
+     * @param type the type of escape operation to be performed, see {@link HtmlEscapeType}.
+     * @param level the escape level to be applied, see {@link HtmlEscapeLevel}.
      * @return The escaped result <tt>String</tt>. As a memory-performance improvement, will return the exact
      *         same object as the <tt>text</tt> input argument if no escaping modifications were required (and
      *         no additional <tt>String</tt> objects will be created during processing). Will
@@ -550,7 +550,7 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *   This method will perform an escape operation according to the specified
-     *   {@link org.unbescape.html.HtmlEscapeType} and {@link org.unbescape.html.HtmlEscapeLevel}
+     *   {@link HtmlEscapeType} and {@link HtmlEscapeLevel}
      *   argument values.
      * </p>
      * <p>
@@ -564,8 +564,8 @@ public final class HtmlEscape {
      * @param text the <tt>String</tt> to be escaped.
      * @param writer the <tt>java.io.Writer</tt> to which the escaped result will be written. Nothing will
      *               be written at all to this writer if input is <tt>null</tt>.
-     * @param type the type of escape operation to be performed, see {@link org.unbescape.html.HtmlEscapeType}.
-     * @param level the escape level to be applied, see {@link org.unbescape.html.HtmlEscapeLevel}.
+     * @param type the type of escape operation to be performed, see {@link HtmlEscapeType}.
+     * @param level the escape level to be applied, see {@link HtmlEscapeLevel}.
      * @throws IOException if an input/output exception occurs
      *
      * @since 1.1.2
@@ -782,7 +782,7 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *   This method will perform an escape operation according to the specified
-     *   {@link org.unbescape.html.HtmlEscapeType} and {@link org.unbescape.html.HtmlEscapeLevel}
+     *   {@link HtmlEscapeType} and {@link HtmlEscapeLevel}
      *   argument values.
      * </p>
      * <p>
@@ -796,8 +796,8 @@ public final class HtmlEscape {
      * @param reader the <tt>Reader</tt> reading the text to be escaped.
      * @param writer the <tt>java.io.Writer</tt> to which the escaped result will be written. Nothing will
      *               be written at all to this writer if input is <tt>null</tt>.
-     * @param type the type of escape operation to be performed, see {@link org.unbescape.html.HtmlEscapeType}.
-     * @param level the escape level to be applied, see {@link org.unbescape.html.HtmlEscapeLevel}.
+     * @param type the type of escape operation to be performed, see {@link HtmlEscapeType}.
+     * @param level the escape level to be applied, see {@link HtmlEscapeLevel}.
      * @throws IOException if an input/output exception occurs
      *
      * @since 1.1.2
@@ -1010,7 +1010,7 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *   This method will perform an escape operation according to the specified
-     *   {@link org.unbescape.html.HtmlEscapeType} and {@link org.unbescape.html.HtmlEscapeLevel}
+     *   {@link HtmlEscapeType} and {@link HtmlEscapeLevel}
      *   argument values.
      * </p>
      * <p>
@@ -1026,8 +1026,8 @@ public final class HtmlEscape {
      * @param len the number of characters in <tt>text</tt> that should be escaped.
      * @param writer the <tt>java.io.Writer</tt> to which the escaped result will be written. Nothing will
      *               be written at all to this writer if input is <tt>null</tt>.
-     * @param type the type of escape operation to be performed, see {@link org.unbescape.html.HtmlEscapeType}.
-     * @param level the escape level to be applied, see {@link org.unbescape.html.HtmlEscapeLevel}.
+     * @param type the type of escape operation to be performed, see {@link HtmlEscapeType}.
+     * @param level the escape level to be applied, see {@link HtmlEscapeLevel}.
      * @throws IOException if an input/output exception occurs
      */
     public static void escapeHtml(final char[] text, final int offset, final int len, final Writer writer,

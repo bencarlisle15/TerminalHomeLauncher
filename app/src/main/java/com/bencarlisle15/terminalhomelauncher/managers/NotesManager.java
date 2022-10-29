@@ -26,8 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -323,7 +323,7 @@ public class NotesManager {
             String h = countPattern.matcher(footer).replaceAll(String.valueOf(notes.size()));
             h = Tuils.patternNewline.matcher(h).replaceAll(Tuils.NEWLINE);
             oldNotes = TextUtils.concat(oldNotes, Tuils.span(h, this.color));
-        } else {}
+        }
 
         Matcher m = colorPattern.matcher(oldNotes);
         while(m.find()) {
@@ -332,7 +332,7 @@ public class NotesManager {
             CharSequence t = m.group(2);
 
             int color;
-            if(idColor.startsWith("#")) {
+            if(Objects.requireNonNull(idColor).startsWith("#")) {
 //                    color
                 try {
                     color = Color.parseColor(idColor);

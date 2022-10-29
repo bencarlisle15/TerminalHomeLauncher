@@ -332,7 +332,7 @@ public class NotificationManager implements XMLPrefsElement {
 
         @Override
         public boolean equals(Object obj) {
-            return this.toString().equals(obj.toString());
+            return obj instanceof NotificationManager && this.toString().equals(obj.toString());
         }
 
         @NonNull

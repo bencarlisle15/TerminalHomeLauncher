@@ -144,12 +144,12 @@ public class Shell {
                 STDIN.write("exit\n".getBytes(StandardCharsets.UTF_8));
                 STDIN.flush();
             } catch (IOException e) {
-                if (e.getMessage().contains("EPIPE") || e.getMessage().contains("Stream closed")) {
+                if (!e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
                     // Method most horrid to catch broken pipe, in which case we
                     // do nothing. The command is not a shell, the shell closed
                     // STDIN, the script already contained the exit command, etc.
                     // these cases we want the output instead of returning null.
-                } else {
+
                     // other issues we don't know how to handle, leads to
                     // returning null
                     throw e;
@@ -1515,10 +1515,10 @@ public class Shell {
                     STDIN.write(("exit\n").getBytes(StandardCharsets.UTF_8));
                     STDIN.flush();
                 } catch (IOException e) {
-                    if (e.getMessage().contains("EPIPE") || e.getMessage().contains("Stream closed")) {
+                    if (!e.getMessage().contains("EPIPE") && !e.getMessage().contains("Stream closed")) {
                         // we're not running a shell, the shell closed STDIN,
                         // the script already contained the exit command, etc.                        
-                    } else {
+
                         throw e;
                     }
                 }

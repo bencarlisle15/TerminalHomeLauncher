@@ -56,7 +56,7 @@ package com.bencarlisle15.terminalhomelauncher.tuils.html_escape;
  *
  * <p>
  *   For further information, see the <em>Glossary</em> and the <em>References</em> sections at the
- *   documentation for the {@link org.unbescape.html.HtmlEscape} class.
+ *   documentation for the {@link HtmlEscape} class.
  * </p>
  *
  * @author Daniel Fern&aacute;ndez

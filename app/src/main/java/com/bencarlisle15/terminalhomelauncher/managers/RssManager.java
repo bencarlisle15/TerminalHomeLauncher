@@ -598,7 +598,7 @@ public class RssManager implements XMLPrefsElement {
         String output = XMLPrefsManager.removeNode(rssIndexFile, REGEX_CMD_LABEL, new String[] {ID_ATTRIBUTE}, new String[] {String.valueOf(id)});
         if(output == null) {
             for(int i = 0; i < cmdRegexes.size(); i++) {
-                if(cmdRegexes.get(i).id == id) cmdRegexes.remove(i);
+                if(cmdRegexes.get(i).id == id) cmdRegexes.remove(i--);
             }
 
             return null;
@@ -695,8 +695,6 @@ public class RssManager implements XMLPrefsElement {
                         response.close();
 
                         if(feed.show) parse(feed, true);
-                    } else {
-//                        not modified
                     }
 
                     feed.lastCheckedClient = System.currentTimeMillis();
@@ -777,12 +775,10 @@ public class RssManager implements XMLPrefsElement {
                 greatestTime = Math.max(greatestTime, timeLong);
 
                 if(feed.lastShownItem < timeLong) {
-                    updated = true;
                     showItem(feed, element, false);
                 }
             } else {
 //                user - requested
-                updated = true;
                 showItem(feed, element, true);
             }
         }
@@ -1143,9 +1139,8 @@ public class RssManager implements XMLPrefsElement {
     }
 
     private void prepare() {
-        boolean check = true;
+        boolean check;
         if(!root.isDirectory()) {
-            check = false;
             root.mkdir();
         }
         if(!rssIndexFile.exists()) {
@@ -1158,6 +1153,7 @@ public class RssManager implements XMLPrefsElement {
                     root.list();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

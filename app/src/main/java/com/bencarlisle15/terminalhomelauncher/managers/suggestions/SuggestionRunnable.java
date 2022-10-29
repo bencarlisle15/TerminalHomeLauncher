@@ -165,7 +165,7 @@ public class SuggestionRunnable implements Runnable {
                         AppsManager.LaunchInfo i = (AppsManager.LaunchInfo) o;
 
                         for(AppsManager.Group g : pack.appsManager.groups) {
-                            if(g.contains(i)) {
+                            if(i instanceof AppsManager.Group.GroupLaunchInfo && g.contains((AppsManager.Group.GroupLaunchInfo) i)) {
                                 o = g;
                                 break;
                             }

@@ -62,7 +62,6 @@ public final class MimeTypes {
 
         MIME_TYPES.put("def", "text/plain");
         MIME_TYPES.put("in", "text/plain");
-        MIME_TYPES.put("rc", "text/plain");
         MIME_TYPES.put("list", "text/plain");
         MIME_TYPES.put("log", "text/plain");
         MIME_TYPES.put("pl", "text/plain");

@@ -69,6 +69,6 @@ public class TestResult {
         StringBuilder what = new StringBuilder(String.format("(%s - %s)", s1, s2));
         while(what.length() < 30) what.append(" ");
         
-        return String.format(Locale.getDefault(), "%s %s : %s --> %s [in %dns]", algName.toString(), type.toString(), what.toString(), r.toString(), time);
+        return String.format(Locale.getDefault(), "%s %s : %s --> %s [in %dns]", algName, type, what, r, time);
     }
 }

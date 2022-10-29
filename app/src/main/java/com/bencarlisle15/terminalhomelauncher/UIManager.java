@@ -55,7 +55,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
-import com.bencarlisle15.terminalhomelauncher.commands.main.raw.status;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.Status;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.HTMLExtractManager;
 import com.bencarlisle15.terminalhomelauncher.managers.NotesManager;
@@ -512,7 +512,7 @@ public class UIManager implements OnTouchListener {
             }
 
 //            wifi
-            boolean wifiOn = status.isWifiConnected(mContext);
+            boolean wifiOn = Status.isWifiConnected(mContext);
 
             String wifiName = null;
             if (wifiOn) {
@@ -522,7 +522,7 @@ public class UIManager implements OnTouchListener {
             }
 
 //            mobile data
-            boolean mobileOn = status.isMobileDataConnected(mContext);
+            boolean mobileOn = Status.isMobileDataConnected(mContext);
 
             String mobileType;
             if (mobileOn) {
@@ -1308,7 +1308,7 @@ public class UIManager implements OnTouchListener {
             rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
                 int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
                 if (heightDiff > Tuils.dpToPx(context, 200)) { // if more than 200 dp, it's probably a keyboard...
-                    if(mTerminalAdapter != null) mTerminalAdapter.scrollToEnd();
+                    mTerminalAdapter.scrollToEnd();
                 }
             });
         }
