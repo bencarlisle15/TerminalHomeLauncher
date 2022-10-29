@@ -31,6 +31,7 @@
             android:lines="1"
             android:singleLine="true"
             android:inputType="text"
+            android:hint="@string/command_input"
             android:autofillHints="" />
 
         <ImageButton
@@ -67,6 +68,8 @@
         android:inputType="textFilter|textMultiLine"
         android:isScrollContainer="true"
         android:textCursorDrawable="@drawable/cursor"
+
+        android:hint="@string/command_output"
 
         android:background="@null"
         android:autofillHints="" />

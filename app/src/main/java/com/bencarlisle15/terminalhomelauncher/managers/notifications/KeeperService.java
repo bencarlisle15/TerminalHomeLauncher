@@ -33,9 +33,6 @@ import androidx.core.app.RemoteInput;
 
 public class KeeperService extends Service {
 
-//    private final String PATH = "reply.xml";
-//    public static final String BIND_NODE = "binding", ID_ATTRIBUTE = "id", APP_ATTRIBUTE = "pkg";
-
     public static final int ONGOING_NOTIFICATION_ID = 1001;
     public static final String CMD_KEY = "cmd", PATH_KEY = "path";
 

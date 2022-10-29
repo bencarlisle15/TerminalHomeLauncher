@@ -70,7 +70,7 @@ public class Damerau implements MetricStringDistance {
         int inf = s1.length() + s2.length();
 
         // Create and initialize the character array indices
-        HashMap<Character, Integer> da = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> da = new HashMap<>();
 
         for (int d = 0; d < s1.length(); d++) {
             da.put(s1.charAt(d), 0);

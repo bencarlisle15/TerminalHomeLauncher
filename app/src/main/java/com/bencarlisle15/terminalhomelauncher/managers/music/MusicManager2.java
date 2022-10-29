@@ -231,7 +231,9 @@ public class MusicManager2 implements MediaController.MediaPlayerControl {
                 synchronized (songs) {
                     try {
                         songs.wait();
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

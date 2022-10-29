@@ -24,7 +24,7 @@ public class shellcommands implements CommandAbstraction {
         Collection<String> cmds = getOSCommands();
         List<String> commands = new ArrayList<>(cmds);
 
-        Collections.sort(commands, Tuils::alphabeticCompare);
+        commands.sort(Tuils::alphabeticCompare);
 
         Tuils.addPrefix(commands, Tuils.DOUBLE_SPACE);
         Tuils.addSeparator(commands, Tuils.SPACE);

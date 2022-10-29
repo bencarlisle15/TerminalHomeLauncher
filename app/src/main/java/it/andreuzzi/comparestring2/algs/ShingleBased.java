@@ -61,7 +61,6 @@ public abstract class ShingleBased {
 
     /**
      *
-     * @param k
      * @throws IllegalArgumentException if k is &lt;= 0
      */
     public ShingleBased(final int k) {
@@ -95,21 +94,15 @@ public abstract class ShingleBased {
      * Jaccard index, etc. Pay attention: the memory requirement of the profile
      * can be up to k * size of the string
      *
-     * @param string
      * @return the profile of this string, as an unmodifiable Map
      */
     public final Map<String, Integer> getProfile(final String string) {
-        HashMap<String, Integer> shingles = new HashMap<String, Integer>();
+        HashMap<String, Integer> shingles = new HashMap<>();
 
         String string_no_space = SPACE_REG.matcher(string).replaceAll(" ");
         for (int i = 0; i < (string_no_space.length() - k + 1); i++) {
             String shingle = string_no_space.substring(i, i + k);
-            Integer old = shingles.get(shingle);
-            if (old != null) {
-                shingles.put(shingle, old + 1);
-            } else {
-                shingles.put(shingle, 1);
-            }
+            shingles.merge(shingle, 1, Integer::sum);
         }
 
         return Collections.unmodifiableMap(shingles);

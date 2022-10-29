@@ -79,7 +79,7 @@ public class Test {
         if((on & NORM_SIMILARITY_ALG) == NORM_SIMILARITY_ALG) algs.addAll(Arrays.asList(AlgMap.NormSimAlg.values()));
         if((on & METRIC_DISTANCE_ALG) == METRIC_DISTANCE_ALG) algs.addAll(Arrays.asList(AlgMap.MetricDistAlg.values()));
 
-        return algs.toArray(new Alg[algs.size()]);
+        return algs.toArray(new Alg[0]);
     }
 
 //    --------------------------------------------------------
@@ -210,7 +210,7 @@ public class Test {
     }
 
     public static void printResult(List<TestResult> result, PrintStream stream, int sortMode, boolean descendent) {
-        Collections.sort(result, Comparators.getComparator(sortMode, descendent));
+        result.sort(Comparators.getComparator(sortMode, descendent));
 
         result.forEach(r -> {
             try {
@@ -263,7 +263,7 @@ public class Test {
     }
 
     private static class Comparators {
-        static final Comparator<TestResult> algCategory = (TestResult o1, TestResult o2) -> o1.alg.typeCode() - o2.alg.typeCode();
+        static final Comparator<TestResult> algCategory = Comparator.comparingInt((TestResult o) -> o.alg.typeCode());
         static final Comparator<TestResult> algResultDescendent = (TestResult o1, TestResult o2) -> (int) (o2.result - o1.result);
         static final Comparator<TestResult> algTimeDescendent = (TestResult o1, TestResult o2) -> (int) (o2.time - o1.time);
         static final Comparator<TestResult> algResultAscendent = (TestResult o1, TestResult o2) -> (int) (o1.result - o2.result);

@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -97,198 +98,210 @@ public class HTMLExtractManager {
 
                 String action = intent.getAction();
 
-                if(action.equals(ACTION_ADD)) {
-                    int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
-                    String tag = intent.getStringExtra(TAG_NAME);
-                    String path = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                switch (action) {
+                    case ACTION_ADD: {
+                        int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
+                        String tag = intent.getStringExtra(TAG_NAME);
+                        String path = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
 
-                    if(tag.equals(StoreableValue.Type.format.name())) {
-                        for(int c = 0; c < formats.size(); c++) {
-                            if(formats.get(c).id == id) {
-                                Tuils.sendOutput(context, R.string.id_already);
-                                return;
+                        if (tag.equals(StoreableValue.Type.format.name())) {
+                            for (int c = 0; c < formats.size(); c++) {
+                                if (formats.get(c).id == id) {
+                                    Tuils.sendOutput(context, R.string.id_already);
+                                    return;
+                                }
                             }
-                        }
-                    } else {
-                        for(int c = 0; c < xpaths.size(); c++) {
-                            if(xpaths.get(c).id == id) {
-                                Tuils.sendOutput(context, R.string.id_already);
-                                return;
-                            }
-                        }
-
-                        for(int c = 0; c < jsons.size(); c++) {
-                            if(jsons.get(c).id == id) {
-                                Tuils.sendOutput(context, R.string.id_already);
-                                return;
-                            }
-                        }
-                    }
-
-                    List<StoreableValue> values;
-                    try {
-                        StoreableValue.Type p = StoreableValue.Type.valueOf(tag);
-                        values = getListFromType(p);
-                    } catch (Exception e) {
-                        return;
-                    }
-
-                    StoreableValue v = StoreableValue.create(values, context, tag, path, id);
-                    if(v != null) values.add(v);
-                } else if(action.equals(ACTION_RM)) {
-                    int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
-
-                    boolean check = false;
-                    for(int c = 0; c < xpaths.size(); c++) {
-                        if(xpaths.get(c).id == id) {
-                            xpaths.remove(c).remove(context);
-                            check = true;
-                            break;
-                        }
-                    }
-
-                    for(int c = 0; c < jsons.size(); c++) {
-                        if(jsons.get(c).id == id) {
-                            jsons.remove(c).remove(context);
-                            check = true;
-                            break;
-                        }
-                    }
-
-                    for(int c = 0; c < formats.size(); c++) {
-                        if(formats.get(c).id == id) {
-                            formats.remove(c).remove(context);
-                            check = true;
-                            break;
-                        }
-                    }
-
-                    if(!check) Tuils.sendOutput(context, R.string.id_notfound);
-                } else if(action.equals(ACTION_EDIT)) {
-                    int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
-                    String newExpression = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                    if(newExpression == null || newExpression.length() == 0) return;
-
-                    for(int c = 0; c < xpaths.size(); c++) {
-                        if(xpaths.get(c).id == id) {
-                            xpaths.get(c).edit(context, newExpression);
-                            return;
-                        }
-                    }
-
-                    for(int c = 0; c < jsons.size(); c++) {
-                        if(jsons.get(c).id == id) {
-                            jsons.get(c).edit(context, newExpression);
-                            return;
-                        }
-                    }
-
-                    for(int c = 0; c < formats.size(); c++) {
-                        if(formats.get(c).id == id) {
-                            formats.get(c).edit(context, newExpression);
-                            return;
-                        }
-                    }
-
-                    Tuils.sendOutput(context, R.string.id_notfound);
-                } else if(action.equals(ACTION_LS)) {
-                    String tag = intent.getStringExtra(TAG_NAME);
-
-                    List<StoreableValue> values;
-                    StringBuilder builder = new StringBuilder();
-                    try {
-                        StoreableValue.Type p = StoreableValue.Type.valueOf(tag);
-                        values = getListFromType(p);
-
-                        for(StoreableValue v : values) {
-                            builder.append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
-                        }
-                    } catch (Exception e) {
-                        builder.append("XPaths:").append(Tuils.NEWLINE);
-                        if(xpaths.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
-                        else {
-                            for(StoreableValue v : xpaths) {
-                                builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
-                            }
-                        }
-
-                        builder.append("JsonPaths:").append(Tuils.NEWLINE);
-                        if(jsons.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
-                        else {
-                            for(StoreableValue v : jsons) {
-                                builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
-                            }
-                        }
-
-                        builder.append("Formats:").append(Tuils.NEWLINE);
-                        if(formats.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
-                        else {
-                            for(StoreableValue v : formats) {
-                                builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
-                            }
-                        }
-                    }
-
-                    String text = builder.toString().trim();
-                    if(text.length() == 0) text = "[]";
-                    Tuils.sendOutput(context, text);
-                } else if(action.equals(ACTION_QUERY)) {
-                    String website = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                    boolean weatherArea = intent.getBooleanExtra(WEATHER_AREA, false);
-
-                    String path = intent.getStringExtra(ID);
-                    String format = intent.getStringExtra(FORMAT_ID);
-
-                    if(format == null) {
-                        int formatId = intent.getIntExtra(FORMAT_ID, Integer.MAX_VALUE);
-
-                        if(formatId == Integer.MAX_VALUE) {
-//                            use the default format
-                            format = null;
                         } else {
-                            for(StoreableValue f : formats) {
-                                if(f.id == formatId) {
-                                    format = f.value;
+                            for (int c = 0; c < xpaths.size(); c++) {
+                                if (xpaths.get(c).id == id) {
+                                    Tuils.sendOutput(context, R.string.id_already);
+                                    return;
+                                }
+                            }
+
+                            for (int c = 0; c < jsons.size(); c++) {
+                                if (jsons.get(c).id == id) {
+                                    Tuils.sendOutput(context, R.string.id_already);
+                                    return;
+                                }
+                            }
+                        }
+
+                        List<StoreableValue> values;
+                        try {
+                            StoreableValue.Type p = StoreableValue.Type.valueOf(tag);
+                            values = getListFromType(p);
+                        } catch (Exception e) {
+                            return;
+                        }
+
+                        StoreableValue v = StoreableValue.create(values, context, tag, path, id);
+                        if (v != null) values.add(v);
+                        break;
+                    }
+                    case ACTION_RM: {
+                        int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
+
+                        boolean check = false;
+                        for (int c = 0; c < xpaths.size(); c++) {
+                            if (xpaths.get(c).id == id) {
+                                xpaths.remove(c).remove(context);
+                                check = true;
+                                break;
+                            }
+                        }
+
+                        for (int c = 0; c < jsons.size(); c++) {
+                            if (jsons.get(c).id == id) {
+                                jsons.remove(c).remove(context);
+                                check = true;
+                                break;
+                            }
+                        }
+
+                        for (int c = 0; c < formats.size(); c++) {
+                            if (formats.get(c).id == id) {
+                                formats.remove(c).remove(context);
+                                check = true;
+                                break;
+                            }
+                        }
+
+                        if (!check) Tuils.sendOutput(context, R.string.id_notfound);
+                        break;
+                    }
+                    case ACTION_EDIT: {
+                        int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
+                        String newExpression = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                        if (newExpression == null || newExpression.length() == 0) return;
+
+                        for (int c = 0; c < xpaths.size(); c++) {
+                            if (xpaths.get(c).id == id) {
+                                xpaths.get(c).edit(context, newExpression);
+                                return;
+                            }
+                        }
+
+                        for (int c = 0; c < jsons.size(); c++) {
+                            if (jsons.get(c).id == id) {
+                                jsons.get(c).edit(context, newExpression);
+                                return;
+                            }
+                        }
+
+                        for (int c = 0; c < formats.size(); c++) {
+                            if (formats.get(c).id == id) {
+                                formats.get(c).edit(context, newExpression);
+                                return;
+                            }
+                        }
+
+                        Tuils.sendOutput(context, R.string.id_notfound);
+                        break;
+                    }
+                    case ACTION_LS: {
+                        String tag = intent.getStringExtra(TAG_NAME);
+
+                        List<StoreableValue> values;
+                        StringBuilder builder = new StringBuilder();
+                        try {
+                            StoreableValue.Type p = StoreableValue.Type.valueOf(tag);
+                            values = getListFromType(p);
+
+                            for (StoreableValue v : values) {
+                                builder.append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
+                            }
+                        } catch (Exception e) {
+                            builder.append("XPaths:").append(Tuils.NEWLINE);
+                            if (xpaths.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            else {
+                                for (StoreableValue v : xpaths) {
+                                    builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
+                                }
+                            }
+
+                            builder.append("JsonPaths:").append(Tuils.NEWLINE);
+                            if (jsons.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            else {
+                                for (StoreableValue v : jsons) {
+                                    builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
+                                }
+                            }
+
+                            builder.append("Formats:").append(Tuils.NEWLINE);
+                            if (formats.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            else {
+                                for (StoreableValue v : formats) {
+                                    builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
+                                }
+                            }
+                        }
+
+                        String text = builder.toString().trim();
+                        if (text.length() == 0) text = "[]";
+                        Tuils.sendOutput(context, text);
+                        break;
+                    }
+                    case ACTION_QUERY: {
+                        String website = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                        boolean weatherArea = intent.getBooleanExtra(WEATHER_AREA, false);
+
+                        String path = intent.getStringExtra(ID);
+                        String format = intent.getStringExtra(FORMAT_ID);
+
+                        if (format == null) {
+                            int formatId = intent.getIntExtra(FORMAT_ID, Integer.MAX_VALUE);
+
+                            if (formatId == Integer.MAX_VALUE) {
+//                            use the default format
+                                format = null;
+                            } else {
+                                for (StoreableValue f : formats) {
+                                    if (f.id == formatId) {
+                                        format = f.value;
+                                        break;
+                                    }
+                                }
+
+                                if (format == null) {
+                                    Tuils.sendOutput(context, context.getString(R.string.id_notfound) + ": " + formatId + "(" + StoreableValue.Type.format.name() + ")");
+                                }
+                            }
+                        }
+
+                        StoreableValue.Type pathType = StoreableValue.Type.json;
+                        if (path == null) {
+                            int pathId = intent.getIntExtra(ID, Integer.MAX_VALUE);
+
+                            for (StoreableValue p : xpaths) {
+                                if (p.id == pathId) {
+                                    path = p.value;
+                                    pathType = p.type;
                                     break;
                                 }
                             }
 
-                            if(format == null) {
-                                Tuils.sendOutput(context, context.getString(R.string.id_notfound) + ": " + formatId + "(" + StoreableValue.Type.format.name() + ")");
+                            for (StoreableValue p : jsons) {
+                                if (p.id == pathId) {
+                                    path = p.value;
+                                    pathType = p.type;
+                                    break;
+                                }
+                            }
+
+                            if (path == null) {
+                                Tuils.sendOutput(context, context.getString(R.string.id_notfound) + ": " + pathId);
+                                return;
                             }
                         }
+
+                        query(context, path, pathType, format, website, weatherArea);
+                        break;
                     }
-
-                    StoreableValue.Type pathType = StoreableValue.Type.json;
-                    if(path == null) {
-                        int pathId = intent.getIntExtra(ID, Integer.MAX_VALUE);
-
-                        for(StoreableValue p : xpaths) {
-                            if (p.id == pathId) {
-                                path = p.value;
-                                pathType = p.type;
-                                break;
-                            }
-                        }
-
-                        for(StoreableValue p : jsons) {
-                            if (p.id == pathId) {
-                                path = p.value;
-                                pathType = p.type;
-                                break;
-                            }
-                        }
-
-                        if(path == null) {
-                            Tuils.sendOutput(context, context.getString(R.string.id_notfound) + ": " + pathId);
-                            return;
-                        }
-                    }
-
-                    query(context, path, pathType, format, website, weatherArea);
-                } else if(action.equals(ACTION_WEATHER)) {
-                    String url = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                    query(context, weatherFormat, url);
+                    case ACTION_WEATHER:
+                        String url = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                        query(context, weatherFormat, url);
+                        break;
                 }
             }
         };
@@ -350,7 +363,9 @@ public class HTMLExtractManager {
                 if(v != null) {
                     getListFromType(v.type).add(v);
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -436,7 +451,7 @@ public class HTMLExtractManager {
                                         try {
                                             double d = Double.parseDouble(value);
                                             d = Tuils.textCalculus(d, converter);
-                                            value = String.format("%.2f", d);
+                                            value = String.format(Locale.getDefault(), "%.2f", d);
                                         } catch (Exception e) {
                                             Tuils.log(e);
                                         }
@@ -493,7 +508,7 @@ public class HTMLExtractManager {
                             String f = format == null ? defaultFormat : format;
                             CharSequence copy = Tuils.span(f, outputColor);
 
-                            copy = replaceAllAttributesObject(copy, ((Map) o).entrySet());
+                            copy = replaceAllAttributesObject(copy, ((Map<String, Object>) o).entrySet());
                             copy = replaceTagNameObject(copy, null, (Map<String, Object>) o);
                             copy = replaceNewline(copy);
                             copy = replaceLinkColorReplace(context, copy, url);
@@ -614,7 +629,7 @@ public class HTMLExtractManager {
 
     public static CharSequence replaceTagNameObject(CharSequence original, String tag, Map<String, Object> attributes) {
         Matcher tagMatcher = tagName.matcher(original);
-        while(tagMatcher.find()) {
+        if (tagMatcher.find()) {
             String attribute = tagMatcher.group(1);
 
             if(tag == null) tag = "null";
@@ -663,7 +678,7 @@ public class HTMLExtractManager {
 
     public static CharSequence replaceTagNameString(CharSequence original, String tag, Map<String, String> attributes) {
         Matcher tagMatcher = tagName.matcher(original);
-        while(tagMatcher.find()) {
+        if (tagMatcher.find()) {
             String attribute = tagMatcher.group(1);
 
             if(tag == null) tag = "null";

@@ -186,6 +186,7 @@ public class TerminalManager {
         int hintColor = XMLPrefsManager.getColor(Theme.session_info_color);
 
         ColorStateList list = mTerminalView.getHintTextColors();
+//        todo remove reflection
         try {
             Field colors = list.getClass().getDeclaredField("mColors");
             Field dColor = list.getClass().getDeclaredField("mDefaultColor");
@@ -242,7 +243,7 @@ public class TerminalManager {
         this.mInputView.setTypeface(Tuils.getTypeface(context));
         this.mInputView.setHint(Tuils.getHint(mainPack.currentDirectory.getAbsolutePath()));
         this.mInputView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        Tuils.setCursorDrawableColor(this.mInputView, XMLPrefsManager.getColor(Theme.cursor_color));
+        Tuils.setCursorDrawableColor(context, this.mInputView, XMLPrefsManager.getColor(Theme.cursor_color));
         this.mInputView.setHighlightColor(Color.TRANSPARENT);
         this.mInputView.setOnEditorActionListener((v1, actionId, event) -> {
             if(!mInputView.hasFocus()) mInputView.requestFocus();
@@ -264,23 +265,8 @@ public class TerminalManager {
                 onNewInput();
             }
 
-//                if (event == null && actionId == EditorInfo.IME_NULL) onNewInput();
-//                if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) onNewInput();
-
             return true;
         });
-//        if(autoLowerFirstChar) {
-//            this.mInputView.setFilters(new InputFilter[] {new InputFilter() {
-//                @Override
-//                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-//                    if (dstart == 0 && dend == 0 && start == 0 && end == 1 && source.length() > 0) {
-//                        return TextUtils.concat(source.toString().toLowerCase().charAt(0) + Tuils.EMPTYSTRING, source.subSequence(1,source.length()));
-//                    }
-//
-//                    return source;
-//                }
-//            }});
-//        }
     }
 
     private void setupNewInput() {
@@ -293,9 +279,9 @@ public class TerminalManager {
         requestInputFocus();
     }
 
-    private boolean onNewInput() {
+    private void onNewInput() {
         if (mInputView == null) {
-            return false;
+            return;
         }
 
         Spannable input = mInputView.getText();
@@ -324,16 +310,6 @@ public class TerminalManager {
 
 //        DO NOT USE THE INTENT APPROACH
 //        apps are not launching properly, when one has been launched, an other attempt will show always the same
-//
-//        Intent intent = new Intent(MainManager.ACTION_EXEC);
-//        intent.putExtra(MainManager.CMD, cmd);
-//        intent.putExtra(MainManager.CMD_COUNT, MainManager.commandCount);
-//
-//        Parcelable p = null;
-//        if(obj instanceof Parcelable) p = (Parcelable) obj;
-//        intent.putExtra(MainManager.PARCELABLE, p);
-//
-//        LocalBroadcastManager.getInstance(mContext.getApplicationContext()).sendBroadcast(intent);
 
         executer.execute(cmd, obj);
 
@@ -342,7 +318,6 @@ public class TerminalManager {
 
         setupNewInput();
 
-        return true;
     }
 
     public void setOutput(CharSequence output, int type) {

@@ -76,8 +76,8 @@ public class LongClickableSpan extends ClickableSpan {
         if(execute(widget, longClickO, longIntentKey) && longPressVibrateDuration > 0) ((Vibrator) widget.getContext().getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(longPressVibrateDuration);
     }
 
-    private static boolean execute(View v, Object o) {
-        return execute(v, o, null);
+    private static void execute(View v, Object o) {
+        execute(v, o, null);
     }
 
     private static boolean execute(final View v, Object o, String intentKey) {
@@ -134,20 +134,17 @@ public class LongClickableSpan extends ClickableSpan {
                 menu.setOnMenuItemClickListener(item -> {
                     int id = item.getItemId();
 
-                    switch (id) {
-                        case R.id.exclude_app:
-                            NotificationManager.setState(n.pkg, false);
-                            break;
-                        case R.id.exclude_notification:
-                            Tuils.log(n.text);
-                            NotificationManager.addFilter(n.text, -1);
-                            break;
-                        case R.id.reply_notification:
-                            Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
-                            intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
+                    if (id == R.id.exclude_app) {
+                        NotificationManager.setState(n.pkg, false);
+                    } else if (id == R.id.exclude_notification) {
+                        Tuils.log(n.text);
+                        NotificationManager.addFilter(n.text, -1);
+                    } else if (id == R.id.reply_notification) {
+                        Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
+                        intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
 
-                            LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
-                        default:
+                        LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
+                    } else {
                             return false;
                     }
 

@@ -179,7 +179,7 @@ public class SuggestionRunnable implements Runnable {
                 }
 
                 if(bgColor != Integer.MAX_VALUE) sggView.setBackgroundColor(bgColor);
-                else sggView.setBackgroundDrawable(getSuggestionBg(pack.context, s.type));
+                else sggView.setBackground(getSuggestionBg(pack.context, s.type));
                 if(foreColor != Integer.MAX_VALUE) sggView.setTextColor(foreColor);
                 else sggView.setTextColor(getSuggestionTextColor(s.type));
 //                end bg and fore

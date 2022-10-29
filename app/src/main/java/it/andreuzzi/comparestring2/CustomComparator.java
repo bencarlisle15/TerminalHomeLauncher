@@ -39,8 +39,10 @@ public class CustomComparator <T extends CompareItem> implements Comparator<T> {
     public int compare(T o1, T o2) {
         if(o1.r == o2.r) {
             try {
-                return ((Comparable) o1.o).compareTo(o2.o);
-            } catch(Exception exc) {}
+                return o1.o.getString().compareTo(o2.o.getString());
+            } catch(Exception exc) {
+                exc.printStackTrace();
+            }
             
             return o1.o.getLowercaseString().compareTo(o2.o.getLowercaseString());
 	} else if(biggerIsBetter) {

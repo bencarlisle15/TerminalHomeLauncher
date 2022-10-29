@@ -257,7 +257,9 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
         } else {
             try {
                 stopService(keeperIntent);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         boolean fullscreen = XMLPrefsManager.getBoolean(Ui.fullscreen);
@@ -326,10 +328,6 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
 
         ViewGroup mainView = findViewById(R.id.mainview);
 
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !XMLPrefsManager.getBoolean(Ui.ignore_bar_color) && !XMLPrefsManager.getBoolean(Ui.statusbar_light_icons)) {
-//            mainView.setSystemUiVisibility(0);
-//        }
-
         if(!XMLPrefsManager.getBoolean(Ui.ignore_bar_color) && !XMLPrefsManager.getBoolean(Ui.statusbar_light_icons)) {
             mainView.setSystemUiVisibility(mainView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -378,7 +376,9 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
         try {
             LocalBroadcastManager.getInstance(this.getApplicationContext()).unregisterReceiver(privateIOReceiver);
             getApplicationContext().unregisterReceiver(publicIOReceiver);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             stopService(new Intent(this, NotificationMonitorService.class));
@@ -540,7 +540,9 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
 
                                     try {
                                         sleep(2000);
-                                    } catch (InterruptedException e) {}
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
 
                                     runOnUiThread(stopActivity);
                                 }
@@ -558,9 +560,6 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
                     }
                     break;
                 case LOCATION_REQUEST_PERMISSION:
-//                    Intent i = new Intent(UIManager.ACTION_WEATHER_GOT_PERMISSION);
-//                    i.putExtra(XMLPrefsManager.VALUE_ATTRIBUTE, grantResults[0]);
-//                    LocalBroadcastManager.getInstance(this.getApplicationContext()).sendBroadcast(i);
 
                     Intent i = new Intent(TuiLocationManager.ACTION_GOT_PERMISSION);
                     i.putExtra(XMLPrefsManager.VALUE_ATTRIBUTE, grantResults[0]);
@@ -568,7 +567,9 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
 
                     break;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

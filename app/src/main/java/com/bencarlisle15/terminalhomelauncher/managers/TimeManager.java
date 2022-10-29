@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +53,7 @@ public class TimeManager {
                     formats[c] = m.replaceAll(Tuils.EMPTYSTRING);
                 }
 
-                dateFormatList[c] = new SimpleMutableEntry<>(color, new SimpleDateFormat(formats[c]));
+                dateFormatList[c] = new SimpleMutableEntry<>(color, new SimpleDateFormat(formats[c], Locale.getDefault()));
             } catch (Exception e) {
                 Tuils.sendOutput(Color.RED, context,"Invalid time format: " + formats[c]);
                 dateFormatList[c] = dateFormatList[0];

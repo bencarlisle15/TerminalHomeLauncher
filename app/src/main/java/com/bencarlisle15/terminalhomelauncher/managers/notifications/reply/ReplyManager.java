@@ -324,7 +324,9 @@ public class ReplyManager implements XMLPrefsElement {
     public void dispose(Context context) {
         try {
             LocalBroadcastManager.getInstance(context.getApplicationContext()).unregisterReceiver(receiver);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(notificationWears != null) {
             notificationWears.clear();
@@ -414,24 +416,4 @@ public class ReplyManager implements XMLPrefsElement {
         Tuils.sendOutput(context, s);
     }
 
-//    private static class NotificationHolder {
-//        BindedApp app;
-//
-//        List<RemoteInput> remoteInputs;
-//        Bundle bundle;
-//        PendingIntent pendingIntent;
-//
-//        public NotificationHolder(BindedApp app, List<RemoteInput> remoteInputs, Bundle bundle, PendingIntent pendingIntent) {
-//            this.app = app;
-//            this.remoteInputs = remoteInputs;
-//            this.bundle = bundle;
-//            this.pendingIntent = pendingIntent;
-//        }
-//
-//        @Override
-//        public boolean equals(Object obj) {
-//            NotificationHolder h = (NotificationHolder) obj;
-//            return h.app.equals(app);
-//        }
-//    }
 }

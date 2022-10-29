@@ -167,40 +167,6 @@ public class MainManager {
                 .cache(new Cache(mContext.getCacheDir(), 10*1024*1024))
                 .build();
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//
-//                int lat = -90, lon = 0;
-//
-//                for(int j = 0; j < 120; j++) {
-//                    Tuils.log("----------------" + j + "----------------");
-//
-//                    try {
-//                        Request.Builder builder = new Request.Builder()
-//                                .url("http://api.openweathermap.org/data/2.5/weather?lat=" + lat++ + "&lon=" + lon++ + "&appid=1f798f99228596c20ccfda51b9771a86&units=metric")
-//                                .cacheControl(CacheControl.FORCE_NETWORK)
-//                                .get();
-//
-//                        Response response = client.newCall(builder.build()).execute();
-//
-//                        Tuils.log("code", response.code());
-//                        if (!response.isSuccessful()) {
-//                            Tuils.log("not succesfull");
-//                            return;
-//                        }
-//
-//                        InputStream inputStream = response.body().byteStream();
-//                        String json = Tuils.inputStreamToString(inputStream);
-//                        Tuils.log(json);
-//                    } catch (Exception e) {
-//                        Tuils.log(e);
-//                    }
-//                }
-//            }
-//        }.start();
-
         rssManager = new RssManager(mContext, client);
         themeManager = new ThemeManager(client, mContext, c);
         musicManager2 = XMLPrefsManager.getBoolean(Behavior.enable_music) ? new MusicManager2(mContext) : null;

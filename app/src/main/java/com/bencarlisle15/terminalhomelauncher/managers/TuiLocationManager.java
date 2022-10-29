@@ -146,19 +146,16 @@ public class TuiLocationManager {
         }
 
         handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context.getApplicationContext());
+        handler.postDelayed(() -> {
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
-                for(String s : actionsPool) {
-                    Intent i = new Intent(s);
-                    i.putExtra(FAIL, true);
-                    localBroadcastManager.sendBroadcast(i);
-                }
-
-                dispose();
+            for(String s : actionsPool) {
+                Intent i = new Intent(s);
+                i.putExtra(FAIL, true);
+                localBroadcastManager.sendBroadcast(i);
             }
+
+            dispose();
         }, MAX_DELAY);
     }
 

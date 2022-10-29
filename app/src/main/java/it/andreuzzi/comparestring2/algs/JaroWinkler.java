@@ -35,7 +35,6 @@ public class JaroWinkler
      * Instantiate with given threshold to determine when Winkler bonus should
      * be used.
      * Set threshold to a negative value to get the Jaro distance.
-     * @param threshold
      */
     public JaroWinkler(final double threshold) {
         this.threshold = threshold;

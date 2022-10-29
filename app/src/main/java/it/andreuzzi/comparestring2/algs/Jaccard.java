@@ -50,7 +50,6 @@ public class Jaccard extends ShingleBased implements
      * characters), then Jaccard index is computed as |A inter B| / |A union B|.
      * The default value of k is 3.
      *
-     * @param k
      */
     public Jaccard(final int k) {
         super(k);
@@ -89,7 +88,7 @@ public class Jaccard extends ShingleBased implements
         Map<String, Integer> profile2 = getProfile(s2);
 
 
-        Set<String> union = new HashSet<String>();
+        Set<String> union = new HashSet<>();
         union.addAll(profile1.keySet());
         union.addAll(profile2.keySet());
 

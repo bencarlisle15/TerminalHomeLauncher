@@ -35,28 +35,7 @@ import java.util.regex.Pattern;
  * @author francescoandreuzzi
  */
 public class Utils {
-    
-    /*public static void shift(Object[] array, double[] ranks, Object o, double rank, boolean biggerIsBetter) {
-        for(int c = 0; c < array.length; c++) {
-            
-            boolean case1 = biggerIsBetter && rank > ranks[c];
-            boolean case2 = !biggerIsBetter && rank < ranks[c];
-            
-            if(array[c] == null || case1 || case2) {
-                Object temp = array[c];
-                double temp2 = ranks[c];
-                
-                System.arraycopy(array, c, array, c + 1, array.length - (c + 1));
-                System.arraycopy(ranks, c, ranks, c + 1, ranks.length - (c + 1));
-                
-                array[c] = o;
-                ranks[c] = rank;
-                
-                break;
-            }
-        }
-    }*/
-    
+
     /**
      * @param <T>       the class of the returned array
      * @param c         the class that will be used to cast the returned elements
@@ -74,18 +53,7 @@ public class Utils {
         
         return array;
     }
-    
-    /*public static <T> Object[] toArray(Iterable<T> iterable) {
-        List<T> list = new ArrayList<>();
-        
-        Iterator<T> it = iterable.iterator();
-        while(it.hasNext()) {
-            list.add(it.next());
-        }
-        
-        return list.toArray(new Object[list.size()]);
-    }*/
-    
+
     /**
      * 
      * @param items             a sorted array of {@link CompareItem}

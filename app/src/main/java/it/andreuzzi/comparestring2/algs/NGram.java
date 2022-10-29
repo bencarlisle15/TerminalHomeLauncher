@@ -20,7 +20,6 @@ public class NGram implements NormalizedStringDistance {
 
     /**
      * Instantiate with given value for n-gram length.
-     * @param n
      */
     public NGram(final int n) {
         this.n = n;

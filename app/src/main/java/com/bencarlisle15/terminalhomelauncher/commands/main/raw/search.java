@@ -198,48 +198,6 @@ public class search extends ParamCommand {
         return Tuils.EMPTYSTRING;
     }
 
-//    private static String file(final List<String> args, final File cd, final Resources res, final Outputable outputable) {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//
-//                String name = Tuils.toPlanString(args);
-//                List<String> paths = rightPaths(cd, name);
-//                if(paths.size() == 0) {
-//                    outputable.onOutput(res.getString(R.string.output_nothing_found));
-//                } else {
-//                    outputable.onOutput(Tuils.toPlanString(paths, Tuils.NEWLINE));
-//                }
-//            }
-//        };
-//
-//        return Tuils.EMPTYSTRING;
-//    }
-//
-//    private static List<String> rightPaths(File dir, String name) {
-//        File[] files = dir.listFiles();
-//        List<String> rightPaths = new ArrayList<>(files.length);
-//
-//        boolean check = false;
-//        for (File file : files) {
-//            if (fileMatch(file, name)) {
-//                if (!check)
-//                    rightPaths.add(dir.getAbsolutePath());
-//                check = true;
-//                rightPaths.add(Tuils.NEWLINE + Tuils.DOUBLE_SPACE + file.getAbsolutePath());
-//            }
-//            if (file.isDirectory())
-//                rightPaths.addAll(rightPaths(file, name));
-//        }
-//
-//        return rightPaths;
-//    }
-//
-//    private static boolean fileMatch(File f, String name) {
-//        return f.getName().equalsIgnoreCase(name);
-//    }
-
     private static String youTube(List<String> args, Context c) {
         try {
             String toSearch = Tuils.toPlanString(args, " ");

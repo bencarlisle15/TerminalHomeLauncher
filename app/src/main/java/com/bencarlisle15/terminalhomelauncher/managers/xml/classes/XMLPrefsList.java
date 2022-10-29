@@ -1,7 +1,5 @@
 package com.bencarlisle15.terminalhomelauncher.managers.xml.classes;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;

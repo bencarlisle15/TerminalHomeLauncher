@@ -104,7 +104,7 @@ public class Shell {
                                    boolean wantSTDERR) {
         String shellUpper = shell.toUpperCase(Locale.ENGLISH);
 
-        List<String> res = Collections.synchronizedList(new ArrayList<String>());
+        List<String> res = Collections.synchronizedList(new ArrayList<>());
 
         try {
             // Combine passed environment with system environment
@@ -178,15 +178,12 @@ public class Shell {
             if (SU.isSU(shell) && (process.exitValue() == 255)) {
                 res = null;
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             // shell probably not found
             Tuils.log(e);
             res = null;
-        } catch (InterruptedException e) {
-            // this should really be re-thrown
-            Tuils.log(e);
-            res = null;
-        }
+        } // this should really be re-thrown
+
 
         return res;
     }
@@ -234,10 +231,9 @@ public class Shell {
          * Runs command and return output
          *
          * @param command The command to run
-         * @return Output of the command, or null in case of an error
          */
-        public static List<String> run(String command) {
-            return Shell.run("sh", new String[]{
+        public static void run(String command) {
+            Shell.run("sh", new String[]{
                     command
             }, null, false);
         }
@@ -424,7 +420,7 @@ public class Shell {
                 if ((display != null) &&
                         (internal != null) &&
                         (display.endsWith("SUPERSU")) &&
-                        (Integer.valueOf(internal) >= 190)) {
+                        (Integer.parseInt(internal) >= 190)) {
                     shell = String.format(Locale.ENGLISH, "%s --context %s", shell, context);
                 }
             }
@@ -1008,11 +1004,6 @@ public class Shell {
             }
         }
 
-        @Override
-        protected void finalize() throws Throwable {
-            super.finalize();
-        }
-
         /**
          * Add a command to execute
          *
@@ -1253,7 +1244,7 @@ public class Shell {
                             // OnCommandResultListener
                             // user should catch the output with an
                             // OnLineListener in this case
-                            buffer = Collections.synchronizedList(new ArrayList<String>());
+                            buffer = Collections.synchronizedList(new ArrayList<>());
                         }
 
                         idle = false;
@@ -1646,16 +1637,15 @@ public class Shell {
          * handlers
          * </p>
          *
-         * @return True if wait complete, false if wait interrupted
          */
-        public boolean waitForIdle() {
+        public void waitForIdle() {
             if (isRunning()) {
                 synchronized (idleSync) {
                     while (!idle) {
                         try {
                             idleSync.wait();
                         } catch (InterruptedException e) {
-                            return false;
+                            return;
                         }
                     }
                 }
@@ -1675,14 +1665,13 @@ public class Shell {
                             try {
                                 callbackSync.wait();
                             } catch (InterruptedException e) {
-                                return false;
+                                return;
                             }
                         }
                     }
                 }
             }
 
-            return true;
         }
 
         /**

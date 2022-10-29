@@ -25,10 +25,6 @@ public class Command {
             Param param = (Param) mArgs[0];
 
             int[] args = param.args();
-//            if(args == null || mArgs[0] instanceof String) {
-//                if(((String) mArgs[0]).length() == 0) return cmd.onNotArgEnough(info, 0);
-//                else return resources.getString(R.string.output_invalid_param) + Tuils.SPACE + mArgs[0];
-//            }
 
             if(indexNotFound != -1) {
                 return param.onArgNotFound(info, indexNotFound);

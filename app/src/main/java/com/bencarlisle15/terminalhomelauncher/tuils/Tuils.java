@@ -412,98 +412,6 @@ public class Tuils {
         }
     }
 
-//    static final int WEATHER_TIMEOUT = 6000;
-//    public static boolean location(Context context, final ArgsRunnable whenFound, final Runnable notFound, final Handler handler) {
-//        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//        if(locationManager == null) return false;
-//
-//        final LocationListener locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                whenFound.run(location.getLatitude(), location.getLongitude());
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {
-//            }
-//
-//            @Override
-//            public void onProviderEnabled(String provider) {
-//            }
-//
-//            @Override
-//            public void onProviderDisabled(String provider) {
-//            }
-//        };
-//
-//        boolean gpsProvider = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        boolean networkProvider = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//        boolean passiveProvider = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-//
-//        if (!gpsStatus && !networkStatus) return false;
-//
-//        try {
-//            locationManager.requestSingleUpdate(gpsStatus ? LocationManager.GPS_PROVIDER : LocationManager.NETWORK_PROVIDER, locationListener, Looper.getMainLooper());
-//        } catch (SecurityException e) {
-//            Tuils.log(e);
-//            Tuils.toFile(e);
-//            return false;
-//        }
-//
-//        Location location;
-//        try {
-//            Location[] ls = {
-//                    locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER),
-//                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER),
-//                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)};
-//
-//            location = ls[0];
-//            for(int c = 1; c < ls.length; c++) {
-//                if(location == null) location = ls[c];
-//                else if(ls[c] != null && location.getTime() < ls[c].getTime()) location = ls[c];
-//            }
-//        } catch (SecurityException e) {
-//            Tuils.toFile(e);
-//            return false;
-//        }
-//
-//        if(handler != null) {
-//            handler.postDelayed(notFound, WEATHER_TIMEOUT);
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if(locationManager != null) locationManager.removeUpdates(locationListener);
-//                }
-//            }, WEATHER_TIMEOUT);
-//        }
-//
-//        return true;
-//    }
-
-//    public static Location getLocation(Context context) {
-//        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-//        if(locationManager == null) return null;
-//
-//        Location location;
-//        try {
-//            Location[] ls = {
-//                    locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER),
-//                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER),
-//                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)};
-//
-//            location = ls[0];
-//            for(int c = 1; c < ls.length; c++) {
-//                if(location == null) location = ls[c];
-//                else if(ls[c] != null && location.getTime() < ls[c].getTime()) location = ls[c];
-//            }
-//
-//            return location;
-//        } catch (SecurityException e) {
-//            Tuils.toFile(e);
-//            return null;
-//        }
-//    }
-
     public static double getTotalExternalMemorySize(int unit) {
         try {
             return getTotalSpace(XMLPrefsManager.get(File.class, Behavior.external_storage_path), unit);
@@ -1044,16 +952,6 @@ public class Tuils {
     public static void toFile(Object o) {
         if (o == null) return;
 
-//            RandomAccessFile f = new RandomAccessFile(new File(Tuils.getFolder(), "crash.txt"), "rw");
-//            f.seek(0);
-//            f.write((new Date().toString() + Tuils.NEWLINE + Tuils.NEWLINE).getBytes());
-//            OutputStream is = Channels.newOutputStream(f.getChannel());
-//            e.printStackTrace(new PrintStream(is));
-//            f.write((Tuils.NEWLINE + Tuils.NEWLINE).getBytes());
-//
-//            is.close();
-//            f.close();
-
         try {
             FileOutputStream stream = new FileOutputStream(new File(Tuils.getFolder(), "crash.txt"));
             stream.write((Tuils.NEWLINE + Tuils.NEWLINE).getBytes());
@@ -1398,8 +1296,8 @@ public class Tuils {
         }
     }
 
-    public static void setCursorDrawableColor(EditText editText, int color) {
-        //todo fix this
+    public static void setCursorDrawableColor(Context context, EditText editText, int color) {
+//        todo remove reflection
         try {
             Field fCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
             fCursorDrawableRes.setAccessible(true);
@@ -1411,8 +1309,8 @@ public class Tuils {
             Field fCursorDrawable = clazz.getDeclaredField("mCursorDrawable");
             fCursorDrawable.setAccessible(true);
             Drawable[] drawables = new Drawable[2];
-            drawables[0] = editText.getContext().getResources().getDrawable(mCursorDrawableRes);
-            drawables[1] = editText.getContext().getResources().getDrawable(mCursorDrawableRes);
+            drawables[0] = editText.getContext().getResources().getDrawable(mCursorDrawableRes, context.getTheme());
+            drawables[1] = editText.getContext().getResources().getDrawable(mCursorDrawableRes, context.getTheme());
             drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
             drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
             fCursorDrawable.set(editor, drawables);

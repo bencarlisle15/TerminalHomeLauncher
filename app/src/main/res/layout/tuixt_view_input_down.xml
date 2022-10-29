@@ -28,6 +28,8 @@
             android:imeOptions="actionGo|flagNoFullscreen"
             android:textCursorDrawable="@drawable/cursor"
 
+            android:hint="@string/command_input"
+
             android:lines="1"
             android:singleLine="true"
             android:inputType="text"
@@ -65,6 +67,8 @@
         android:inputType="textFilter|textMultiLine"
         android:isScrollContainer="true"
         android:textCursorDrawable="@drawable/cursor"
+
+        android:hint="@string/command_output"
 
         android:background="@null"
         android:autofillHints="" />

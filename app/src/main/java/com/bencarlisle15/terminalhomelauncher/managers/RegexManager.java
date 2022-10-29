@@ -122,13 +122,7 @@ public class RegexManager {
     }
 
     private void rmFromList(int id) {
-        Iterator<Regex> iterator = regexes.iterator();
-        while (iterator.hasNext()) {
-            Regex r = iterator.next();
-            if(r.id == id) {
-                iterator.remove();
-            }
-        }
+        regexes.removeIf(r -> r.id == id);
     }
 
 //    null: all good

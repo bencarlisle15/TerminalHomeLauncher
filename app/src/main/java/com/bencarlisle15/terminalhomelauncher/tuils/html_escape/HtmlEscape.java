@@ -173,9 +173,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -214,9 +214,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -257,9 +257,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -298,9 +298,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -387,9 +387,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -431,9 +431,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -477,9 +477,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -521,9 +521,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -619,9 +619,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -663,9 +663,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -709,9 +709,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -753,9 +753,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -850,9 +850,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -894,9 +894,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML5_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -939,9 +939,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_2_ALL_NON_ASCII_PLUS_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.
@@ -982,9 +982,9 @@ public final class HtmlEscape {
      * </p>
      * <ul>
      *   <li><tt>type</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeType#HTML4_NAMED_REFERENCES_DEFAULT_TO_DECIMAL}</li>
+     *       </li>
      *   <li><tt>level</tt>:
-     *       {@link org.unbescape.html.HtmlEscapeLevel#LEVEL_1_ONLY_MARKUP_SIGNIFICANT}</li>
+     *       </li>
      * </ul>
      * <p>
      *   This method is <strong>thread-safe</strong>.

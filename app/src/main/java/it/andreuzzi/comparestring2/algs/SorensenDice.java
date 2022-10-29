@@ -47,7 +47,6 @@ public class SorensenDice extends ShingleBased implements
      * (|A| + |B|). Attention: Sorensen-Dice distance (and similarity) does not
      * satisfy triangle inequality.
      *
-     * @param k
      */
     public SorensenDice(final int k) {
         super(k);
@@ -90,7 +89,7 @@ public class SorensenDice extends ShingleBased implements
         Map<String, Integer> profile1 = getProfile(s1);
         Map<String, Integer> profile2 = getProfile(s2);
 
-        Set<String> union = new HashSet<String>();
+        Set<String> union = new HashSet<>();
         union.addAll(profile1.keySet());
         union.addAll(profile2.keySet());
 

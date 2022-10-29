@@ -237,7 +237,7 @@ public class TuixtActivity extends Activity {
         if (firstAccess) {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(FIRSTACCESS_KEY, false);
-            editor.commit();
+            editor.apply();
 
             String helpString = "help";
             inputView.setText(helpString);

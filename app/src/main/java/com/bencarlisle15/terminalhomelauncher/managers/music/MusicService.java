@@ -1,6 +1,8 @@
 package com.bencarlisle15.terminalhomelauncher.managers.music;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentUris;
@@ -32,6 +34,8 @@ public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener {
 
     public static final int NOTIFY_ID=100001;
+
+    private static final String CHANNEL_ID = "music_service";
 
     private MediaPlayer player;
     private List<Song> songs;
@@ -162,8 +166,16 @@ public class MusicService extends Service implements
         Intent notIntent = new Intent(context, LauncherActivity.class);
         PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Music Service", NotificationManager.IMPORTANCE_LOW);
+            channel.setDescription("Music service notification");
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
         Notification not;
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setContentIntent(pendInt)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(songTitle)
@@ -210,11 +222,15 @@ public class MusicService extends Service implements
     public void stop() {
         try {
             player.stop();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             player.release();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         setSong(0);
     }

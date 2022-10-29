@@ -1,9 +1,5 @@
 package com.bencarlisle15.terminalhomelauncher.managers.notifications;
 
-/**
- * Created by francescoandreuzzi on 03/09/2017.
- */
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;

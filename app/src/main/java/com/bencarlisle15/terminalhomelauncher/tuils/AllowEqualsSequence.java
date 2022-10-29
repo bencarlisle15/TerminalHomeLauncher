@@ -42,7 +42,7 @@ public class AllowEqualsSequence {
             else if(o.size() > 0) break;
         }
 
-        return o.toArray(new Object[o.size()]);
+        return o.toArray(new Object[0]);
     }
 
     public int getMaxKey() {

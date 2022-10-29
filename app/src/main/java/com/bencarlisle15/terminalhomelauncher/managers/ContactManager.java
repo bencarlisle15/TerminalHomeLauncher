@@ -1,6 +1,7 @@
 package com.bencarlisle15.terminalhomelauncher.managers;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,15 +12,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import androidx.annotation.NonNull;
-//import android.support.v4.app.ActivityCompat;
-//import android.support.v4.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import it.andreuzzi.comparestring2.StringableObject;
@@ -70,6 +68,7 @@ public class ContactManager {
         }
 
         new StoppableThread() {
+            @SuppressLint("Range")
             @Override
             public void run() {
                 super.run();
@@ -133,11 +132,7 @@ public class ContactManager {
                     phones.close();
                 }
 
-                Iterator<Contact> iterator = contacts.iterator();
-                while(iterator.hasNext()) {
-                    Contact c = iterator.next();
-                    if(c.numbers.size() == 0) iterator.remove();
-                }
+                contacts.removeIf(c -> c.numbers.size() == 0);
 
                 Collections.sort(contacts);
             }
@@ -209,7 +204,9 @@ public class ContactManager {
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] {id},
                 null);
 
-        if(mCursor == null || mCursor.getCount() == 0) {
+        if(mCursor == null) {
+            return null;
+        } else if (mCursor.getCount() == 0) {
             mCursor.close();
             return null;
         }
@@ -273,8 +270,8 @@ public class ContactManager {
         return null;
     }
 
-    public boolean delete(String phone) {
-        return context.getContentResolver().delete(fromPhone(phone), null, null) > 0;
+    public void delete(String phone) {
+        context.getContentResolver().delete(fromPhone(phone), null, null);
     }
 
     public Uri fromPhone(String phone) {

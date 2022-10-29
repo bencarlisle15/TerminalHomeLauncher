@@ -294,7 +294,7 @@
     <string name="help_search">-gg [search this…] -> Google Search
         \n-ps [search this…] -> Google Play Store
         \n-u [URL] -> open the URL
-        \n-yt [search this...] -> YouTube
+        \n-yt [search this…] -> YouTube
         \n-dd [search this...] -> DuckDuck Go
     </string>
     <string name="help_share">$ share [pathToFile]
@@ -417,5 +417,7 @@
     <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="paste">Paste</string>
+    <string name="command_output">Command Output</string>
+    <string name="command_input">Command Input</string>
 
 </resources>

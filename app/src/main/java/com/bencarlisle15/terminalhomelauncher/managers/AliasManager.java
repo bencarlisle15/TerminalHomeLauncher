@@ -61,12 +61,16 @@ public class AliasManager {
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
 
-                if(action.equals(ACTION_ADD)) {
-                    add(context, intent.getStringExtra(NAME), intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE));
-                } else if(action.equals(ACTION_RM)) {
-                    remove(context, intent.getStringExtra(NAME));
-                } else if(action.equals(ACTION_LS)) {
-                    Tuils.sendOutput(context, printAliases());
+                switch (action) {
+                    case ACTION_ADD:
+                        add(context, intent.getStringExtra(NAME), intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE));
+                        break;
+                    case ACTION_RM:
+                        remove(context, intent.getStringExtra(NAME));
+                        break;
+                    case ACTION_LS:
+                        Tuils.sendOutput(context, printAliases());
+                        break;
                 }
             }
         };
@@ -94,7 +98,7 @@ public class AliasManager {
 //    [2] = residualString
     public String[] getAlias(String alias, boolean supportSpaces) {
         if(supportSpaces) {
-            String args = Tuils.EMPTYSTRING;
+            StringBuilder args = new StringBuilder(Tuils.EMPTYSTRING);
 
             String aliasValue;
             while (true) {
@@ -104,13 +108,13 @@ public class AliasManager {
                     int index = alias.lastIndexOf(Tuils.SPACE);
                     if(index == -1) return new String[] {null, null, alias};
 
-                    args = alias.substring(index + 1) + Tuils.SPACE + args;
-                    args = args.trim();
+                    args.insert(0, alias.substring(index + 1) + Tuils.SPACE);
+                    args = new StringBuilder(args.toString().trim());
                     alias = alias.substring(0,index);
                 }
             }
 
-            return new String[] {aliasValue, alias, args};
+            return new String[] {aliasValue, alias, args.toString()};
         } else {
             return new String[] {getALias(alias), alias, Tuils.EMPTYSTRING};
         }
@@ -188,25 +192,26 @@ public class AliasManager {
                 String[] splatted = line.split("=");
                 if(splatted.length < 2) continue;
 
-                String name, value = Tuils.EMPTYSTRING;
+                String name;
+                StringBuilder value = new StringBuilder(Tuils.EMPTYSTRING);
                 name = splatted[0];
 
                 for(int c = 1; c < splatted.length; c++) {
-                    value += splatted[c];
-                    if(c != splatted.length - 1) value += "=";
+                    value.append(splatted[c]);
+                    if(c != splatted.length - 1) value.append("=");
                 }
 
                 name = name.trim();
-                value = value.trim();
+                value = new StringBuilder(value.toString().trim());
 
-                if(name.equalsIgnoreCase(value)) {
+                if(name.equalsIgnoreCase(value.toString())) {
                     Tuils.sendOutput(Color.RED, context,
                             context.getString(R.string.output_notaddingalias1) + Tuils.SPACE + name + Tuils.SPACE + context.getString(R.string.output_notaddingalias2));
-                } else if(value.startsWith(name + Tuils.SPACE)) {
+                } else if(value.toString().startsWith(name + Tuils.SPACE)) {
                     Tuils.sendOutput(Color.RED, context,
                             context.getString(R.string.output_notaddingalias1) + Tuils.SPACE + name + Tuils.SPACE + context.getString(R.string.output_notaddingalias3));
                 } else {
-                    aliases.add(new Alias(name, value, parameterPattern));
+                    aliases.add(new Alias(name, value.toString(), parameterPattern));
                 }
             }
         } catch (Exception e) {

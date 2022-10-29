@@ -1,9 +1,5 @@
 package com.bencarlisle15.terminalhomelauncher.managers.notifications;
 
-/**
- * Created by francescoandreuzzi on 27/04/2017.
- */
-
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -198,7 +194,9 @@ public class NotificationService extends NotificationListenerService {
                                         try {
                                             int l = Integer.parseInt(length);
                                             stringed = stringed.substring(0,l);
-                                        } catch (Exception e) {}
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
                                         try {
                                             text = Tuils.span(stringed, Color.parseColor(color));
@@ -216,9 +214,6 @@ public class NotificationService extends NotificationListenerService {
                             if(notificationManager.match(text)) continue;
 
                             int found = isInPastNotifications(pack, text);
-//                        if(found == 0) {
-//                            Tuils.log("app " + pack, pastNotifications.get(pack).toString());
-//                        }
 
                             if(found == 2) continue;
 
@@ -247,9 +242,6 @@ public class NotificationService extends NotificationListenerService {
                             } catch (Exception e) {
                                 Tuils.log(e);
                             }
-
-//                        Tuils.log("text", text);
-//                        Tuils.log("--------");
 
                             Tuils.sendOutput(NotificationService.this.getApplicationContext(), s, TerminalManager.CATEGORY_NO_COLOR, click ? notification.contentIntent : null, longClick ? n : null);
 
@@ -288,10 +280,7 @@ public class NotificationService extends NotificationListenerService {
                 for (Map.Entry<String, List<Notification>> entry : pastNotifications.entrySet()) {
                     List<Notification> notifications = entry.getValue();
 
-                    Iterator<Notification> it = notifications.iterator();
-                    while (it.hasNext()) {
-                        if (now - it.next().time >= UPDATE_TIME) it.remove();
-                    }
+                    notifications.removeIf(notification -> now - notification.time >= UPDATE_TIME);
                 }
 
                 handler.postDelayed(this, UPDATE_TIME);
@@ -344,13 +333,6 @@ public class NotificationService extends NotificationListenerService {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-//        ondestroy won't ever be called
-    }
-
-    @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         if(!enabled) return;
 
@@ -365,7 +347,9 @@ public class NotificationService extends NotificationListenerService {
             List<Notification> notifications = pastNotifications.get(pkg);
             if(notifications == null) return 1;
             for(Notification n : notifications) if(n.text.equals(text)) return 2;
-        } catch (ConcurrentModificationException e) {}
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 

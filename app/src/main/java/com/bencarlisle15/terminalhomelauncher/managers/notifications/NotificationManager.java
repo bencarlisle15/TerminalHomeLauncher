@@ -230,7 +230,9 @@ public class NotificationManager implements XMLPrefsElement {
                         break;
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         default_app_state = XMLPrefsManager.getBoolean(Notifications.app_notification_enabled_default);

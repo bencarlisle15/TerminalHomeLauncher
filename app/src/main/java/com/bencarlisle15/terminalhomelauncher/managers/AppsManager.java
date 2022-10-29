@@ -18,7 +18,6 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Process;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -179,7 +178,6 @@ public class AppsManager implements XMLPrefsElement {
 
     public void fill() {
         final List<LaunchInfo> allApps = createAppMap(context.getPackageManager());
-        Log.e("ALL APPS", allApps + " ");
         hiddenApps = new ArrayList<>();
 
         groups.clear();
@@ -383,7 +381,7 @@ public class AppsManager implements XMLPrefsElement {
 
         Group.sorting = XMLPrefsManager.getInt(Apps.app_groups_sorting);
         for(Group g : groups) g.sort();
-        Collections.sort(groups, (o1, o2) -> Tuils.alphabeticCompare(o1.name(), o2.name()));
+        groups.sort((o1, o2) -> Tuils.alphabeticCompare(o1.name(), o2.name()));
     }
 
     private List<LaunchInfo> createAppMap(PackageManager mgr) {
@@ -471,7 +469,9 @@ public class AppsManager implements XMLPrefsElement {
 
             LaunchInfo app = new LaunchInfo(packageName, activity, label);
             appsHolder.add(app);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void appUninstalled(String packageName) {
@@ -499,9 +499,6 @@ public class AppsManager implements XMLPrefsElement {
 
         for(LaunchInfo i : infos) appsHolder.remove(i);
 
-//        for(Group g : groups) {
-//            removeAppFromGroup(g.getName(), packageName);
-//        }
     }
 
     public LaunchInfo findLaunchInfoWithLabel(String label, int type) {
@@ -551,7 +548,7 @@ public class AppsManager implements XMLPrefsElement {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
     }
 
-    public String hideActivity(LaunchInfo info) {
+    public void hideActivity(LaunchInfo info) {
         set(file, info.write(), new String[] {SHOW_ATTRIBUTE}, new String[] {false + Tuils.EMPTYSTRING});
 
         appsHolder.remove(info);
@@ -559,17 +556,15 @@ public class AppsManager implements XMLPrefsElement {
         hiddenApps.add(info);
         AppUtils.checkEquality(hiddenApps);
 
-        return info.publicLabel;
     }
 
-    public String showActivity(LaunchInfo info) {
+    public void showActivity(LaunchInfo info) {
         set(file, info.write(), new String[]{SHOW_ATTRIBUTE}, new String[]{true + Tuils.EMPTYSTRING});
 
         hiddenApps.remove(info);
         appsHolder.add(info);
         appsHolder.update(false);
 
-        return info.publicLabel;
     }
 
     public String createGroup(String name) {
@@ -693,49 +688,6 @@ public class AppsManager implements XMLPrefsElement {
         return null;
     }
 
-//    public String removeAppFromGroup(String group, String app) {
-//        Object[] o;
-//        try {
-//            o = XMLPrefsManager.buildDocument(file, NAME);
-//        } catch (Exception e) {
-//            return e.toString();
-//        }
-//
-//        Document d = (Document) o[0];
-//        Element root = (Element) o[1];
-//
-//        Node node = XMLPrefsManager.findNode(root, group);
-//        if(node == null) return context.getString(R.string.output_groupnotfound);
-//
-//        Element e = (Element) node;
-//
-//        String apps = e.getAttribute(APPS_ATTRIBUTE);
-//        if(apps == null) return null;
-//
-//        if(!apps.contains(app)) return null;
-//
-//        String temp = Pattern.compile(app.replaceAll(".", "\\.") + "(" + LaunchInfo.COMPONENT_SEPARATOR + "[^\\" + APPS_SEPARATOR + "]+)?").matcher(apps).replaceAll(Tuils.EMPTYSTRING);
-//        if(temp.length() < apps.length()) {
-//            apps = temp;
-//
-//            apps = apps.replaceAll(APPS_SEPARATOR + APPS_SEPARATOR, APPS_SEPARATOR);
-//            if(apps.startsWith(APPS_SEPARATOR)) apps = apps.substring(1);
-//            if(apps.endsWith(APPS_SEPARATOR)) apps = apps.substring(0, apps.length() - 1);
-//
-//            e.setAttribute(APPS_ATTRIBUTE, apps);
-//
-//            XMLPrefsManager.writeTo(d, file);
-//
-//            int index = Tuils.find(group, groups);
-//            if(index != -1) {
-//                Group g = groups.get(index);
-//                g.remove(app);
-//            }
-//        }
-//
-//        return null;
-//    }
-
     public String listGroup(String group) {
         Object[] o;
         try {
@@ -758,7 +710,7 @@ public class AppsManager implements XMLPrefsElement {
         String apps = e.getAttribute(APPS_ATTRIBUTE);
         if(apps == null) return "[]";
 
-        String labels = Tuils.EMPTYSTRING;
+        StringBuilder labels = new StringBuilder(Tuils.EMPTYSTRING);
 
         PackageManager manager = context.getPackageManager();
         String[] split = apps.split(APPS_SEPARATOR);
@@ -782,10 +734,10 @@ public class AppsManager implements XMLPrefsElement {
                 }
             }
 
-            labels = labels + Tuils.NEWLINE + label;
+            labels.append(Tuils.NEWLINE).append(label);
         }
 
-        return labels.trim();
+        return labels.toString().trim();
     }
 
     public String listGroups() {
@@ -802,7 +754,7 @@ public class AppsManager implements XMLPrefsElement {
 
         Element root = (Element) o[1];
 
-        String groups = Tuils.EMPTYSTRING;
+        StringBuilder groups = new StringBuilder(Tuils.EMPTYSTRING);
 
         NodeList list = root.getElementsByTagName("*");
         for(int count = 0; count < list.getLength(); count++) {
@@ -812,11 +764,11 @@ public class AppsManager implements XMLPrefsElement {
             Element e = (Element) node;
             if(!e.hasAttribute(APPS_ATTRIBUTE)) continue;
 
-            groups = groups + Tuils.NEWLINE + e.getNodeName();
+            groups.append(Tuils.NEWLINE).append(e.getNodeName());
         }
 
         if(groups.length() == 0) return "[]";
-        return groups.trim();
+        return groups.toString().trim();
     }
 
     public List<LaunchInfo> shownApps() {
@@ -975,7 +927,7 @@ public class AppsManager implements XMLPrefsElement {
         }
 
         public void sort() {
-            Collections.sort(apps, comparator);
+            apps.sort(comparator);
         }
 
         public boolean contains(LaunchInfo info) {
@@ -1300,7 +1252,7 @@ public class AppsManager implements XMLPrefsElement {
                 List<LaunchInfo> list = new ArrayList<>();
 
                 List<SuggestedApp> cp = new ArrayList<>(suggested);
-                Collections.sort(cp, (o1, o2) -> o1.index - o2.index);
+                cp.sort(Comparator.comparingInt(o -> o.index));
 
                 for(int count = 0; count < cp.size(); count++) {
                     SuggestedApp app = cp.get(count);
@@ -1309,25 +1261,7 @@ public class AppsManager implements XMLPrefsElement {
                 return list;
             }
 
-//            public List<String> labels() {
-//                List<LaunchInfo> list = new ArrayList<>();
-//
-//                List<SuggestedApp> cp = new ArrayList<>(suggested);
-//                Collections.sort(cp, new Comparator<SuggestedApp>() {
-//                    @Override
-//                    public int compare(SuggestedApp o1, SuggestedApp o2) {
-//                        return o1.index - o2.index;
-//                    }
-//                });
-//
-//                for(int count = 0; count < cp.size(); count++) {
-//                    SuggestedApp app = cp.get(count);
-//                    if(app.type != NULL && app.app != null) list.add(app.app);
-//                }
-//                return AppUtils.labelList(list, false);
-//            }
-
-            private class SuggestedApp implements Comparable {
+            private class SuggestedApp implements Comparable<SuggestedApp> {
                 final int type;
                 LaunchInfo app;
                 final int index;
@@ -1342,9 +1276,8 @@ public class AppsManager implements XMLPrefsElement {
                     this.index = index;
                 }
 
-                public SuggestedApp change(LaunchInfo info) {
+                public void change(LaunchInfo info) {
                     this.app = info;
-                    return this;
                 }
 
                 @Override
@@ -1363,9 +1296,7 @@ public class AppsManager implements XMLPrefsElement {
                 }
 
                 @Override
-                public int compareTo(@NonNull Object o) {
-                    SuggestedApp other = (SuggestedApp) o;
-
+                public int compareTo(@NonNull SuggestedApp other) {
                     if(this.type == USER_DEFINIED || other.type == USER_DEFINIED) {
                         if(this.type == USER_DEFINIED && other.type == USER_DEFINIED) return other.app.launchedTimes - this.app.launchedTimes;
                         if(this.type == USER_DEFINIED) return 1;
@@ -1383,7 +1314,7 @@ public class AppsManager implements XMLPrefsElement {
             }
         }
 
-        final Comparator<LaunchInfo> mostUsedComparator = (lhs, rhs) -> rhs.launchedTimes > lhs.launchedTimes ? -1 : rhs.launchedTimes == lhs.launchedTimes ? 0 : 1;
+        final Comparator<LaunchInfo> mostUsedComparator = (lhs, rhs) -> Integer.compare(lhs.launchedTimes, rhs.launchedTimes);
 
         public AppsHolder(List<LaunchInfo> infos, XMLPrefsList values) {
             this.infos = infos;
@@ -1405,8 +1336,10 @@ public class AppsManager implements XMLPrefsElement {
 
         private void sort() {
             try {
-                Collections.sort(infos, mostUsedComparator);
-            } catch (NullPointerException e) {}
+                infos.sort(mostUsedComparator);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
 
         private void fillSuggestions() {
@@ -1588,7 +1521,7 @@ public class AppsManager implements XMLPrefsElement {
 
             List<String> list = new ArrayList<>(apps);
 
-            Collections.sort(list, Tuils::alphabeticCompare);
+            list.sort(Tuils::alphabeticCompare);
 
             Tuils.addPrefix(list, Tuils.DOUBLE_SPACE);
             Tuils.insertHeaders(list, false);

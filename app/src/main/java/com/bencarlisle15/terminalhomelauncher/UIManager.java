@@ -55,6 +55,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.status;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.HTMLExtractManager;
 import com.bencarlisle15.terminalhomelauncher.managers.NotesManager;
@@ -121,7 +122,7 @@ public class UIManager implements OnTouchListener {
     final SharedPreferences preferences;
 
     private final InputMethodManager imm;
-    private TerminalManager mTerminalAdapter;
+    private final TerminalManager mTerminalAdapter;
 
     int mediumPercentage, lowPercentage;
     String batteryFormat;
@@ -130,14 +131,14 @@ public class UIManager implements OnTouchListener {
     final View toolbarView;
 
     //    never access this directly, use getLabelView
-    private TextView[] labelViews;
+    private final TextView[] labelViews;
 
-    private float[] labelIndexes;
-    private int[] labelSizes;
-    private CharSequence[] labelTexts;
+    private final float[] labelIndexes;
+    private final int[] labelSizes;
+    private final CharSequence[] labelTexts;
 
-    private TextView getLabelView(Label l) {
-        return labelViews[(int) labelIndexes[l.ordinal()]];
+    private TextView getLabelView() {
+        return labelViews[(int) labelIndexes[Label.notes.ordinal()]];
     }
 
     private int notesMaxLines;
@@ -463,10 +464,6 @@ public class UIManager implements OnTouchListener {
         final Pattern ip6 = Pattern.compile("%ip6", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
         final Pattern dt = Pattern.compile("%dt", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
 
-//        final Pattern optionalWifi = Pattern.compile("%\\(([^/]*)/([^)]*)\\)", Pattern.CASE_INSENSITIVE);
-//        final Pattern optionalData = Pattern.compile("%\\[([^/]*)/([^\\]]*)\\]", Pattern.CASE_INSENSITIVE);
-//        final Pattern optionalBluetooth = Pattern.compile("%\\{([^/]*)/([^}]*)\\}", Pattern.CASE_INSENSITIVE);
-
         Pattern optionalWifi, optionalData, optionalBluetooth;
 
         String format, optionalValueSeparator;
@@ -476,9 +473,6 @@ public class UIManager implements OnTouchListener {
         BluetoothAdapter mBluetoothAdapter;
 
         ConnectivityManager connectivityManager;
-
-        Class cmClass;
-        Method method;
 
         int maxDepth;
         int updateTime;
@@ -509,31 +503,26 @@ public class UIManager implements OnTouchListener {
                 optionalData = Pattern.compile(dataRegex, Pattern.CASE_INSENSITIVE);
 
                 try {
-                    cmClass = Class.forName(connectivityManager.getClass().getName());
-                    method = cmClass.getDeclaredMethod("getMobileDataEnabled");
+                    Class<?> cmClass = Class.forName(connectivityManager.getClass().getName());
+                    Method method = cmClass.getDeclaredMethod("getMobileDataEnabled");
                     method.setAccessible(true);
                 } catch (Exception e) {
-                    cmClass = null;
-                    method = null;
+                    e.printStackTrace();
                 }
             }
 
 //            wifi
-            boolean wifiOn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+            boolean wifiOn = status.isWifiConnected(mContext);
+
             String wifiName = null;
             if (wifiOn) {
-                WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-                if (connectionInfo != null) {
-                    wifiName = connectionInfo.getSSID();
-                }
+                WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+                WifiInfo info = wifiManager.getConnectionInfo();
+                wifiName = info.getSSID();
             }
 
 //            mobile data
-            boolean mobileOn = false;
-            try {
-                mobileOn = method != null && connectivityManager != null && (Boolean) method.invoke(connectivityManager);
-            } catch (Exception e) {
-            }
+            boolean mobileOn = status.isMobileDataConnected(mContext);
 
             String mobileType;
             if (mobileOn) {
@@ -652,32 +641,6 @@ public class UIManager implements OnTouchListener {
 
             String where = XMLPrefsManager.get(Behavior.weather_location);
             if(where == null || where.length() == 0 || (!Tuils.isNumber(where) && !where.contains(","))) {
-//                Tuils.location(mContext, new Tuils.ArgsRunnable() {
-//                    @Override
-//                    public void run() {
-//                        setUrl(
-//                                "lat=" + get(int.class, 0) + "&lon=" + get(int.class, 1),
-//                                finalKey,
-//                                XMLPrefsManager.get(Behavior.weather_temperature_measure));
-//                        WeatherRunnable.this.run();
-//                    }
-//                }, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        updateText(Label.weather, Tuils.span(mContext, mContext.getString(R.string.location_error), XMLPrefsManager.getColor(Theme.weather_color), labelSizes[Label.weather.ordinal()]));
-//                    }
-//                }, handler);
-
-//                Location l = Tuils.getLocation(mContext);
-//                if(l != null) {
-//                    setUrl(
-//                            "lat=" + l.getLatitude() + "&lon=" + l.getLongitude(),
-//                            finalKey,
-//                            XMLPrefsManager.get(Behavior.weather_temperature_measure));
-//                    WeatherRunnable.this.run();
-//                } else {
-//                    updateText(Label.weather, Tuils.span(mContext, mContext.getString(R.string.location_error), XMLPrefsManager.getColor(Theme.weather_color), labelSizes[Label.weather.ordinal()]));
-//                }
 
                 TuiLocationManager l = TuiLocationManager.instance(mContext);
                 l.add(ACTION_WEATHER_GOT_LOCATION);
@@ -803,90 +766,100 @@ public class UIManager implements OnTouchListener {
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
 
-                if(action.equals(ACTION_UPDATE_SUGGESTIONS)) {
-                    if(suggestionsManager != null) suggestionsManager.requestSuggestion(Tuils.EMPTYSTRING);
-                } else if(action.equals(ACTION_UPDATE_HINT)) {
-                    mTerminalAdapter.setDefaultHint();
-                } else if(action.equals(ACTION_ROOT)) {
-                    mTerminalAdapter.onRoot();
-                } else if(action.equals(ACTION_NOROOT)) {
-                    mTerminalAdapter.onStandard();
+                switch (action) {
+                    case ACTION_UPDATE_SUGGESTIONS:
+                        if (suggestionsManager != null)
+                            suggestionsManager.requestSuggestion(Tuils.EMPTYSTRING);
+                        break;
+                    case ACTION_UPDATE_HINT:
+                        mTerminalAdapter.setDefaultHint();
+                        break;
+                    case ACTION_ROOT:
+                        mTerminalAdapter.onRoot();
+                        break;
+                    case ACTION_NOROOT:
+                        mTerminalAdapter.onStandard();
 //                } else if(action.equals(ACTION_CLEAR_SUGGESTIONS)) {
 //                    if(suggestionsManager != null) suggestionsManager.clear();
-                } else if(action.equals(ACTION_LOGTOFILE)) {
-                    String fileName = intent.getStringExtra(FILE_NAME);
-                    if(fileName == null || fileName.contains(File.separator)) return;
+                        break;
+                    case ACTION_LOGTOFILE:
+                        String fileName = intent.getStringExtra(FILE_NAME);
+                        if (fileName == null || fileName.contains(File.separator)) return;
 
-                    File file = new File(Tuils.getFolder(), fileName);
-                    if(file.exists()) file.delete();
+                        File file = new File(Tuils.getFolder(), fileName);
+                        if (file.exists()) file.delete();
 
-                    try {
-                        file.createNewFile();
+                        try {
+                            file.createNewFile();
 
-                        FileOutputStream fos = new FileOutputStream(file);
-                        fos.write(mTerminalAdapter.getTerminalText().getBytes());
+                            FileOutputStream fos = new FileOutputStream(file);
+                            fos.write(mTerminalAdapter.getTerminalText().getBytes());
 
-                        Tuils.sendOutput(context, "Logged to " + file.getAbsolutePath());
-                    } catch (Exception e) {
-                        Tuils.sendOutput(Color.RED, context, e.toString());
-                    }
-                } else if(action.equals(ACTION_CLEAR)) {
-                    mTerminalAdapter.clear();
-                    if (suggestionsManager != null)
-                        suggestionsManager.requestSuggestion(Tuils.EMPTYSTRING);
-                } else if(action.equals(ACTION_WEATHER)) {
-                    Calendar c = Calendar.getInstance();
+                            Tuils.sendOutput(context, "Logged to " + file.getAbsolutePath());
+                        } catch (Exception e) {
+                            Tuils.sendOutput(Color.RED, context, e.toString());
+                        }
+                        break;
+                    case ACTION_CLEAR:
+                        mTerminalAdapter.clear();
+                        if (suggestionsManager != null)
+                            suggestionsManager.requestSuggestion(Tuils.EMPTYSTRING);
+                        break;
+                    case ACTION_WEATHER: {
+                        Calendar c = Calendar.getInstance();
 
-                    CharSequence s = intent.getCharSequenceExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                    if(s == null) s = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                    if(s == null) return;
+                        CharSequence s = intent.getCharSequenceExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                        if (s == null) s = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
+                        if (s == null) return;
 
-                    s = Tuils.span(context, s, weatherColor, labelSizes[Label.weather.ordinal()]);
-
-                    updateText(Label.weather, s);
-
-                    if(showWeatherUpdate) {
-                        String message = context.getString(R.string.weather_updated) + Tuils.SPACE + c.get(Calendar.HOUR_OF_DAY) + "." + c.get(Calendar.MINUTE) + Tuils.SPACE + "(" + lastLatitude + ", " + lastLongitude + ")";
-                        Tuils.sendOutput(context, message, TerminalManager.CATEGORY_OUTPUT);
-                    }
-                } else if(action.equals(ACTION_WEATHER_GOT_LOCATION)) {
-//                    int result = intent.getIntExtra(XMLPrefsManager.VALUE_ATTRIBUTE, 0);
-//                    if(result == PackageManager.PERMISSION_DENIED) {
-//                        updateText(Label.weather, Tuils.span(context, context.getString(R.string.location_error), weatherColor, labelSizes[Label.weather.ordinal()]));
-//                    } else handler.post(weatherRunnable);
-
-                    if(intent.getBooleanExtra(TuiLocationManager.FAIL, false)) {
-                        handler.removeCallbacks(weatherRunnable);
-                        weatherRunnable = null;
-
-                        CharSequence s = Tuils.span(context, context.getString(R.string.location_error), weatherColor, labelSizes[Label.weather.ordinal()]);
+                        s = Tuils.span(context, s, weatherColor, labelSizes[Label.weather.ordinal()]);
 
                         updateText(Label.weather, s);
-                    } else {
-                        lastLatitude = intent.getDoubleExtra(TuiLocationManager.LATITUDE, 0);
-                        lastLongitude = intent.getDoubleExtra(TuiLocationManager.LONGITUDE, 0);
 
-                        location = Tuils.locationName(context, lastLatitude, lastLongitude);
-
-                        if(!weatherPerformedStartupRun || XMLPrefsManager.wasChanged(Behavior.weather_key, false)) {
-                            handler.removeCallbacks(weatherRunnable);
-                            handler.post(weatherRunnable);
+                        if (showWeatherUpdate) {
+                            String message = context.getString(R.string.weather_updated) + Tuils.SPACE + c.get(Calendar.HOUR_OF_DAY) + "." + c.get(Calendar.MINUTE) + Tuils.SPACE + "(" + lastLatitude + ", " + lastLongitude + ")";
+                            Tuils.sendOutput(context, message, TerminalManager.CATEGORY_OUTPUT);
                         }
+                        break;
                     }
-                } else if(action.equals(ACTION_WEATHER_DELAY)) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(System.currentTimeMillis() + 1000 * 10);
+                    case ACTION_WEATHER_GOT_LOCATION:
 
-                    if(showWeatherUpdate) {
-                        String message = context.getString(R.string.weather_error) + Tuils.SPACE + c.get(Calendar.HOUR_OF_DAY) + "." + c.get(Calendar.MINUTE);
-                        Tuils.sendOutput(context, message, TerminalManager.CATEGORY_OUTPUT);
+                        if (intent.getBooleanExtra(TuiLocationManager.FAIL, false)) {
+                            handler.removeCallbacks(weatherRunnable);
+                            weatherRunnable = null;
+
+                            CharSequence s = Tuils.span(context, context.getString(R.string.location_error), weatherColor, labelSizes[Label.weather.ordinal()]);
+
+                            updateText(Label.weather, s);
+                        } else {
+                            lastLatitude = intent.getDoubleExtra(TuiLocationManager.LATITUDE, 0);
+                            lastLongitude = intent.getDoubleExtra(TuiLocationManager.LONGITUDE, 0);
+
+                            location = Tuils.locationName(context, lastLatitude, lastLongitude);
+
+                            if (!weatherPerformedStartupRun || XMLPrefsManager.wasChanged(Behavior.weather_key, false)) {
+                                handler.removeCallbacks(weatherRunnable);
+                                handler.post(weatherRunnable);
+                            }
+                        }
+                        break;
+                    case ACTION_WEATHER_DELAY: {
+                        Calendar c = Calendar.getInstance();
+                        c.setTimeInMillis(System.currentTimeMillis() + 1000 * 10);
+
+                        if (showWeatherUpdate) {
+                            String message = context.getString(R.string.weather_error) + Tuils.SPACE + c.get(Calendar.HOUR_OF_DAY) + "." + c.get(Calendar.MINUTE);
+                            Tuils.sendOutput(context, message, TerminalManager.CATEGORY_OUTPUT);
+                        }
+
+                        handler.removeCallbacks(weatherRunnable);
+                        handler.postDelayed(weatherRunnable, 1000 * 60);
+                        break;
                     }
-
-                    handler.removeCallbacks(weatherRunnable);
-                    handler.postDelayed(weatherRunnable, 1000 * 60);
-                } else if(action.equals(ACTION_WEATHER_MANUAL_UPDATE)) {
-                    handler.removeCallbacks(weatherRunnable);
-                    handler.post(weatherRunnable);
+                    case ACTION_WEATHER_MANUAL_UPDATE:
+                        handler.removeCallbacks(weatherRunnable);
+                        handler.post(weatherRunnable);
+                        break;
                 }
             }
         };
@@ -908,16 +881,6 @@ public class UIManager implements OnTouchListener {
             rootView.setBackgroundColor(XMLPrefsManager.getColor(Theme.bg_color));
         } else {
             rootView.setBackgroundColor(XMLPrefsManager.getColor(Theme.overlay_color));
-        }
-
-//        scrolllllll
-        if(XMLPrefsManager.getBoolean(Behavior.auto_scroll)) {
-            rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-                int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
-                if (heightDiff > Tuils.dpToPx(context, 200)) { // if more than 200 dp, it's probably a keyboard...
-                    if(mTerminalAdapter != null) mTerminalAdapter.scrollToEnd();
-                }
-            });
         }
 
         clearOnLock = XMLPrefsManager.getBoolean(Behavior.clear_on_lock);
@@ -1190,7 +1153,7 @@ public class UIManager implements OnTouchListener {
             handler.post(networkRunnable);
         }
 
-        final TextView notesView = getLabelView(Label.notes);
+        final TextView notesView = getLabelView();
         notesManager = new NotesManager(context, notesView);
         if(show[Label.notes.ordinal()]) {
             notesRunnable = new NotesRunnable();
@@ -1202,8 +1165,6 @@ public class UIManager implements OnTouchListener {
             if(notesMaxLines > 0) {
                 notesView.setMaxLines(notesMaxLines);
                 notesView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-//                notesView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-//                notesView.setVerticalScrollBarEnabled(true);
 
                 if (XMLPrefsManager.getBoolean(Ui.show_scroll_notes_message)) {
                     notesView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -1342,6 +1303,16 @@ public class UIManager implements OnTouchListener {
 
         mTerminalAdapter = new TerminalManager(terminalView, inputView, prefixView, submitView, backView, nextView, deleteView, pasteView, context, mainPack, executer);
 
+//        scrolllllll
+        if(XMLPrefsManager.getBoolean(Behavior.auto_scroll)) {
+            rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
+                if (heightDiff > Tuils.dpToPx(context, 200)) { // if more than 200 dp, it's probably a keyboard...
+                    if(mTerminalAdapter != null) mTerminalAdapter.scrollToEnd();
+                }
+            });
+        }
+
         if (XMLPrefsManager.getBoolean(Suggestions.show_suggestions)) {
             HorizontalScrollView sv = rootView.findViewById(R.id.suggestions_container);
             sv.setFocusable(false);
@@ -1375,15 +1346,13 @@ public class UIManager implements OnTouchListener {
         int[] is = new int[length];
         values = removeSquareBrackets(values);
         String[] split = values.split(",");
-        int c = 0;
-        for(; c < split.length; c++) {
+        for(int c = 0; c < split.length; c++) {
             try {
                 is[c] = Integer.parseInt(split[c]);
             } catch (Exception e) {
                 is[c] = defaultValue;
             }
         }
-        while(c < split.length) is[c] = defaultValue;
 
         return is;
     }
@@ -1422,7 +1391,7 @@ public class UIManager implements OnTouchListener {
             applyMargins(v, spaces);
 
             d.setColor(Color.parseColor(bgColor));
-            v.setBackgroundDrawable(d);
+            v.setBackground(d);
         } catch (Exception e) {
             Tuils.toFile(e);
             Tuils.log(e);
@@ -1445,8 +1414,6 @@ public class UIManager implements OnTouchListener {
             v.setShadowLayer(radius, x, y, Color.parseColor(color));
             v.setTag(OutlineTextView.SHADOW_TAG);
 
-//            if(radius > v.getPaddingTop()) v.setPadding(v.getPaddingLeft(), (int) Math.floor(radius), v.getPaddingRight(), (int) Math.floor(radius));
-//            if(radius > v.getPaddingLeft()) v.setPadding((int) Math.floor(radius), v.getPaddingTop(), (int) Math.floor(radius), v.getPaddingBottom());
         }
     }
 
@@ -1630,9 +1597,6 @@ final Runnable unlockTimeRunnable = new Runnable() {
         public void run() {
 //            Tuils.log("run");
             long delay = nextUnlockCycleRestart - System.currentTimeMillis();
-//            Tuils.log("nucr", nextUnlockCycleRestart);
-//            Tuils.log("now", System.currentTimeMillis());
-//            Tuils.log("delay", delay);
             if(delay <= 0) {
                 unlockTimes = 0;
 

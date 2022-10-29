@@ -325,40 +325,6 @@ public class CommandTuils {
         return new ArgInfo(null, input, false, 0);
     }
 
-//    @SuppressWarnings("unchecked")
-//    private static ArgInfo fileList(String input, File cd) {
-//        List<File> files = new ArrayList<>();
-//        List<String> strings = (List<String>) CommandTuils.textList(input).arg;
-//
-//        String toVerify = Tuils.EMPTYSTRING;
-//        for (int count = 0; count < strings.size(); count++) {
-//            String s = strings.get(count);
-//
-//            toVerify = toVerify.concat(s);
-//
-//            DirInfo dir = CommandTuils.getFile(toVerify, cd);
-//            if (dir.notFound == null) {
-//                files.add(dir.file);
-//
-//                toVerify = Tuils.EMPTYSTRING;
-//                continue;
-//            }
-//
-//            List<File> tempFiles = CommandTuils.attemptWildcard(dir);
-//            if (tempFiles != null) {
-//                files.addAll(tempFiles);
-//
-//                toVerify = Tuils.EMPTYSTRING;
-//                continue;
-//            }
-//
-//            toVerify = toVerify.concat(Tuils.SPACE);
-//        }
-//
-//        if (toVerify.length() > 0) return new ArgInfo(null, null, false, 0);
-//        return new ArgInfo(files, null, files.size() > 0, files.size());
-//    }
-
     private static DirInfo getFile(String path, File cd) {
         return FileManager.cd(cd, path);
     }

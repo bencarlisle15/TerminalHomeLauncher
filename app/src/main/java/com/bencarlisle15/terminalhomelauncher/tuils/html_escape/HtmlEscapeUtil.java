@@ -190,9 +190,9 @@ final class HtmlEscapeUtil {
                 } else if (symbols.NCRS_BY_CODEPOINT_OVERFLOW != null) {
                     // codepoint >= 0x2fff. NCR, if exists, will live at the overflow map (if there is one).
 
-                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(Integer.valueOf(codepoint));
+                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(codepoint);
                     if (ncrIndex != null) {
-                        strBuilder.append(symbols.SORTED_NCRS[ncrIndex.shortValue()]);
+                        strBuilder.append(symbols.SORTED_NCRS[ncrIndex]);
                         continue;
                     } // else, just let it exit the block and let decimal/hexa escape do its job
 
@@ -333,9 +333,9 @@ final class HtmlEscapeUtil {
                 } else if (symbols.NCRS_BY_CODEPOINT_OVERFLOW != null) {
                     // codepoint >= 0x2fff. NCR, if exists, will live at the overflow map (if there is one).
 
-                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(Integer.valueOf(codepoint));
+                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(codepoint);
                     if (ncrIndex != null) {
-                        writer.write(symbols.SORTED_NCRS[ncrIndex.shortValue()]);
+                        writer.write(symbols.SORTED_NCRS[ncrIndex]);
                         continue;
                     } // else, just let it exit the block and let decimal/hexa escape do its job
 
@@ -456,9 +456,9 @@ final class HtmlEscapeUtil {
                 } else if (symbols.NCRS_BY_CODEPOINT_OVERFLOW != null) {
                     // codepoint >= 0x2fff. NCR, if exists, will live at the overflow map (if there is one).
 
-                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(Integer.valueOf(codepoint));
+                    final Short ncrIndex = symbols.NCRS_BY_CODEPOINT_OVERFLOW.get(codepoint);
                     if (ncrIndex != null) {
-                        writer.write(symbols.SORTED_NCRS[ncrIndex.shortValue()]);
+                        writer.write(symbols.SORTED_NCRS[ncrIndex]);
                         continue;
                     } // else, just let it exit the block and let decimal/hexa escape do its job
 

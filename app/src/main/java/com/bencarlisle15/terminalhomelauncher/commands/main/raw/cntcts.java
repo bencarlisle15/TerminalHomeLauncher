@@ -103,12 +103,10 @@ public class cntcts extends ParamCommand {
             public String exec(ExecutePack pack) {
                 String[] about = ((MainPack) pack).contacts.about(pack.getString());
 
-                String builder = about[ContactManager.NAME] + Tuils.NEWLINE +
+                return about[ContactManager.NAME] + Tuils.NEWLINE +
                         "\t\t" + about[ContactManager.NUMBERS].replaceAll(Tuils.NEWLINE, Tuils.NEWLINE + "\t\t") + Tuils.NEWLINE +
                         "ID: " + about[ContactManager.CONTACT_ID] + Tuils.NEWLINE +
                         "Contacted " + about[ContactManager.TIME_CONTACTED] + " time(s)" + Tuils.NEWLINE;
-
-                return builder;
             }
 
             @Override

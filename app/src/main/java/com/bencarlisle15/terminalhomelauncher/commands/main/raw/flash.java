@@ -2,7 +2,10 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,9 +14,20 @@ import com.bencarlisle15.terminalhomelauncher.LauncherActivity;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
-import com.bencarlisle15.terminalhomelauncher.managers.flashlight.TorchManager;
 
 public class flash implements CommandAbstraction {
+
+    private static boolean isTorchOn = false;
+
+    public static void modifyTorchMode(Context context, boolean turnOn) {
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        try {
+            String cameraId = cameraManager.getCameraIdList()[0];
+            cameraManager.setTorchMode(cameraId, turnOn);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public String exec(ExecutePack pack) {
@@ -23,107 +37,12 @@ public class flash implements CommandAbstraction {
             return pack.context.getString(R.string.output_waitingpermission);
         }
 
-        TorchManager.getInstance().toggle(pack.context);
+        isTorchOn ^= true;
 
-//        final MainPack info = (MainPack) pack;
-//        if (!info.canUseFlash) {
-//            return info.res.getString(R.string.output_flashlightnotavailable);
-//        }
-//
-//        final boolean flashOn = info.isFlashOn;
-//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//            info.initCamera();
-//
-//            if(info.camera == null) {
-//                return info.res.getString(R.string.output_problemcamera);
-//            }
-//
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    super.run();
-//
-//                    if (!flashOn) {
-//                        info.parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
-//                        info.camera.setParameters(info.parameters);
-//
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                            setSurfaceTexture(info.camera);
-//                        }
-//
-//                        try {
-//                            info.camera.startPreview();
-//                        } catch (Exception e) {
-//                            info.camera.release();
-//                        }
-//                    } else {
-//                        info.parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
-//                        info.camera.setParameters(info.parameters);
-//
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                            detachSurfaceTexture(info.camera);
-//                        }
-//
-//                        try {
-//                            info.camera.stopPreview();
-//                        } catch (Exception e) {
-//                            info.camera.release();
-//                        }
-//                    }
-//                }
-//            }.start();
-//        } else {
-//            if(!flashOn) {
-//                flashOnMarshy(info.context);
-//            } else {
-//                flashOffMarshy(info.context);
-//            }
-//        }
-//
-//        info.isFlashOn = !flashOn;
-//        if (info.isFlashOn) {
-//            return info.res.getString(R.string.output_flashon);
-//        } else {
-//            return info.res.getString(R.string.output_flashoff);
-//        }
+        modifyTorchMode(pack.context, isTorchOn);
+
         return null;
     }
-
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-//    public static void setSurfaceTexture(Camera camera) {
-//        try {
-//            camera.setPreviewTexture(new SurfaceTexture(0));
-//        } catch (Exception e) {}
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-//    public static void detachSurfaceTexture(Camera camera) {
-//        try {
-//            camera.setPreviewTexture(null);
-//        } catch (Exception e) {}
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.M)
-//    private boolean flashOnMarshy(Context context) {
-//        try {
-//            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-//            manager.setTorchMode(manager.getCameraIdList()[0], true);
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.M)
-//    private boolean flashOffMarshy(Context context) {
-//        try {
-//            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-//            manager.setTorchMode(manager.getCameraIdList()[0], false);
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
 
     @Override
     public int helpRes() {

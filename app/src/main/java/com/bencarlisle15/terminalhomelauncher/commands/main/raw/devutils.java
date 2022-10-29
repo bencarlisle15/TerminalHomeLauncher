@@ -1,9 +1,13 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -19,6 +23,8 @@ import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 public class devutils extends ParamCommand {
 
+    private static final String CHANNEL_ID = "dev_utils";
+
     private enum Param implements com.bencarlisle15.terminalhomelauncher.commands.main.Param {
         notify {
             @Override
@@ -32,8 +38,16 @@ public class devutils extends ParamCommand {
                     if(text.size() >= 2) txt = Tuils.toPlanString(text, Tuils.SPACE);
                 }
 
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Dev Utils Notify", NotificationManager.IMPORTANCE_LOW);
+                    channel.setDescription("Dev utils notification");
+                    NotificationManager notificationManager = pack.context.getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(channel);
+                }
+
+
                 NotificationManagerCompat.from(pack.context).notify(200,
-                        new NotificationCompat.Builder(pack.context)
+                        new NotificationCompat.Builder(pack.context, CHANNEL_ID)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle(title)
                             .setContentText(txt)

@@ -43,7 +43,6 @@ public class Cosine extends ShingleBased implements
      * characters). In this n-dimensional space, the similarity between the two
      * strings is the cosine of their respective vectors.
      *
-     * @param k
      */
     public Cosine(final int k) {
         super(k);
@@ -94,7 +93,6 @@ public class Cosine extends ShingleBased implements
     /**
      * Compute the norm L2 : sqrt(Sum_i( v_i²)).
      *
-     * @param profile
      * @return L2 norm
      */
     private static double norm(final Map<String, Integer> profile) {

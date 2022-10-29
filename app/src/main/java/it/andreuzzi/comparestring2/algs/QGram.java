@@ -26,7 +26,6 @@ public class QGram extends ShingleBased implements StringDistance {
      * distance is a lower bound on Levenshtein distance, but can be computed in
      * O(|A| + |B|), where Levenshtein requires O(|A|.|B|)
      *
-     * @param k
      */
     public QGram(final int k) {
         super(k);
@@ -77,15 +76,12 @@ public class QGram extends ShingleBased implements StringDistance {
     /**
      * Compute QGram distance using precomputed profiles.
      *
-     * @param profile1
-     * @param profile2
-     * @return
      */
     public final double distance(
             final Map<String, Integer> profile1,
             final Map<String, Integer> profile2) {
 
-        Set<String> union = new HashSet<String>();
+        Set<String> union = new HashSet<>();
         union.addAll(profile1.keySet());
         union.addAll(profile2.keySet());
 

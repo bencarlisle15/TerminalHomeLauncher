@@ -61,13 +61,7 @@ public class Assist {
             Field field = clazz.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(object, value);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+        } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
     }

@@ -108,7 +108,9 @@ public abstract class ParamCommand implements CommandAbstraction {
                 Tuils.log("last");
                 String param = pack.get(String.class, 0);
                 return pack.context.getString(R.string.output_invalid_param) + Tuils.SPACE + param;
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return pack.context.getString(helpRes());

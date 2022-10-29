@@ -11,7 +11,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 
-public class Bluetooth implements CommandAbstraction {
+public class bluetooth implements CommandAbstraction {
 
     @Override
     public String exec(ExecutePack pack) {

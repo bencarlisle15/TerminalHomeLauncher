@@ -27,8 +27,6 @@ public class FileManager {
             stream.flush();
             stream.close();
             return null;
-        } catch (FileNotFoundException e) {
-            return e.toString();
         } catch (IOException e) {
             return e.toString();
         }

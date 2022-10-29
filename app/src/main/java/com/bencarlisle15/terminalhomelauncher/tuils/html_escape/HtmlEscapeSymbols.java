@@ -217,7 +217,7 @@ final class HtmlEscapeSymbols {
                 // Only one codepoint (might be > 1 chars, though), this is the normal case
 
                 final int referenceCodepoint = referenceCodepoints[0];
-                codepoints.add(Integer.valueOf(referenceCodepoint));
+                codepoints.add(referenceCodepoint);
 
             } else if (referenceCodepoints.length == 2) {
                 // Two codepoints, therefore this NCR will translate when unescaping into a two-codepoint
@@ -225,7 +225,7 @@ final class HtmlEscapeSymbols {
 
                 doubleCodepoints.add(referenceCodepoints);
                 // Will need to subtract one from its index when unescaping (codepoint = -1 -> position 0)
-                codepoints.add(Integer.valueOf((-1) * doubleCodepoints.size()));
+                codepoints.add((-1) * doubleCodepoints.size());
 
             } else {
 
@@ -248,7 +248,7 @@ final class HtmlEscapeSymbols {
         SORTED_CODEPOINTS = new int[codepoints.size()];
 
         final List<char[]> ncrsOrdered = new ArrayList<>(ncrs);
-        Collections.sort(ncrsOrdered, (o1, o2) -> compare(o1, o2, 0, o2.length));
+        ncrsOrdered.sort((o1, o2) -> compare(o1, o2, 0, o2.length));
 
         for (short i = 0; i < SORTED_NCRS.length; i++) {
 
@@ -281,7 +281,7 @@ final class HtmlEscapeSymbols {
                             }
                         } else {
                             // Codepoint should be overflown
-                            ncrsByCodepointOverflow.put(Integer.valueOf(cp), Short.valueOf(i));
+                            ncrsByCodepointOverflow.put(cp, i);
                         }
                     }
 

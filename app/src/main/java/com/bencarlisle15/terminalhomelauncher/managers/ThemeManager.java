@@ -47,9 +47,6 @@ public class ThemeManager {
                 String name = intent.getStringExtra(NAME);
                 if(name == null) return;
 
-//                name needs to be the absolute path
-                if(name.endsWith(".zip")) apply(new File(name));
-                else apply(name);
             } else if(intent.getAction().equals(ACTION_REVERT)) {
                 revert();
             } else if(intent.getAction().equals(ACTION_STANDARD)) {
@@ -118,7 +115,7 @@ public class ThemeManager {
                         String suggestions = m.group(1);
                         String theme = m.group(2);
 
-                        applyTheme(theme, suggestions, true, themeName);
+                        applyTheme(theme, suggestions, themeName);
                     } else {
                         Tuils.sendOutput(context, R.string.theme_not_found);
                     }
@@ -127,11 +124,7 @@ public class ThemeManager {
         }.start();
     }
 
-    public void apply(File zip) {
-        
-    }
-
-    private void applyTheme(File theme, File suggestions, boolean keepOld) {
+    private void applyTheme(File theme, File suggestions) {
         if(theme == null || suggestions == null) {
             Tuils.sendOutput(context, R.string.theme_unable);
             return;
@@ -139,10 +132,6 @@ public class ThemeManager {
 
         File oldTheme = new File(Tuils.getFolder(), XMLPrefsManager.XMLPrefsRoot.THEME.path);
         File oldSuggestions = new File(Tuils.getFolder(), XMLPrefsManager.XMLPrefsRoot.SUGGESTIONS.path);
-        if(keepOld) {
-            Tuils.insertOld(oldTheme);
-            Tuils.insertOld(oldSuggestions);
-        }
 
         theme.renameTo(oldTheme);
         suggestions.renameTo(oldSuggestions);
@@ -150,7 +139,7 @@ public class ThemeManager {
         reloadable.reload();
     }
 
-    private void applyTheme(String theme, String suggestions, boolean keepOld, String themeName) {
+    private void applyTheme(String theme, String suggestions, String themeName) {
         if(theme == null || suggestions == null) {
             Tuils.sendOutput(context, R.string.theme_unable);
             return;
@@ -168,10 +157,8 @@ public class ThemeManager {
 
         File oldTheme = new File(Tuils.getFolder(), XMLPrefsManager.XMLPrefsRoot.THEME.path);
         File oldSuggestions = new File(Tuils.getFolder(), XMLPrefsManager.XMLPrefsRoot.SUGGESTIONS.path);
-        if(keepOld) {
-            Tuils.insertOld(oldTheme);
-            Tuils.insertOld(oldSuggestions);
-        }
+        Tuils.insertOld(oldTheme);
+        Tuils.insertOld(oldSuggestions);
         oldTheme.delete();
         oldSuggestions.delete();
 
@@ -194,7 +181,7 @@ public class ThemeManager {
     }
 
     private void revert() {
-        applyTheme(Tuils.getOld(XMLPrefsManager.XMLPrefsRoot.THEME.path), Tuils.getOld(XMLPrefsManager.XMLPrefsRoot.SUGGESTIONS.path), false);
+        applyTheme(Tuils.getOld(XMLPrefsManager.XMLPrefsRoot.THEME.path), Tuils.getOld(XMLPrefsManager.XMLPrefsRoot.SUGGESTIONS.path));
     }
 
     private void standard() {

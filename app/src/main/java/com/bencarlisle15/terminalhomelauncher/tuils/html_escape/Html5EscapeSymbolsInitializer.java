@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 /**
  * <p>
- *   This class initializes the {@link org.unbescape.html.HtmlEscapeSymbols#HTML5_SYMBOLS} structure.
+ *   This class initializes the  structure.
  * </p>
  *
  * @author Daniel Fern&aacute;ndez

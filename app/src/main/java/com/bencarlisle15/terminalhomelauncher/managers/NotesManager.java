@@ -123,7 +123,7 @@ public class NotesManager {
 
         Note.sorting = XMLPrefsManager.getInt(Behavior.notes_sorting);
 
-        load(context, true);
+        load(context);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_ADD);
@@ -187,8 +187,8 @@ public class NotesManager {
         LocalBroadcastManager.getInstance(context.getApplicationContext()).registerReceiver(receiver, filter);
     }
 
-    private void load(Context context, boolean loadClasses) {
-        if(loadClasses) classes.clear();
+    private void load(Context context) {
+        classes.clear();
         notes.clear();
 
         File file = new File(Tuils.getFolder(), PATH);
@@ -228,7 +228,7 @@ public class NotesManager {
                     boolean lock = XMLPrefsManager.getBooleanAttribute(e, LOCK);
 
                     notes.add(new Note(time, text, lock));
-                } else if(loadClasses) {
+                } else if(true) {
                     int id;
                     try {
                         id = Integer.parseInt(name);
@@ -423,11 +423,7 @@ public class NotesManager {
     }
 
     private void clearNotes(Context context) {
-        Iterator<Note> iterator = notes.iterator();
-        while(iterator.hasNext()) {
-            Note n = iterator.next();
-            if(!n.lock) iterator.remove();
-        }
+        notes.removeIf(n -> !n.lock);
 
         File file = new File(Tuils.getFolder(), PATH);
         if(!file.exists()) resetFile(file, NAME);
@@ -478,7 +474,9 @@ public class NotesManager {
             int index = Integer.parseInt(s) - 1;
             if(index < 0 || index >= notes.size()) return -1;
             return index;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         s = s.toLowerCase().trim();
 
@@ -534,10 +532,8 @@ public class NotesManager {
     }
 
     private Class findClass(int id) {
-        Iterator<Class> classIterator = classes.iterator();
-        while(classIterator.hasNext()) {
-            Class cl = classIterator.next();
-            if(cl.id == id) return cl;
+        for (Class cl : classes) {
+            if (cl.id == id) return cl;
         }
 
         return null;

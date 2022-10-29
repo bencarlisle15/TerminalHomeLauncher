@@ -11,12 +11,12 @@ import java.lang.reflect.Method;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandGroup;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandsPreferences;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.flash;
 import com.bencarlisle15.terminalhomelauncher.managers.AliasManager;
 import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.ContactManager;
 import com.bencarlisle15.terminalhomelauncher.managers.RssManager;
 import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
-import com.bencarlisle15.terminalhomelauncher.managers.flashlight.TorchManager;
 import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager2;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Behavior;
@@ -94,8 +94,7 @@ public class MainPack extends ExecutePack {
     }
 
     public void dispose() {
-        TorchManager mgr = TorchManager.getInstance();
-        if(mgr.isOn()) mgr.turnOff();
+        flash.modifyTorchMode(context, false);
     }
 
     public void destroy() {

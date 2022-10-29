@@ -381,9 +381,9 @@ public class SuggestionsManager {
                 else {
                     split[split.length - 1] = Tuils.EMPTYSTRING;
 
-                    String beforeInputs = Tuils.EMPTYSTRING;
+                    StringBuilder beforeInputs = new StringBuilder(Tuils.EMPTYSTRING);
                     for(int count = 0; count < split.length - 1; count++) {
-                        beforeInputs = beforeInputs + split[count] + multipleCmdSeparator;
+                        beforeInputs.append(split[count]).append(multipleCmdSeparator);
                     }
 
                     mTerminalAdapter.setInput(beforeInputs + text + (addSpace ? Tuils.SPACE : Tuils.EMPTYSTRING), suggestion.object);
@@ -599,7 +599,9 @@ public class SuggestionsManager {
                 Command cmd = null;
                 try {
                     cmd = CommandTuils.parse(beforeLastSpace , pack);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 if (cmd != null) {
 
@@ -645,18 +647,14 @@ public class SuggestionsManager {
                 Command cmd = null;
                 try {
                     cmd = CommandTuils.parse(beforeLastSpace , pack);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 if (cmd != null) {
                     if(cmd.cmd instanceof PermanentSuggestionCommand) {
                         suggestPermanentSuggestions(suggestionList, (PermanentSuggestionCommand) cmd.cmd);
                     }
-
-//                    if (cmd.cmd.maxArgs() == 1 && beforeLastSpace .contains(Tuils.SPACE)) {
-//                        int index = cmd.cmd.getClass().getSimpleName().length() + 1;
-//
-//                        lastWord = beforeLastSpace .substring(index) + lastWord;
-//                    }
 
                     if(cmd.cmd instanceof ParamCommand && (cmd.mArgs == null || cmd.mArgs.length == 0 || cmd.mArgs[0] instanceof String)) {
                         suggestParams(pack, suggestionList, (ParamCommand) cmd.cmd, beforeLastSpace , lastWord);
@@ -688,7 +686,7 @@ public class SuggestionsManager {
             }
         }
 
-        Collections.sort(suggestionList, comparator);
+        suggestionList.sort(comparator);
         return suggestionList;
     }
 
@@ -877,13 +875,9 @@ public class SuggestionsManager {
             return;
         }
 
-//        Tuils.log("bls", beforeLastSpace);
-//        Tuils.log("als", afterLastSeparator);
-//        Tuils.log("alsals", afterLastSpaceWithoutALS);
-
         String temp = rmQuotes.matcher(afterLastSeparator).replaceAll(Tuils.EMPTYSTRING);
 
-        int counter = quickCompare(temp, files, suggestions, beforeLastSpace, suggestionsPerCategory, false, Suggestion.TYPE_FILE, false);
+        int counter = quickCompare(temp, files, suggestions, beforeLastSpace, suggestionsPerCategory);
         if(suggestionsPerCategory - counter <= 0) return;
 
         String[] fs = CompareStrings.topMatchesWithDeadline(temp, files, suggestionsPerCategory - counter, suggestionsDeadline, FILE_SPLITTERS, algInstance, alg);
@@ -892,7 +886,7 @@ public class SuggestionsManager {
         }
     }
 
-    private int quickCompare(String s1, String[] ss, List<Suggestion> suggestions, String beforeLastSpace, int max, boolean exec, int type, Object tag) {
+    private int quickCompare(String s1, String[] ss, List<Suggestion> suggestions, String beforeLastSpace, int max) {
         if(s1.length() > quickCompare) return 0;
 
         int counter = 0;
@@ -900,8 +894,9 @@ public class SuggestionsManager {
         for(int c = 0; c < ss.length; c++) {
             if(counter >= max) break;
 
-            if(s1.length() <= quickCompare && ss[c].toLowerCase().startsWith(s1)) {
-                suggestions.add(new Suggestion(beforeLastSpace, ss[c], exec, type, tag instanceof Boolean ? ((boolean) tag ? ss[c] : null) : tag));
+            s1.length();
+            if(ss[c].toLowerCase().startsWith(s1)) {
+                suggestions.add(new Suggestion(beforeLastSpace, ss[c], false, Suggestion.TYPE_FILE, null));
 
                 ss[c] = Tuils.EMPTYSTRING;
 
@@ -1194,11 +1189,11 @@ public class SuggestionsManager {
     private boolean suggestAppInsideGroup(MainPack pack, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace, boolean keepGroupName) {
         int index = -1;
 
-        String app = Tuils.EMPTYSTRING;
+        StringBuilder app = new StringBuilder(Tuils.EMPTYSTRING);
 
         if(!beforeLastSpace.contains(Tuils.SPACE)) {
             index = Tuils.find(beforeLastSpace , pack.appsManager.groups);
-            app = afterLastSpace;
+            app = new StringBuilder(afterLastSpace);
             if(!keepGroupName) beforeLastSpace  = Tuils.EMPTYSTRING;
         } else {
             String[] split = beforeLastSpace.split(Tuils.SPACE);
@@ -1206,18 +1201,19 @@ public class SuggestionsManager {
                 index = Tuils.find(split[count], pack.appsManager.groups);
                 if(index != -1) {
 
-                    beforeLastSpace = Tuils.EMPTYSTRING;
+                    StringBuilder beforeLastSpaceBuilder = new StringBuilder(Tuils.EMPTYSTRING);
                     for(int i = 0; (keepGroupName ? i <= count : i < count); i++) {
-                        beforeLastSpace = beforeLastSpace + split[i] + Tuils.SPACE;
+                        beforeLastSpaceBuilder.append(split[i]).append(Tuils.SPACE);
                     }
+                    beforeLastSpace = beforeLastSpaceBuilder.toString();
                     beforeLastSpace = beforeLastSpace.trim();
 
                     count += 1;
                     for(; count < split.length; count++) {
-                        app = app + split[count] + Tuils.SPACE;
+                        app.append(split[count]).append(Tuils.SPACE);
                     }
-                    if(afterLastSpace != null) app = app + Tuils.SPACE + afterLastSpace;
-                    app = app.trim();
+                    if(afterLastSpace != null) app.append(Tuils.SPACE).append(afterLastSpace);
+                    app = new StringBuilder(app.toString().trim());
 
                     break;
                 }
@@ -1236,10 +1232,10 @@ public class SuggestionsManager {
                 }
             }
             else {
-                int counter = quickCompare(app, apps, suggestions, beforeLastSpace, Integer.MAX_VALUE, clickToLaunch, Suggestion.TYPE_APP, true);
+                int counter = quickCompare(app.toString(), apps, suggestions, beforeLastSpace, Integer.MAX_VALUE, clickToLaunch, Suggestion.TYPE_APP, true);
                 if(counter == apps.size()) return true;
 
-                AppsManager.Group.GroupLaunchInfo[] infos = CompareObjects.topMatchesWithDeadline(AppsManager.Group.GroupLaunchInfo.class, app, apps.size(), apps, apps.size(), suggestionsDeadline, SPLITTERS, algInstance, alg);
+                AppsManager.Group.GroupLaunchInfo[] infos = CompareObjects.topMatchesWithDeadline(AppsManager.Group.GroupLaunchInfo.class, app.toString(), apps.size(), apps, apps.size(), suggestionsDeadline, SPLITTERS, algInstance, alg);
                 for(AppsManager.Group.GroupLaunchInfo gli : infos) {
                     if(gli == null) break;
                     suggestions.add(new Suggestion(beforeLastSpace, gli.publicLabel, clickToLaunch, Suggestion.TYPE_APP, gli));
@@ -1250,9 +1246,9 @@ public class SuggestionsManager {
         return true;
     }
 
-    private boolean suggestBoundReplyApp(List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
+    private void suggestBoundReplyApp(List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
         List<BoundApp> apps = new ArrayList<>(ReplyManager.boundApps);
-        if(apps.size() == 0) return false;
+        if(apps.size() == 0) return;
 
         if (afterLastSpace == null || afterLastSpace.length() == 0) {
             for (BoundApp b : apps) {
@@ -1261,7 +1257,7 @@ public class SuggestionsManager {
         }
         else {
             int counter = quickCompare(afterLastSpace, apps, suggestions, beforeLastSpace, suggestionsPerCategory, false, Suggestion.TYPE_APP, false);
-            if(suggestionsPerCategory - counter <= 0) return true;
+            if(suggestionsPerCategory - counter <= 0) return;
 
             BoundApp[] b = CompareObjects.topMatchesWithDeadline(BoundApp.class, afterLastSpace, apps.size(), apps, suggestionsPerCategory - counter, suggestionsDeadline, SPLITTERS, algInstance, alg);
             for(BoundApp ba : b) {
@@ -1270,7 +1266,6 @@ public class SuggestionsManager {
             }
         }
 
-        return true;
     }
 
     public static class Suggestion {
@@ -1337,12 +1332,6 @@ public class SuggestionsManager {
 
                 boolean textIsSpecial = (text.equals(File.separator) || text.equals(DOUBLE_QUOTES) || text.equals(SINGLE_QUOTE));
                 boolean appendLastWord = lastWord.endsWith(File.separator) || textIsSpecial;
-
-//                Tuils.log("-------------");
-//                Tuils.log("tspe", textIsSpecial);
-//                Tuils.log("tbe", textBefore.replaceAll(" ", "#"));
-//                Tuils.log("lw", lastWord);
-//                Tuils.log("txt", text);
 
                 return textBefore +
                         Tuils.SPACE +

@@ -27,6 +27,8 @@ package it.andreuzzi.comparestring2.test;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 import it.andreuzzi.comparestring2.AlgMap.Alg;
 
 /**
@@ -55,18 +57,18 @@ public class TestResult {
     @NonNull
     @Override
     public String toString() {
-        String algName = alg.label();
-        while(algName.length() < 15) algName = algName + " ";
+        StringBuilder algName = new StringBuilder(alg.label());
+        while(algName.length() < 15) algName.append(" ");
         
-        String type = String.format("(%s)", alg.category());
-        while(type.length() < 25) type = type + " ";
+        StringBuilder type = new StringBuilder(String.format("(%s)", alg.category()));
+        while(type.length() < 25) type.append(" ");
         
-        String r = (result != Float.MIN_VALUE && result != Float.MAX_VALUE) ? String.format("%f", result) : "n/a";
-        while(r.length() < 15) r = r + " ";
+        StringBuilder r = new StringBuilder((result != Float.MIN_VALUE && result != Float.MAX_VALUE) ? String.format(Locale.getDefault(), "%f", result) : "n/a");
+        while(r.length() < 15) r.append(" ");
         
-        String what = String.format("(%s - %s)", s1, s2);
-        while(what.length() < 30) what = what + " ";
+        StringBuilder what = new StringBuilder(String.format("(%s - %s)", s1, s2));
+        while(what.length() < 30) what.append(" ");
         
-        return String.format("%s %s : %s --> %s [in %dns]", algName, type, what, r, time);
+        return String.format(Locale.getDefault(), "%s %s : %s --> %s [in %dns]", algName.toString(), type.toString(), what.toString(), r.toString(), time);
     }
 }

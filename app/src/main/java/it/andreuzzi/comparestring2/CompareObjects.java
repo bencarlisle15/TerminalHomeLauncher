@@ -47,7 +47,7 @@ public class CompareObjects {
      * @param s1          the first {@link String} of the comparison
      * @param s2          an {@link Iterable<T>} object whose elements will be compared to {@code s1}
      * @param size        the exact number of elements in {@code s2}
-     * @param splitters   refer to {@link CompareObjects#checkSplits checkSplits}
+     * @param splitters   refer to
      * @param algInstance an instance of {@link Algorithm} that will be used to perform the comparison
      * @param alg         an instance of {@link Alg}. It must refer to the same algorithm referred by {@code algInstance}. Check {@link AlgMap} 
      * @return            a sorted array of {@link CompareItem} containing information about the comparison of each element with {@code s1}. 
