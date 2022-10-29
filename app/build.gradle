@@ -3,7 +3,7 @@ android {
     compileSdkVersion 32
 
     defaultConfig {
-        applicationId "ohi.andre.consolelauncher"
+        applicationId "com.bencarlisle15.terminalhomelauncher"
 
         minSdkVersion 24
         targetSdkVersion 32
@@ -36,7 +36,7 @@ android {
     lint {
         checkReleaseBuilds false
     }
-    namespace 'ohi.andre.consolelauncher'
+    namespace 'com.bencarlisle15.terminalhomelauncher'
     android.applicationVariants.all { variant ->
         def formattedDate = new Date().format('hh.mm')
 

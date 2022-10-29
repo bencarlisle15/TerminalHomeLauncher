@@ -1,14 +1,14 @@
--keep public class ohi.andre.consolelauncher.commands.main.raw.* { public *; }
--keep public abstract class ohi.andre.consolelauncher.commands.main.generals.* { public *; }
--keep public class ohi.andre.consolelauncher.commands.tuixt.raw.* { public *; }
--keep public class ohi.andre.consolelauncher.managers.notifications.NotificationService
--keep public class ohi.andre.consolelauncher.managers.notifications.KeeperService
--keep public class ohi.andre.consolelauncher.managers.options.**
--keep class ohi.andre.consolelauncher.tuils.libsuperuser.**
--keep class ohi.andre.consolelauncher.managers.suggestions.HideSuggestionViewValues
+-keep public class com.bencarlisle15.terminalhomelauncher.commands.main.raw.* { public *; }
+-keep public abstract class com.bencarlisle15.terminalhomelauncher.commands.main.generals.* { public *; }
+-keep public class com.bencarlisle15.terminalhomelauncher.commands.tuixt.raw.* { public *; }
+-keep public class com.bencarlisle15.terminalhomelauncher.managers.notifications.NotificationService
+-keep public class com.bencarlisle15.terminalhomelauncher.managers.notifications.KeeperService
+-keep public class com.bencarlisle15.terminalhomelauncher.managers.options.**
+-keep class com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.**
+-keep class com.bencarlisle15.terminalhomelauncher.managers.suggestions.HideSuggestionViewValues
 -keep public class it.andreuzzi.comparestring2.**
 
--dontwarn ohi.andre.consolelauncher.commands.main.raw.**
+-dontwarn com.bencarlisle15.terminalhomelauncher.commands.main.raw.**
 
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**

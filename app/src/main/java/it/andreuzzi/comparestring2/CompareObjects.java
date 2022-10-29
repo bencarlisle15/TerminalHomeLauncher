@@ -30,7 +30,7 @@ import java.util.Iterator;
 
 import it.andreuzzi.comparestring2.AlgMap.Alg;
 import it.andreuzzi.comparestring2.algs.interfaces.Algorithm;
-import ohi.andre.consolelauncher.managers.AppsManager;
+import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
 
 /**
  * 

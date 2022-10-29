@@ -37,13 +37,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"  />
 
-    <permission
-        android:name="android.permission.FLASHLIGHT"
-        android:description="@string/help_flash"
-        android:label="@string/help_flash"
-        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
-        android:protectionLevel="normal" />
-
     <!-- features -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -78,6 +71,13 @@
     <uses-feature
         android:name="android.hardware.audio.output"
         android:required="false" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
