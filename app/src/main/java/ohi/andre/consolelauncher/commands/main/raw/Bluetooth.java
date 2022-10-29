@@ -1,13 +1,17 @@
 package ohi.andre.consolelauncher.commands.main.raw;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
 
 import ohi.andre.consolelauncher.R;
 import ohi.andre.consolelauncher.commands.CommandAbstraction;
 import ohi.andre.consolelauncher.commands.ExecutePack;
 import ohi.andre.consolelauncher.commands.main.MainPack;
 
-public class bluetooth implements CommandAbstraction {
+public class Bluetooth implements CommandAbstraction {
 
     @Override
     public String exec(ExecutePack pack) {
@@ -15,9 +19,13 @@ public class bluetooth implements CommandAbstraction {
 
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 
-        if(adapter == null) return info.context.getString(R.string.output_bluetooth_unavailable);
+        if (adapter == null) return info.context.getString(R.string.output_bluetooth_unavailable);
 
-        if(adapter.isEnabled()) {
+        if (ActivityCompat.checkSelfPermission(pack.context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return "Bluetooth permission not granted";
+        }
+
+        if (adapter.isEnabled()) {
             adapter.disable();
             return info.context.getString(R.string.output_bluetooth) + " false";
         } else {

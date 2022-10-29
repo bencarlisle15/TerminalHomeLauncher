@@ -2,6 +2,8 @@ package ohi.andre.consolelauncher.tuils.interfaces;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,8 @@ public interface Reloadable {
 
     class ReloadMessageCategory {
 
-        public String header;
-        public List<String> lines;
+        public final String header;
+        public final List<String> lines;
 
         public ReloadMessageCategory(String header) {
             this.header = header;
@@ -39,6 +41,7 @@ public interface Reloadable {
             return TextUtils.concat(sequence, builder.toString());
         }
 
+        @NonNull
         @Override
         public String toString() {
             return text().toString();

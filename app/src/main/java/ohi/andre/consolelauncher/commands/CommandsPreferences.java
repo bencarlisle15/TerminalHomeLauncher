@@ -14,7 +14,7 @@ public class CommandsPreferences {
 
     public static final String PRIORITY_SUFFIX = "_priority";
 
-    private HashMap<String, String> preferenceHashMap;
+    private final HashMap<String, String> preferenceHashMap;
 
     public CommandsPreferences() {
         preferenceHashMap = new HashMap<>();

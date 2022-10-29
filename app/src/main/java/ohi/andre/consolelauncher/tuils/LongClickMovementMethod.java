@@ -19,7 +19,7 @@ public class LongClickMovementMethod extends LinkMovementMethod {
 
     private int longClickDuration, lastLine = -1;
 
-    private abstract class WasActivatedRunnable implements Runnable {
+    private abstract static class WasActivatedRunnable implements Runnable {
 
         public boolean wasActivated = false;
 
@@ -27,7 +27,7 @@ public class LongClickMovementMethod extends LinkMovementMethod {
         public void run() {
             wasActivated = true;
         }
-    };
+    }
 
     private WasActivatedRunnable runnable;
 

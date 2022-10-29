@@ -12,8 +12,8 @@ import ohi.andre.consolelauncher.commands.ExecutePack;
 
 public abstract class RedirectCommand implements CommandAbstraction {
 
-    public List<Object> beforeObjects = new ArrayList<>();
-    public List<Object> afterObjects = new ArrayList<>();
+    public final List<Object> beforeObjects = new ArrayList<>();
+    public final List<Object> afterObjects = new ArrayList<>();
 
     public abstract String onRedirect(ExecutePack pack);
     public abstract int getHint();

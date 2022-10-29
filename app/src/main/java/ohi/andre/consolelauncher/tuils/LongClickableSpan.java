@@ -28,8 +28,9 @@ public class LongClickableSpan extends ClickableSpan {
 
     public static int longPressVibrateDuration = -1;
 
-    private Object clickO, longClickO;
-    private String longIntentKey;
+    private final Object clickO;
+    private final Object longClickO;
+    private final String longIntentKey;
 
     private static boolean set = false, showMenu;
     private static boolean showExcludeApp, showExcludeNotification, showReply;
@@ -122,49 +123,47 @@ public class LongClickableSpan extends ClickableSpan {
         } else if(o instanceof NotificationService.Notification) {
             final NotificationService.Notification n = (NotificationService.Notification) o;
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                if(showMenu) {
-                    PopupMenu menu = new PopupMenu(v.getContext().getApplicationContext(), v);
-                    menu.getMenuInflater().inflate(R.menu.notification_menu, menu.getMenu());
+            if(showMenu) {
+                PopupMenu menu = new PopupMenu(v.getContext().getApplicationContext(), v);
+                menu.getMenuInflater().inflate(R.menu.notification_menu, menu.getMenu());
 
-                    menu.getMenu().findItem(R.id.exclude_app).setVisible(showExcludeApp);
-                    menu.getMenu().findItem(R.id.exclude_notification).setVisible(showExcludeNotification);
-                    menu.getMenu().findItem(R.id.reply_notification).setVisible(showReply);
+                menu.getMenu().findItem(R.id.exclude_app).setVisible(showExcludeApp);
+                menu.getMenu().findItem(R.id.exclude_notification).setVisible(showExcludeNotification);
+                menu.getMenu().findItem(R.id.reply_notification).setVisible(showReply);
 
-                    menu.setOnMenuItemClickListener(item -> {
-                        int id = item.getItemId();
+                menu.setOnMenuItemClickListener(item -> {
+                    int id = item.getItemId();
 
-                        switch (id) {
-                            case R.id.exclude_app:
-                                NotificationManager.setState(n.pkg, false);
-                                break;
-                            case R.id.exclude_notification:
-                                Tuils.log(n.text);
-                                NotificationManager.addFilter(n.text, -1);
-                                break;
-                            case R.id.reply_notification:
-                                Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
-                                intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
+                    switch (id) {
+                        case R.id.exclude_app:
+                            NotificationManager.setState(n.pkg, false);
+                            break;
+                        case R.id.exclude_notification:
+                            Tuils.log(n.text);
+                            NotificationManager.addFilter(n.text, -1);
+                            break;
+                        case R.id.reply_notification:
+                            Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
+                            intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
 
-                                LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
-                            default:
-                                return false;
-                        }
-
-                        return true;
-                    });
-
-                    menu.show();
-                } else {
-                    if(showReply) {
-                        Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
-                        intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
-
-                        LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
+                            LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
+                        default:
+                            return false;
                     }
-                    else if(showExcludeNotification) NotificationManager.addFilter(n.text, -1);
-                    else if(showExcludeApp) NotificationManager.setState(n.pkg, false);
+
+                    return true;
+                });
+
+                menu.show();
+            } else {
+                if(showReply) {
+                    Intent intent = new Intent(PrivateIOReceiver.ACTION_INPUT);
+                    intent.putExtra(PrivateIOReceiver.TEXT, "reply -to " + n.pkg + Tuils.SPACE);
+
+                    LocalBroadcastManager.getInstance(v.getContext().getApplicationContext()).sendBroadcast(intent);
                 }
+                else if(showExcludeNotification) NotificationManager.addFilter(n.text, -1);
+                else if(showExcludeApp) NotificationManager.setState(n.pkg, false);
             }
         }
 

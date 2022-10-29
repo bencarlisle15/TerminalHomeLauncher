@@ -76,7 +76,7 @@ public abstract class ParamCommand implements CommandAbstraction {
             Object o1 = pack.get(Object.class, 0);
 
             if(o1 == null || o1.toString().length() == 0) return pack.context.getString(helpRes());
-            else return pack.context.getString(R.string.output_invalid_param) + Tuils.SPACE + o1.toString();
+            else return pack.context.getString(R.string.output_invalid_param) + Tuils.SPACE + o1;
         }
         return param.exec(pack);
     }

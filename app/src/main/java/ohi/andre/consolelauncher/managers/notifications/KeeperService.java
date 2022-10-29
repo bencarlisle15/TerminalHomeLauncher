@@ -156,7 +156,7 @@ public class KeeperService extends Service {
                     c,
                     0,
                     startMain,
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                    PendingIntent.FLAG_CANCEL_CURRENT|PendingIntent.FLAG_IMMUTABLE
             );
         } else if(clickCmd != null && clickCmd.length() > 0) {
             Intent cmdIntent = new Intent(PublicIOReceiver.ACTION_CMD);
@@ -166,14 +166,14 @@ public class KeeperService extends Service {
                     c,
                     0,
                     cmdIntent,
-                    0
+                    PendingIntent.FLAG_IMMUTABLE
             );
         } else {
             pendingIntent = null;
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int oPriority = Tuils.scale(new int[] {0, 4}, new int[] {2,4}, priority + 2);
                 if(oPriority < 2 || oPriority > 4) oPriority = NotificationManager.IMPORTANCE_UNSPECIFIED;
 
@@ -223,45 +223,11 @@ public class KeeperService extends Service {
             NotificationCompat.Action.Builder actionBuilder = new NotificationCompat.Action.Builder(
                     R.mipmap.ic_launcher,
                     cmdLabel,
-                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, PendingIntent.FLAG_UPDATE_CURRENT))
+                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE))
                         .addRemoteInput(remoteInput);
 
             builder.addAction(actionBuilder.build());
 
-            return builder.build();
-        } else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(c)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setTicker(c.getString(R.string.start_notification))
-                    .setWhen(System.currentTimeMillis())
-                    .setPriority(priority)
-                    .setContentTitle(title)
-                    .setContentIntent(pendingIntent);
-
-            NotificationCompat.Style style = null;
-            if (lastCommands != null && lastCommands[0] != null) {
-                NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-
-                if (upDown) {
-                    for (CharSequence lastCommand : lastCommands) {
-                        if (lastCommand == null) break;
-                        inboxStyle.addLine(lastCommand);
-                    }
-                } else {
-                    for (int j = lastCommands.length - 1; j >= 0; j--) {
-                        if (lastCommands[j] == null) continue;
-                        inboxStyle.addLine(lastCommands[j]);
-                    }
-                }
-
-                style = inboxStyle;
-            }
-
-            if (style != null) builder.setStyle(style);
-            else {
-                builder.setContentTitle(title);
-                builder.setContentText(subtitle);
-            }
             return builder.build();
         }
     }

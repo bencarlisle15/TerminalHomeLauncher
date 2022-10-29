@@ -16,13 +16,13 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 
 public class ShellHolder {
 
-    private Context context;
+    private final Context context;
 
     public ShellHolder(Context context) {
         this.context = context;
     }
 
-    Pattern p = Pattern.compile("^\\n");
+    final Pattern p = Pattern.compile("^\\n");
 
     public Shell.Interactive build() {
         Shell.Interactive interactive = new Shell.Builder()

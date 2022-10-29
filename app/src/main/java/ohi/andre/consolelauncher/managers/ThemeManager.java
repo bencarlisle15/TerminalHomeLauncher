@@ -28,19 +28,19 @@ import okhttp3.Response;
 
 public class ThemeManager {
 
-    public static String ACTION_APPLY = BuildConfig.APPLICATION_ID + ".theme_apply";
-    public static String ACTION_REVERT = BuildConfig.APPLICATION_ID + ".theme_revert";
-    public static String ACTION_STANDARD = BuildConfig.APPLICATION_ID + ".theme_standard";
+    public static final String ACTION_APPLY = BuildConfig.APPLICATION_ID + ".theme_apply";
+    public static final String ACTION_REVERT = BuildConfig.APPLICATION_ID + ".theme_revert";
+    public static final String ACTION_STANDARD = BuildConfig.APPLICATION_ID + ".theme_standard";
 
-    public static String NAME = "name";
+    public static final String NAME = "name";
 
-    OkHttpClient client;
-    Context context;
-    Reloadable reloadable;
+    final OkHttpClient client;
+    final Context context;
+    final Reloadable reloadable;
 
-    Pattern parser = Pattern.compile("(<SUGGESTIONS>.+<\\/SUGGESTIONS>).*(<THEME>.+<\\/THEME>)", Pattern.DOTALL);
+    final Pattern parser = Pattern.compile("(<SUGGESTIONS>.+<\\/SUGGESTIONS>).*(<THEME>.+<\\/THEME>)", Pattern.DOTALL);
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
+    final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(ACTION_APPLY)) {
@@ -81,7 +81,7 @@ public class ThemeManager {
             public void run() {
                 super.run();
 
-                if(!Tuils.hasInternetAccess()) {
+                if(Tuils.hasNoInternetAccess()) {
                     Tuils.sendOutput(Color.RED, context, R.string.no_internet);
                     return;
                 }
@@ -121,7 +121,6 @@ public class ThemeManager {
                         applyTheme(theme, suggestions, true, themeName);
                     } else {
                         Tuils.sendOutput(context, R.string.theme_not_found);
-                        return;
                     }
                 }
             }
@@ -211,7 +210,7 @@ public class ThemeManager {
     }
 
 //    rgba(255,87,34,1)
-    Pattern colorParser = Pattern.compile("rgba\\([\\s]*(\\d+),[\\s]*(\\d+),[\\s]*(\\d+),[\\s]*(\\d.*\\d*)[\\s]*\\)");
+final Pattern colorParser = Pattern.compile("rgba\\([\\s]*(\\d+),[\\s]*(\\d+),[\\s]*(\\d+),[\\s]*(\\d.*\\d*)[\\s]*\\)");
     private String toHexColor(String color) {
         Matcher m = colorParser.matcher(color);
         if(m.find()) {

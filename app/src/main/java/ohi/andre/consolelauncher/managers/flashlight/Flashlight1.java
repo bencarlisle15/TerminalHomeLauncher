@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.os.Build;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -31,15 +30,9 @@ public class Flashlight1 extends Flashlight {
         if (this.ready() && !this.getStatus()) {
             try {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    this.mCamera.setPreviewTexture(new SurfaceTexture(0));
-                    this.mCamera.startPreview();
-                    this.updateStatus(true);
-                } else {
-                    Camera.Parameters parameters = mCamera.getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    mCamera.setParameters(parameters);
-                }
+                this.mCamera.setPreviewTexture(new SurfaceTexture(0));
+                this.mCamera.startPreview();
+                this.updateStatus(true);
             } catch (Exception e) {
                 if (this.mCamera != null) {
                     try {
@@ -58,15 +51,9 @@ public class Flashlight1 extends Flashlight {
     @Override
     protected void turnOff() {
         if (this.getStatus() && this.mCamera != null) {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                this.mCamera.stopPreview();
-                this.mCamera.release();
-                this.mCamera = null;
-            } else {
-                Camera.Parameters parameters = mCamera.getParameters();
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                mCamera.setParameters(parameters);
-            }
+            this.mCamera.stopPreview();
+            this.mCamera.release();
+            this.mCamera = null;
             this.updateStatus(false);
         }
     }

@@ -102,14 +102,13 @@ public class cntcts extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
                 String[] about = ((MainPack) pack).contacts.about(pack.getString());
-                StringBuilder builder = new StringBuilder();
 
-                builder.append(about[ContactManager.NAME]).append(Tuils.NEWLINE);
-                builder.append("\t\t").append(about[ContactManager.NUMBERS].replaceAll(Tuils.NEWLINE, Tuils.NEWLINE + "\t\t")).append(Tuils.NEWLINE);
-                builder.append("ID: ").append(about[ContactManager.CONTACT_ID]).append(Tuils.NEWLINE);
-                builder.append("Contacted ").append(about[ContactManager.TIME_CONTACTED]).append(" time(s)").append(Tuils.NEWLINE);
+                String builder = about[ContactManager.NAME] + Tuils.NEWLINE +
+                        "\t\t" + about[ContactManager.NUMBERS].replaceAll(Tuils.NEWLINE, Tuils.NEWLINE + "\t\t") + Tuils.NEWLINE +
+                        "ID: " + about[ContactManager.CONTACT_ID] + Tuils.NEWLINE +
+                        "Contacted " + about[ContactManager.TIME_CONTACTED] + " time(s)" + Tuils.NEWLINE;
 
-                return builder.toString();
+                return builder;
             }
 
             @Override

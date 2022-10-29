@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AllowEqualsSequence {
 
-    List<Entry> sequence;
+    final List<Entry> sequence;
 
     public AllowEqualsSequence(float[] values, Object[] objs) {
         this.sequence = new ArrayList<>();
@@ -59,10 +59,10 @@ public class AllowEqualsSequence {
         return sequence.size();
     }
 
-    private class Entry implements Comparable<Entry> {
+    private static class Entry implements Comparable<Entry> {
 
-        float value;
-        Object obj;
+        final float value;
+        final Object obj;
 
         int key;
 
@@ -80,9 +80,11 @@ public class AllowEqualsSequence {
             return 1;
         }
 
+        @NonNull
+        @NonNull
         @Override
         public String toString() {
-            return "key: " + key + ": " + obj.toString();
+            return "key: " + key + ": " + obj;
         }
     }
 }

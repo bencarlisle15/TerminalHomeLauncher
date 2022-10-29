@@ -1,5 +1,7 @@
 package ohi.andre.consolelauncher.managers.xml.classes;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 
 public class XMLPrefsList {
 
-    public List<XMLPrefsEntry> list = new ArrayList<>();
+    public final List<XMLPrefsEntry> list = new ArrayList<>();
 
     public void add(XMLPrefsEntry entry) {
         list.add(entry);
@@ -42,6 +44,7 @@ public class XMLPrefsList {
         return vs;
     }
 
+    @NonNull
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -29,8 +29,8 @@ package it.andreuzzi.comparestring2;
  */
 public class StringableStringWrapper implements StringableObject {
     
-    String s;
-    String lower;
+    final String s;
+    final String lower;
     
     public StringableStringWrapper(String s) {
         this.s = s;

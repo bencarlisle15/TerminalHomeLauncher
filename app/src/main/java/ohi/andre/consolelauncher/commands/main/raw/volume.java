@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Build;
 import android.provider.Settings;
 
 import ohi.andre.consolelauncher.R;
@@ -30,13 +29,11 @@ public class volume extends ParamCommand {
 
             @Override
             public String exec(ExecutePack pack) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    NotificationManager mNotificationManager = (NotificationManager) pack.context.getSystemService(Context.NOTIFICATION_SERVICE);
-                    if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
-                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                        pack.context.startActivity(intent);
-                        return pack.context.getString(R.string.output_waitingpermission);
-                    }
+                NotificationManager mNotificationManager = (NotificationManager) pack.context.getSystemService(Context.NOTIFICATION_SERVICE);
+                if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
+                    Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                    pack.context.startActivity(intent);
+                    return pack.context.getString(R.string.output_waitingpermission);
                 }
 
                 int type = pack.getInt();
@@ -69,13 +66,11 @@ public class volume extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    NotificationManager mNotificationManager = (NotificationManager) pack.context.getSystemService(Context.NOTIFICATION_SERVICE);
-                    if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
-                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                        pack.context.startActivity(intent);
-                        return pack.context.getString(R.string.output_waitingpermission);
-                    }
+                NotificationManager mNotificationManager = (NotificationManager) pack.context.getSystemService(Context.NOTIFICATION_SERVICE);
+                if (!mNotificationManager.isNotificationPolicyAccessGranted()) {
+                    Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                    pack.context.startActivity(intent);
+                    return pack.context.getString(R.string.output_waitingpermission);
                 }
 
                 AudioManager manager = (AudioManager) pack.context.getSystemService(Context.AUDIO_SERVICE);
@@ -90,7 +85,7 @@ public class volume extends ParamCommand {
             }
         },
         get {
-            String[] labels = {"Voice call", "System", "Ring", "Media", "Alarm", "Notifications"};
+            final String[] labels = {"Voice call", "System", "Ring", "Media", "Alarm", "Notifications"};
 
             private void appendInfo(StringBuilder builder, AudioManager manager, int stream) {
                 builder.append(labels[stream]).append(":").append(Tuils.SPACE).append(manager.getStreamVolume(stream) * 100 / manager.getStreamMaxVolume(stream)).append("%").append(Tuils.NEWLINE);

@@ -94,7 +94,7 @@ public class RegexManager {
                         }
 
                         for(int j = 0; j < busyIds.size(); j++) {
-                            if((int) busyIds.get(j) == id) continue Out;
+                            if(busyIds.get(j) == id) continue Out;
                         }
 
                         busyIds.add(id);
@@ -106,7 +106,6 @@ public class RegexManager {
                 } catch (Exception e) {
                     Tuils.log(e);
                     Tuils.toFile(e);
-                    return;
                 }
             }
         }.start();

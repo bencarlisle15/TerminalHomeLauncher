@@ -8,10 +8,11 @@ import it.andreuzzi.comparestring2.StringableObject;
 
 public class BoundApp implements StringableObject {
 
-    public int applicationId;
-    public String label, packageName;
+    public final int applicationId;
+    public final String label;
+    public final String packageName;
 
-    String lowercaseLabel;
+    final String lowercaseLabel;
 
     public BoundApp(int applicationId, String packageName, String label) {
         this.applicationId = applicationId;

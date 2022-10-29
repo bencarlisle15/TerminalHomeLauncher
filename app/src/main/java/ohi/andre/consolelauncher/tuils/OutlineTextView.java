@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 public class OutlineTextView extends AppCompatTextView {
 
-    public static String SHADOW_TAG = "hasShadow";
+    public static final String SHADOW_TAG = "hasShadow";
 
     public static int redrawTimes = 1;
 

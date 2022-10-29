@@ -1,12 +1,15 @@
 package ohi.andre.consolelauncher.managers.xml.classes;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by francescoandreuzzi on 06/03/2018.
  */
 
 public class XMLPrefsEntry {
 
-    public String key, value;
+    public final String key;
+    public final String value;
 
     public XMLPrefsEntry(String key, String value) {
         this.key = key;
@@ -20,6 +23,7 @@ public class XMLPrefsEntry {
         return obj.equals(key);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return key + " --> " + value;

@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import ohi.andre.consolelauncher.managers.AppsManager;
 import ohi.andre.consolelauncher.managers.xml.classes.XMLPrefsSave;
 
-@SuppressWarnings("deprecation")
 public abstract class ExecutePack {
 
     public Object[] args;
     public Context context;
-    public CommandGroup commandGroup;
+    public final CommandGroup commandGroup;
 
     public int currentIndex = 0;
 
@@ -20,7 +19,6 @@ public abstract class ExecutePack {
         this.commandGroup = group;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(Class<T> c) {
         return (T) get();
     }
@@ -47,8 +45,8 @@ public abstract class ExecutePack {
         return (boolean) get();
     }
 
-    public ArrayList getList() {
-        return (ArrayList) get();
+    public ArrayList<String> getList() {
+        return (ArrayList<String>) get();
     }
 
     public XMLPrefsSave getPrefsSave() {

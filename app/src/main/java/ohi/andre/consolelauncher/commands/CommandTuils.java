@@ -31,8 +31,8 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 @SuppressLint("DefaultLocale")
 public class CommandTuils {
 
-    private static FileManager.SpecificExtensionFileFilter extensionFileFilter = new FileManager.SpecificExtensionFileFilter();
-    private static FileManager.SpecificNameFileFilter nameFileFilter = new FileManager.SpecificNameFileFilter();
+    private static final FileManager.SpecificExtensionFileFilter extensionFileFilter = new FileManager.SpecificExtensionFileFilter();
+    private static final FileManager.SpecificNameFileFilter nameFileFilter = new FileManager.SpecificNameFileFilter();
 
     public static List<XMLPrefsSave> xmlPrefsEntrys;
     public static List<String> xmlPrefsFiles;
@@ -66,7 +66,7 @@ public class CommandTuils {
                     command.indexNotFound = 0;
                     args.add(input);
                     command.nArgs = 1;
-                    command.mArgs = args.toArray(new Object[args.size()]);
+                    command.mArgs = args.toArray(new Object[0]);
                     return command;
                 }
 
@@ -97,7 +97,7 @@ public class CommandTuils {
                     if (!arg.found) {
                         command.indexNotFound = cmd instanceof ParamCommand ? count + 1 : count;
                         args.add(input);
-                        command.mArgs = args.toArray(new Object[args.size()]);
+                        command.mArgs = args.toArray(new Object[0]);
                         command.nArgs = nArgs;
                         return command;
                     }
@@ -111,7 +111,7 @@ public class CommandTuils {
             Tuils.log(e);
         }
 
-        command.mArgs = args.toArray(new Object[args.size()]);
+        command.mArgs = args.toArray(new Object[0]);
         command.nArgs = nArgs;
 
         return command;
@@ -286,15 +286,15 @@ public class CommandTuils {
     @SuppressWarnings("unchecked")
     private static ArgInfo file(String input, File cd) {
         input = input.trim();
-        if((input.startsWith("\"") || input.startsWith("'")) && (input.substring(1, input.length()).contains("\"") || input.substring(1, input.length()).contains("'"))) {
-            String afterFirst = input.substring(1, input.length());
+        if((input.startsWith("\"") || input.startsWith("'")) && (input.substring(1).contains("\"") || input.substring(1).contains("'"))) {
+            String afterFirst = input.substring(1);
 
             int endIndex = afterFirst.indexOf("\"");
             if(endIndex == -1) endIndex = afterFirst.indexOf("'");
 
             if(endIndex != -1) {
                 String file = afterFirst.substring(0, endIndex);
-                String residual = afterFirst.substring(endIndex + 1, afterFirst.length());
+                String residual = afterFirst.substring(endIndex + 1);
 
                 File f;
                 if(afterFirst.startsWith("/")) /*absolute*/ f = new File(file);
@@ -473,7 +473,7 @@ public class CommandTuils {
         String candidate = index == -1 ? input : input.substring(0,index);
         for(XMLPrefsSave xs : xmlPrefsEntrys) {
             if(xs.label().equals(candidate)) {
-                return new ArgInfo(xs, index == -1 ? null : input.substring(index + 1,input.length()), true, 1);
+                return new ArgInfo(xs, index == -1 ? null : input.substring(index + 1), true, 1);
             }
         }
         return new ArgInfo(null, input, false, 0);
@@ -521,9 +521,9 @@ public class CommandTuils {
     }
 
     public static class ArgInfo {
-        public Object arg;
-        public String residualString;
-        public int n;
+        public final Object arg;
+        public final String residualString;
+        public final int n;
         public boolean found;
 
         public ArgInfo(Object arg, String residualString, boolean found, int nFound) {

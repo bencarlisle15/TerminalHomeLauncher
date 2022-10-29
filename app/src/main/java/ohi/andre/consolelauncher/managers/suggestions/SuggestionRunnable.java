@@ -35,11 +35,11 @@ import ohi.andre.consolelauncher.managers.xml.options.Suggestions;
 
 public class SuggestionRunnable implements Runnable {
 
-    private LinearLayout.LayoutParams suggestionViewParams;
+    private final LinearLayout.LayoutParams suggestionViewParams;
 
-    private ViewGroup suggestionsView;
-    private HorizontalScrollView scrollView;
-    private Runnable scrollRunnable = new Runnable() {
+    private final ViewGroup suggestionsView;
+    private final HorizontalScrollView scrollView;
+    private final Runnable scrollRunnable = new Runnable() {
         @Override
         public void run() {
             scrollView.fullScroll(View.FOCUS_LEFT);
@@ -54,13 +54,19 @@ public class SuggestionRunnable implements Runnable {
 
     private boolean interrupted;
 
-    MainPack pack;
+    final MainPack pack;
 
-    private boolean transparentSuggestions;
+    private final boolean transparentSuggestions;
     private int suggAppBg, suggAliasBg, suggCmdBg, suggContactBg, suggFileBg, suggSongBg, suggDefaultBg;
-    private int suggAppText, suggAliasText, suggCmdText, suggContactText, suggFileText, suggSongText, suggDefaultText;
+    private final int suggAppText;
+    private final int suggAliasText;
+    private final int suggCmdText;
+    private final int suggContactText;
+    private final int suggFileText;
+    private final int suggSongText;
+    private final int suggDefaultText;
 
-    private int[] spaces;
+    private final int[] spaces;
 
     public SuggestionRunnable(MainPack pack, ViewGroup suggestionsView, LinearLayout.LayoutParams suggestionViewParams, HorizontalScrollView parent, int[] spaces) {
         this.suggestionsView = suggestionsView;
@@ -155,7 +161,7 @@ public class SuggestionRunnable implements Runnable {
 
                 if(s.type == SuggestionsManager.Suggestion.TYPE_APP || s.type == SuggestionsManager.Suggestion.TYPE_APPGP) {
                     Object o = s.object;
-                    if(o != null && o instanceof AppsManager.LaunchInfo) {
+                    if(o instanceof AppsManager.LaunchInfo) {
                         AppsManager.LaunchInfo i = (AppsManager.LaunchInfo) o;
 
                         for(AppsManager.Group g : pack.appsManager.groups) {
@@ -166,7 +172,7 @@ public class SuggestionRunnable implements Runnable {
                         }
                     }
 
-                    if(o != null && o instanceof AppsManager.Group) {
+                    if(o instanceof AppsManager.Group) {
                         bgColor = ((AppsManager.Group) o).getBgColor();
                         foreColor = ((AppsManager.Group) o).getForeColor();
                     }

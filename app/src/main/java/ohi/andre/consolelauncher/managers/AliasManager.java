@@ -28,24 +28,25 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 
 public class AliasManager {
 
-    public static String ACTION_LS = BuildConfig.APPLICATION_ID + ".alias_ls";
-    public static String ACTION_ADD = BuildConfig.APPLICATION_ID + ".alias_add";
-    public static String ACTION_RM = BuildConfig.APPLICATION_ID + ".alias_rm";
+    public static final String ACTION_LS = BuildConfig.APPLICATION_ID + ".alias_ls";
+    public static final String ACTION_ADD = BuildConfig.APPLICATION_ID + ".alias_add";
+    public static final String ACTION_RM = BuildConfig.APPLICATION_ID + ".alias_rm";
 
-    public static String NAME = "name";
+    public static final String NAME = "name";
 
     public static final String PATH = "alias.txt";
 
     private List<Alias> aliases;
-    private String paramSeparator, aliasLabelFormat;
-    private boolean replaceAllMarkers;
+    private final String paramSeparator;
+    private final String aliasLabelFormat;
+    private final boolean replaceAllMarkers;
 
-    private Context context;
+    private final Context context;
 
-    private String paramMarker;
-    private Pattern parameterPattern;
+    private final String paramMarker;
+    private final Pattern parameterPattern;
 
-    private BroadcastReceiver receiver;
+    private final BroadcastReceiver receiver;
 
     public AliasManager(Context c) {
         this.context = c;
@@ -95,7 +96,7 @@ public class AliasManager {
         if(supportSpaces) {
             String args = Tuils.EMPTYSTRING;
 
-            String aliasValue = null;
+            String aliasValue;
             while (true) {
                 aliasValue = getALias(alias);
                 if(aliasValue != null) break;
@@ -117,7 +118,7 @@ public class AliasManager {
 
 //    this prevents some errors related to the % sign
     private final String SECURITY_REPLACEMENT = "{#@";
-    private Pattern securityPattern = Pattern.compile(Pattern.quote(SECURITY_REPLACEMENT));
+    private final Pattern securityPattern = Pattern.compile(Pattern.quote(SECURITY_REPLACEMENT));
 
     public String format(String aliasValue, String params) {
         params = params.trim();
@@ -283,8 +284,9 @@ public class AliasManager {
     }
 
     public static class Alias {
-        public String name, value;
-        public boolean isParametrized;
+        public final String name;
+        public final String value;
+        public final boolean isParametrized;
 
         public Alias(String name, String value, Pattern parameterPattern) {
             this.name = name;

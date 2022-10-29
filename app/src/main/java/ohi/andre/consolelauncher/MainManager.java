@@ -66,11 +66,16 @@ limitations under the License.*/
 
 public class MainManager {
 
-    public static String ACTION_EXEC = BuildConfig.APPLICATION_ID + ".main_exec";
-    public static String CMD = "cmd", NEED_WRITE_INPUT = "writeInput", ALIAS_NAME = "aliasName", PARCELABLE = "parcelable", CMD_COUNT = "cmdCount", MUSIC_SERVICE = "musicService";
+    public static final String ACTION_EXEC = BuildConfig.APPLICATION_ID + ".main_exec";
+    public static final String CMD = "cmd";
+    public static final String NEED_WRITE_INPUT = "writeInput";
+    public static final String ALIAS_NAME = "aliasName";
+    public static final String PARCELABLE = "parcelable";
+    public static final String CMD_COUNT = "cmdCount";
+    public static final String MUSIC_SERVICE = "musicService";
 
     private RedirectCommand redirect;
-    private Redirectator redirectator = new Redirectator() {
+    private final Redirectator redirectator = new Redirectator() {
         @Override
         public void prepareRedirection(RedirectCommand cmd) {
             redirect = cmd;
@@ -101,40 +106,40 @@ public class MainManager {
 
     private final String COMMANDS_PKG = "ohi.andre.consolelauncher.commands.main.raw";
 
-    private CmdTrigger[] triggers = new CmdTrigger[] {
+    private final CmdTrigger[] triggers = new CmdTrigger[] {
             new GroupTrigger(),
             new AliasTrigger(),
             new TuiCommandTrigger(),
             new AppTrigger(),
             new ShellCommandTrigger()
     };
-    private MainPack mainPack;
+    private final MainPack mainPack;
 
-    private LauncherActivity mContext;
+    private final LauncherActivity mContext;
 
-    private boolean showAliasValue;
-    private boolean showAppHistory;
-    private int aliasContentColor;
+    private final boolean showAliasValue;
+    private final boolean showAppHistory;
+    private final int aliasContentColor;
 
-    private String multipleCmdSeparator;
+    private final String multipleCmdSeparator;
 
     public static Shell.Interactive interactive;
 
-    private AliasManager aliasManager;
-    private RssManager rssManager;
-    private AppsManager appsManager;
+    private final AliasManager aliasManager;
+    private final RssManager rssManager;
+    private final AppsManager appsManager;
     private ContactManager contactManager;
-    private MusicManager2 musicManager2;
-    private ThemeManager themeManager;
-    private HTMLExtractManager htmlExtractManager;
+    private final MusicManager2 musicManager2;
+    private final ThemeManager themeManager;
+    private final HTMLExtractManager htmlExtractManager;
 
     MessagesManager messagesManager;
 
-    private BroadcastReceiver receiver;
+    private final BroadcastReceiver receiver;
 
     public static int commandCount = 0;
 
-    private boolean keeperServiceRunning;
+    private final boolean keeperServiceRunning;
 
     protected MainManager(LauncherActivity c) {
         mContext = c;
@@ -242,7 +247,7 @@ public class MainManager {
                         LocalBroadcastManager.getInstance(context.getApplicationContext()).sendBroadcast(i);
                     }
 
-                    if(p != null && p instanceof AppsManager.LaunchInfo) {
+                    if(p instanceof AppsManager.LaunchInfo) {
                         onCommand(cmd, (AppsManager.LaunchInfo) p, intent.getBooleanExtra(MainManager.MUSIC_SERVICE, false));
                     } else {
                         onCommand(cmd, aliasName, intent.getBooleanExtra(MainManager.MUSIC_SERVICE, false));
@@ -287,7 +292,7 @@ public class MainManager {
         }
     }
 
-    Pattern colorExtractor = Pattern.compile("(#[^(]{6})\\[([^\\)]*)\\]", Pattern.CASE_INSENSITIVE);
+    final Pattern colorExtractor = Pattern.compile("(#[^(]{6})\\[([^\\)]*)\\]", Pattern.CASE_INSENSITIVE);
 
 //    command manager
     public void onCommand(String input, String alias, boolean wasMusicService) {
@@ -404,9 +409,9 @@ public class MainManager {
     String appFormat;
     int outputColor;
 
-    Pattern pa = Pattern.compile("%a", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
-    Pattern pp = Pattern.compile("%p", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
-    Pattern pl = Pattern.compile("%l", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
+    final Pattern pa = Pattern.compile("%a", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
+    final Pattern pp = Pattern.compile("%p", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
+    final Pattern pl = Pattern.compile("%l", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
 
     public boolean performLaunch(MainPack mainPack, AppsManager.LaunchInfo i, String input) {
         Intent intent = appsManager.getIntent(i);
@@ -420,7 +425,7 @@ public class MainManager {
                 outputColor = XMLPrefsManager.getColor(Theme.output_color);
             }
 
-            String a = new String(appFormat);
+            String a = appFormat;
             a = pa.matcher(a).replaceAll(Matcher.quoteReplacement(intent.getComponent().getClassName()));
             a = pp.matcher(a).replaceAll(Matcher.quoteReplacement(intent.getComponent().getPackageName()));
             a = pl.matcher(a).replaceAll(Matcher.quoteReplacement(i.publicLabel));
@@ -447,7 +452,7 @@ public class MainManager {
 
         @Override
         public boolean trigger(MainPack info, String input) {
-            String alias[] = aliasManager.getAlias(input, true);
+            String[] alias = aliasManager.getAlias(input, true);
 
             String aliasValue = alias[0];
             if (alias[0] == null) {
@@ -580,7 +585,7 @@ public class MainManager {
     }
 
     public interface Group {
-        List<? extends Object> members();
+        List<?> members();
         boolean use(MainPack mainPack, String input);
         String name();
     }

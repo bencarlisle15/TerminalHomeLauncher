@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -109,8 +109,7 @@ public class Shell {
         try {
             // Combine passed environment with system environment
             if (environment != null) {
-                Map<String, String> newEnvironment = new HashMap<>();
-                newEnvironment.putAll(System.getenv());
+                Map<String, String> newEnvironment = new HashMap<>(System.getenv());
                 int split;
                 for (String entry : environment) {
                     if ((split = entry.indexOf("=")) >= 0) {
@@ -139,10 +138,10 @@ public class Shell {
             STDERR.start();
             try {
                 for (String write : commands) {
-                    STDIN.write((write + "\n").getBytes("UTF-8"));
+                    STDIN.write((write + "\n").getBytes(StandardCharsets.UTF_8));
                     STDIN.flush();
                 }
-                STDIN.write("exit\n".getBytes("UTF-8"));
+                STDIN.write("exit\n".getBytes(StandardCharsets.UTF_8));
                 STDIN.flush();
             } catch (IOException e) {
                 if (e.getMessage().contains("EPIPE") || e.getMessage().contains("Stream closed")) {
@@ -192,7 +191,7 @@ public class Shell {
         return res;
     }
 
-    protected static String[] availableTestCommands = new String[]{
+    protected static final String[] availableTestCommands = new String[]{
             "echo -BOC-",
             "id"
     };
@@ -250,7 +249,7 @@ public class Shell {
          * @return Output of the commands, or null in case of an error
          */
         public static List<String> run(List<String> commands) {
-            return Shell.run("sh", commands.toArray(new String[commands.size()]), null, false);
+            return Shell.run("sh", commands.toArray(new String[0]), null, false);
         }
 
         /**
@@ -270,8 +269,7 @@ public class Shell {
      * if so which version.
      */
     public static class SU {
-        private static Boolean isSELinuxEnforcing = null;
-        private static String[] suVersion = new String[]{
+        private static final String[] suVersion = new String[]{
                 null, null
         };
 
@@ -296,7 +294,7 @@ public class Shell {
          * case of an error
          */
         public static List<String> run(List<String> commands) {
-            return Shell.run("su", commands.toArray(new String[commands.size()]), null, false);
+            return Shell.run("su", commands.toArray(new String[0]), null, false);
         }
 
         /**
@@ -448,10 +446,7 @@ public class Shell {
          * @return Shell command
          */
         public static String shellMountMaster() {
-            if (android.os.Build.VERSION.SDK_INT >= 17) {
-                return "su --mount-master";
-            }
-            return "su";
+            return "su --mount-master";
         }
 
         /**
@@ -461,48 +456,23 @@ public class Shell {
          * permissive or not present
          */
         public static synchronized boolean isSELinuxEnforcing() {
-            if (isSELinuxEnforcing == null) {
-                Boolean enforcing = null;
+            Boolean enforcing = null;
 
-                // First known firmware with SELinux built-in was a 4.2 (17)
-                // leak
-                if (android.os.Build.VERSION.SDK_INT >= 17) {
-                    // Detect enforcing through sysfs, not always present
-                    File f = new File("/sys/fs/selinux/enforce");
-                    if (f.exists()) {
-                        try {
-                            InputStream is = new FileInputStream("/sys/fs/selinux/enforce");
-                            try {
-                                enforcing = (is.read() == '1');
-                            } finally {
-                                is.close();
-                            }
-                        } catch (Exception e) {
-                            // we might not be allowed to read, thanks SELinux
-                        }
-                    }
-
-                    // 4.4+ has a new API to detect SELinux mode, so use it
-                    // SELinux is typically in enforced mode, but emulators may have SELinux disabled
-                    if (enforcing == null) {
-                        try {
-                            Class seLinux = Class.forName("android.os.SELinux");
-                            Method isSELinuxEnforced = seLinux.getMethod("isSELinuxEnforced");
-                            enforcing = (Boolean) isSELinuxEnforced.invoke(seLinux.newInstance());
-                        } catch (Exception e) {
-                            // 4.4+ release builds are enforcing by default, take the gamble
-                            enforcing = (android.os.Build.VERSION.SDK_INT >= 19);
-                        }
-                    }
+            // First known firmware with SELinux built-in was a 4.2 (17)
+            // leak
+            // Detect enforcing through sysfs, not always present
+            File f = new File("/sys/fs/selinux/enforce");
+            if (f.exists()) {
+                try {
+                    InputStream is = new FileInputStream("/sys/fs/selinux/enforce");
+                    enforcing = (is.read() == '1');
+                } catch (IOException e) {
+                    // we might not be allowed to read, thanks SELinux
+                    e.printStackTrace();
                 }
-
-                if (enforcing == null) {
-                    enforcing = false;
-                }
-
-                isSELinuxEnforcing = enforcing;
             }
-            return isSELinuxEnforcing;
+//            return true by default
+            return enforcing == null || enforcing;
         }
 
         /**
@@ -517,7 +487,6 @@ public class Shell {
          * </p>
          */
         public static synchronized void clearCachedResults() {
-            isSELinuxEnforcing = null;
             suVersion[0] = null;
             suVersion[1] = null;
         }
@@ -619,8 +588,8 @@ public class Shell {
         private boolean autoHandler = true;
         private String shell = "sh";
         private boolean wantSTDERR = false;
-        private List<Command> commands = new LinkedList<>();
-        private Map<String, String> environment = new HashMap<>();
+        private final List<Command> commands = new LinkedList<>();
+        private final Map<String, String> environment = new HashMap<>();
         private OnLineListener onSTDOUTLineListener = null;
         private OnLineListener onSTDERRLineListener = null;
         private int watchdogTimeout = 0;
@@ -782,7 +751,7 @@ public class Shell {
          */
         public Builder addCommand(List<String> commands, int code,
                                   OnCommandResultListener onCommandResultListener) {
-            return addCommand(commands.toArray(new String[commands.size()]), code,
+            return addCommand(commands.toArray(new String[0]), code,
                     onCommandResultListener);
         }
 
@@ -1120,7 +1089,7 @@ public class Shell {
          */
         public void addCommand(List<String> commands, int code,
                                OnCommandResultListener onCommandResultListener) {
-            addCommand(commands.toArray(new String[commands.size()]), code, onCommandResultListener);
+            addCommand(commands.toArray(new String[0]), code, onCommandResultListener);
         }
 
         /**
@@ -1140,7 +1109,7 @@ public class Shell {
          */
         public void addCommand(List<String> commands, int code,
                                OnCommandLineListener onCommandLineListener) {
-            addCommand(commands.toArray(new String[commands.size()]), code, onCommandLineListener);
+            addCommand(commands.toArray(new String[0]), code, onCommandLineListener);
         }
 
         /**
@@ -1291,10 +1260,10 @@ public class Shell {
                         this.command = command;
                         startWatchdog();
                         for (String write : command.commands) {
-                            STDIN.write((write + "\n").getBytes("UTF-8"));
+                            STDIN.write((write + "\n").getBytes(StandardCharsets.UTF_8));
                         }
-                        STDIN.write(("echo " + command.marker + " $?\n").getBytes("UTF-8"));
-                        STDIN.write(("echo " + command.marker + " >&2\n").getBytes("UTF-8"));
+                        STDIN.write(("echo " + command.marker + " $?\n").getBytes(StandardCharsets.UTF_8));
+                        STDIN.write(("echo " + command.marker + " >&2\n").getBytes(StandardCharsets.UTF_8));
                         STDIN.flush();
                     } catch (IOException e) {
                         // STDIN might have closed
@@ -1552,7 +1521,7 @@ public class Shell {
 
             try {
                 try {
-                    STDIN.write(("exit\n").getBytes("UTF-8"));
+                    STDIN.write(("exit\n").getBytes(StandardCharsets.UTF_8));
                     STDIN.flush();
                 } catch (IOException e) {
                     if (e.getMessage().contains("EPIPE") || e.getMessage().contains("Stream closed")) {

@@ -118,7 +118,7 @@ public class theme extends ParamCommand {
     @Override
     public String[] params() {
         return Param.labels();
-    };
+    }
 
     @Override
     protected ohi.andre.consolelauncher.commands.main.Param paramForString(MainPack pack, String param) {

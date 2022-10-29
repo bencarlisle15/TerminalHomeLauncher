@@ -4,12 +4,10 @@ package ohi.andre.consolelauncher.managers.notifications;
  * Created by francescoandreuzzi on 27/04/2017.
  */
 
-import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcel;
@@ -41,18 +39,17 @@ import ohi.andre.consolelauncher.tuils.StoppableThread;
 import ohi.andre.consolelauncher.tuils.Tuils;
 
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationService extends NotificationListenerService {
 
     public static final String DESTROY = "destroy";
 
     private final int UPDATE_TIME = 2000;
-    private String LINES_LABEL = "Lines";
-    private String ANDROID_LABEL_PREFIX = "android.";
-    private String NULL_LABEL = "null";
+    private final String LINES_LABEL = "Lines";
+    private final String ANDROID_LABEL_PREFIX = "android.";
+    private final String NULL_LABEL = "null";
 
     HashMap<String, List<Notification>> pastNotifications;
-    Handler handler = new Handler();
+    final Handler handler = new Handler();
 
     String format;
     int color, maxOptionalDepth;
@@ -376,9 +373,10 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification sbn) {}
 
     public static class Notification implements Parcelable {
-        public long time;
-        public String text, pkg;
-        public PendingIntent pendingIntent;
+        public final long time;
+        public final String text;
+        public final String pkg;
+        public final PendingIntent pendingIntent;
 
         public Notification(long time, String text, String pkg, PendingIntent pi) {
             this.time = time;

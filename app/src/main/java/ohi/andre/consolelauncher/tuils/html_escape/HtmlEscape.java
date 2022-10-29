@@ -1237,7 +1237,7 @@ public final class HtmlEscape {
     private static final class InternalStringReader extends Reader {
 
         private String str;
-        private int length;
+        private final int length;
         private int next = 0;
 
         public InternalStringReader(final String s) {

@@ -34,7 +34,7 @@ public class MainPack extends ExecutePack {
     public File currentDirectory;
 
     //	resources references
-    public Resources res;
+    public final Resources res;
 
     //	internet
     public WifiManager wifi;
@@ -45,26 +45,26 @@ public class MainPack extends ExecutePack {
     public Object connectMgr;
 
     //	contacts
-    public ContactManager contacts;
+    public final ContactManager contacts;
 
     //	music
-    public MusicManager2 player;
+    public final MusicManager2 player;
 
     //	apps & assocs
-    public AliasManager aliasManager;
-    public AppsManager appsManager;
+    public final AliasManager aliasManager;
+    public final AppsManager appsManager;
 
-    public CommandsPreferences cmdPrefs;
+    public final CommandsPreferences cmdPrefs;
 
     public String lastCommand;
 
-    public Redirectator redirectator;
+    public final Redirectator redirectator;
 
     public ShellHolder shellHolder;
 
-    public RssManager rssManager;
+    public final RssManager rssManager;
 
-    public OkHttpClient client;
+    public final OkHttpClient client;
 
     public int commandColor = TerminalManager.NO_COLOR;
 

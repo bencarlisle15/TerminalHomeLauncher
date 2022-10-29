@@ -56,32 +56,36 @@ import static ohi.andre.consolelauncher.managers.xml.XMLPrefsManager.resetFile;
 
 public class HTMLExtractManager {
 
-    public static String ACTION_ADD = BuildConfig.APPLICATION_ID + ".htmlextract_add";
-    public static String ACTION_RM = BuildConfig.APPLICATION_ID + ".htmlextract_rm";
-    public static String ACTION_EDIT = BuildConfig.APPLICATION_ID + ".htmlextract_edit";
-    public static String ACTION_LS = BuildConfig.APPLICATION_ID + ".htmlextract_ls";
+    public static final String ACTION_ADD = BuildConfig.APPLICATION_ID + ".htmlextract_add";
+    public static final String ACTION_RM = BuildConfig.APPLICATION_ID + ".htmlextract_rm";
+    public static final String ACTION_EDIT = BuildConfig.APPLICATION_ID + ".htmlextract_edit";
+    public static final String ACTION_LS = BuildConfig.APPLICATION_ID + ".htmlextract_ls";
 
-    public static String ACTION_QUERY = BuildConfig.APPLICATION_ID + ".htmlextract_query";
-    public static String ACTION_WEATHER = BuildConfig.APPLICATION_ID + ".htmlextract_weather";
+    public static final String ACTION_QUERY = BuildConfig.APPLICATION_ID + ".htmlextract_query";
+    public static final String ACTION_WEATHER = BuildConfig.APPLICATION_ID + ".htmlextract_weather";
 
-    public static String ID = "id";
-    public static String FORMAT_ID = "formatId";
-    public static String TAG_NAME = "tag";
-    public static String WEATHER_AREA = "wArea";
+    public static final String ID = "id";
+    public static final String FORMAT_ID = "formatId";
+    public static final String TAG_NAME = "tag";
+    public static final String WEATHER_AREA = "wArea";
 
-    public static String BROADCAST_COUNT = "broadcastCount";
+    public static final String BROADCAST_COUNT = "broadcastCount";
 
-    public static String PATH = "htmlextract.xml", NAME = "HTMLEXTRACT";
+    public static final String PATH = "htmlextract.xml";
+    public static final String NAME = "HTMLEXTRACT";
 
-    private List<StoreableValue> xpaths, jsons, formats;
+    private final List<StoreableValue> xpaths;
+    private final List<StoreableValue> jsons;
+    private final List<StoreableValue> formats;
 
-    private OkHttpClient client;
-    private BroadcastReceiver receiver;
+    private final OkHttpClient client;
+    private final BroadcastReceiver receiver;
 
     public static int broadcastCount;
 
-    String defaultFormat, weatherFormat;
-    int weatherColor;
+    final String defaultFormat;
+    String weatherFormat;
+    final int weatherColor;
 
     public HTMLExtractManager(Context context, OkHttpClient client) {
         receiver = new BroadcastReceiver() {
@@ -360,7 +364,7 @@ public class HTMLExtractManager {
         LocalBroadcastManager.getInstance(context).unregisterReceiver(receiver);
     }
 
-    Pattern weatherFormatPattern = Pattern.compile("%([a-z_]+)(\\d)*(?:\\$\\(([\\.\\+\\-\\*\\/\\^\\d]+)\\))?");
+    final Pattern weatherFormatPattern = Pattern.compile("%([a-z_]+)(\\d)*(?:\\$\\(([\\.\\+\\-\\*\\/\\^\\d]+)\\))?");
 
     private void query(final Context context, final String path, final StoreableValue.Type pathType, final String format, final String url, final boolean weatherArea) {
         new Thread() {
@@ -368,7 +372,7 @@ public class HTMLExtractManager {
             public void run() {
                 super.run();
 
-                if (!Tuils.hasInternetAccess()) {
+                if (Tuils.hasNoInternetAccess()) {
                     output(R.string.no_internet, context, weatherArea);
                     return;
                 }
@@ -561,12 +565,12 @@ public class HTMLExtractManager {
         output(context.getString(string), context, weatherArea, category);
     }
 
-    static Pattern tagName = Pattern.compile("%t(?:\\(([^)]*)\\))?", Pattern.CASE_INSENSITIVE);
-    static String nodeValuePattern = "%v";
+    static final Pattern tagName = Pattern.compile("%t(?:\\(([^)]*)\\))?", Pattern.CASE_INSENSITIVE);
+    static final String nodeValuePattern = "%v";
 
-    static Pattern allAttributes = Pattern.compile("%a\\(([^\\)]*)\\)\\(([^\\)]*)\\)", Pattern.CASE_INSENSITIVE);
-    static Pattern attributeName = Pattern.compile("%an", Pattern.CASE_INSENSITIVE);
-    static Pattern attributeValue = Pattern.compile("%av", Pattern.CASE_INSENSITIVE);
+    static final Pattern allAttributes = Pattern.compile("%a\\(([^\\)]*)\\)\\(([^\\)]*)\\)", Pattern.CASE_INSENSITIVE);
+    static final Pattern attributeName = Pattern.compile("%an", Pattern.CASE_INSENSITIVE);
+    static final Pattern attributeValue = Pattern.compile("%av", Pattern.CASE_INSENSITIVE);
 
     static int linkColor, outputColor;
 
@@ -687,7 +691,7 @@ public class HTMLExtractManager {
         int before;
         do {
             before = original.length();
-            original = TextUtils.replace(original, new String[] {Tuils.patternNewline.pattern()}, new CharSequence[] {Tuils.NEWLINE});;
+            original = TextUtils.replace(original, new String[] {Tuils.patternNewline.pattern()}, new CharSequence[] {Tuils.NEWLINE});
         } while (original.length() < before);
 
         return original;
@@ -700,15 +704,18 @@ public class HTMLExtractManager {
     }
 
 //    static Pattern linkColorReplace = Pattern.compile("#([a-zA-Z0-9]{6})?(?:\\[([^\\]]*)\\](@#&.*@#&)|\\[([^\\]]+)\\])", Pattern.CASE_INSENSITIVE);
-    static Pattern colorPattern = Pattern.compile("(#[a-fA-F0-9]{6})\\[([^\\]]+)\\]");
-    static Pattern linkPattern = Pattern.compile("#\\[((?:(?:http(?:s)?)|(?:www\\.))[^\\]]+)\\]");
-    static Pattern replacePattern = Pattern.compile("#(\\[.+?\\])@#&(.+?)&#@");
+    static final Pattern colorPattern = Pattern.compile("(#[a-fA-F0-9]{6})\\[([^\\]]+)\\]");
+    static final Pattern linkPattern = Pattern.compile("#\\[((?:(?:http(?:s)?)|(?:www\\.))[^\\]]+)\\]");
+    static final Pattern replacePattern = Pattern.compile("#(\\[.+?\\])@#&(.+?)&#@");
 
-    static Pattern extractUrl = Pattern.compile("(.*\\.[^\\/]{2,})\\/", Pattern.CASE_INSENSITIVE);
+    static final Pattern extractUrl = Pattern.compile("(.*\\.[^\\/]{2,})\\/", Pattern.CASE_INSENSITIVE);
 
 //    this is used to know where a group begins and when it ends
-    static String delimiterStart = "@#&", delimiterEnd = new StringBuilder(delimiterStart).reverse().toString(), optionalValueSeparator;
-    static String[] delimiterArray = {delimiterStart, delimiterEnd}, delimiterReplacementArray = {Tuils.EMPTYSTRING, Tuils.EMPTYSTRING};
+    static final String delimiterStart = "@#&";
+    static final String delimiterEnd = new StringBuilder(delimiterStart).reverse().toString();
+    static String optionalValueSeparator;
+    static final String[] delimiterArray = {delimiterStart, delimiterEnd};
+    static final String[] delimiterReplacementArray = {Tuils.EMPTYSTRING, Tuils.EMPTYSTRING};
 
     public static CharSequence replaceLinkColorReplace(Context context, CharSequence original, String url) {
         Matcher m = colorPattern.matcher(original);
@@ -766,13 +773,13 @@ public class HTMLExtractManager {
         public enum Type {
             xpath,
             json,
-            format;
+            format
         }
 
-        int id;
+        final int id;
         String value;
 
-        Type type;
+        final Type type;
 
         public StoreableValue(int id, String value, Type type) {
             this.id = id;

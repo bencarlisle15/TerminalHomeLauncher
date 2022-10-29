@@ -28,7 +28,7 @@ public class TimeManager {
 
     Map.Entry<Integer, SimpleDateFormat>[] dateFormatList;
 
-    public static Pattern extractor = Pattern.compile("%t([0-9]*)", Pattern.CASE_INSENSITIVE);
+    public static final Pattern extractor = Pattern.compile("%t([0-9]*)", Pattern.CASE_INSENSITIVE);
 
     public static TimeManager instance;
 

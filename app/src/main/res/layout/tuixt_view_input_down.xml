@@ -29,7 +29,9 @@
             android:textCursorDrawable="@drawable/cursor"
 
             android:lines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:inputType="text"
+            android:autofillHints="" />
 
         <ImageButton
             android:id="@+id/submit_tv"
@@ -38,7 +40,8 @@
             android:layout_weight="@integer/enter_view_weight"
 
             android:background="@null"
-            android:src="@drawable/ic_enter"/>
+            android:src="@drawable/ic_enter"
+            android:contentDescription="@string/submit" />
 
     </LinearLayout>
 
@@ -63,6 +66,7 @@
         android:isScrollContainer="true"
         android:textCursorDrawable="@drawable/cursor"
 
-        android:background="@null"/>
+        android:background="@null"
+        android:autofillHints="" />
 
 </RelativeLayout>

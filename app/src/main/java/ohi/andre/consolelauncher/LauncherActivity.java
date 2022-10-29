@@ -7,8 +7,6 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -21,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -77,7 +76,7 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
     private boolean openKeyboardOnStart, canApplyTheme, backButtonEnabled;
 
     private Set<ReloadMessageCategory> categories;
-    private Runnable stopActivity = () -> {
+    private final Runnable stopActivity = () -> {
             dispose();
             finish();
 
@@ -93,7 +92,7 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
             startActivity(startMain);
     };
 
-    private Inputable in = new Inputable() {
+    private final Inputable in = new Inputable() {
 
         @Override
         public void in(String s) {
@@ -111,7 +110,7 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
         }
     };
 
-    private Outputable out = new Outputable() {
+    private final Outputable out = new Outputable() {
 
         private final int DELAY = 500;
 
@@ -200,8 +199,7 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
             return;
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED  &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
+        if(!(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, LauncherActivity.STARTING_PERMISSION);
         } else {
@@ -237,12 +235,10 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
         if(requestedOrientation >= 0 && requestedOrientation != 2) {
             int orientation = getResources().getConfiguration().orientation;
             if(orientation != requestedOrientation) setRequestedOrientation(requestedOrientation);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-            }
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !XMLPrefsManager.getBoolean(Ui.ignore_bar_color)) {
+        if(!XMLPrefsManager.getBoolean(Ui.ignore_bar_color)) {
             Window window = getWindow();
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -285,32 +281,28 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
 
         boolean notifications = XMLPrefsManager.getBoolean(Notifications.show_notifications) || XMLPrefsManager.get(Notifications.show_notifications).equalsIgnoreCase("enabled");
         if(notifications) {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                try {
-                    ComponentName notificationComponent = new ComponentName(this, NotificationService.class);
-                    PackageManager pm = getPackageManager();
-                    pm.setComponentEnabledSetting(notificationComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+            try {
+                ComponentName notificationComponent = new ComponentName(this, NotificationService.class);
+                PackageManager pm = getPackageManager();
+                pm.setComponentEnabledSetting(notificationComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
-                    if (!Tuils.hasNotificationAccess(this)) {
-                        Intent i = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                        if (i.resolveActivity(getPackageManager()) == null) {
-                            Toast.makeText(this, R.string.no_notification_access, Toast.LENGTH_LONG).show();
-                        } else {
-                            startActivity(i);
-                        }
+                if (!Tuils.hasNotificationAccess(this)) {
+                    Intent i = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                    if (i.resolveActivity(getPackageManager()) == null) {
+                        Toast.makeText(this, R.string.no_notification_access, Toast.LENGTH_LONG).show();
+                    } else {
+                        startActivity(i);
                     }
-
-                    Intent monitor = new Intent(this, NotificationMonitorService.class);
-                    startService(monitor);
-
-                    Intent notificationIntent = new Intent(this, NotificationService.class);
-                    startService(notificationIntent);
-                } catch (NoClassDefFoundError er) {
-                    Intent intent = new Intent(PrivateIOReceiver.ACTION_OUTPUT);
-                    intent.putExtra(PrivateIOReceiver.TEXT, getString(R.string.output_notification_error) + Tuils.SPACE + er.toString());
                 }
-            } else {
-                Tuils.sendOutput(Color.RED, this, R.string.notification_low_api);
+
+                Intent monitor = new Intent(this, NotificationMonitorService.class);
+                startService(monitor);
+
+                Intent notificationIntent = new Intent(this, NotificationService.class);
+                startService(notificationIntent);
+            } catch (NoClassDefFoundError er) {
+                Intent intent = new Intent(PrivateIOReceiver.ACTION_OUTPUT);
+                intent.putExtra(PrivateIOReceiver.TEXT, getString(R.string.output_notification_error) + Tuils.SPACE + er);
             }
         }
 
@@ -332,13 +324,13 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
 
         main = new MainManager(this);
 
-        ViewGroup mainView = (ViewGroup) findViewById(R.id.mainview);
+        ViewGroup mainView = findViewById(R.id.mainview);
 
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !XMLPrefsManager.getBoolean(Ui.ignore_bar_color) && !XMLPrefsManager.getBoolean(Ui.statusbar_light_icons)) {
 //            mainView.setSystemUiVisibility(0);
 //        }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !XMLPrefsManager.getBoolean(Ui.ignore_bar_color) && !XMLPrefsManager.getBoolean(Ui.statusbar_light_icons)) {
+        if(!XMLPrefsManager.getBoolean(Ui.ignore_bar_color) && !XMLPrefsManager.getBoolean(Ui.statusbar_light_icons)) {
             mainView.setSystemUiVisibility(mainView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
@@ -520,7 +512,7 @@ public class LauncherActivity extends AppCompatActivity implements Reloadable {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, @NonNull int[] grantResults) {
         if(permissions.length > 0 && permissions[0].equals(Manifest.permission.READ_CONTACTS) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             LocalBroadcastManager.getInstance(this.getApplicationContext()).sendBroadcast(new Intent(ContactManager.ACTION_REFRESH));
         }

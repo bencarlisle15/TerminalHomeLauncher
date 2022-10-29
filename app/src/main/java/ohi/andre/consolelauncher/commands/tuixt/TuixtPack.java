@@ -15,10 +15,10 @@ import ohi.andre.consolelauncher.commands.ExecutePack;
 
 public class TuixtPack extends ExecutePack {
 
-    public File editFile;
-    public EditText editText;
+    public final File editFile;
+    public final EditText editText;
 
-    public Resources resources;
+    public final Resources resources;
 
     public TuixtPack(CommandGroup group, File file, Context context, EditText editText) {
         super(group);

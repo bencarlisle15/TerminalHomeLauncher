@@ -10,7 +10,6 @@ import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.widget.MediaController;
@@ -35,7 +34,7 @@ public class MusicManager2 implements MediaController.MediaPlayerControl {
 
     final int WAITING_NEXT = 10, WAITING_PREVIOUS = 11, WAITING_PLAY = 12, WAITING_LISTEN = 13;
 
-    Context mContext;
+    final Context mContext;
 
     List<Song> songs;
 
@@ -50,7 +49,7 @@ public class MusicManager2 implements MediaController.MediaPlayerControl {
     int waitingMethod = 0;
     String savedParam;
 
-    BroadcastReceiver headsetBroadcast;
+    final BroadcastReceiver headsetBroadcast;
 
     public MusicManager2(Context c) {
         mContext = c;
@@ -64,11 +63,7 @@ public class MusicManager2 implements MediaController.MediaPlayerControl {
         };
 
         String action;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            action = AudioManager.ACTION_HEADSET_PLUG;
-        } else {
-            action = Intent.ACTION_HEADSET_PLUG;
-        }
+        action = AudioManager.ACTION_HEADSET_PLUG;
 
         mContext.getApplicationContext().registerReceiver(headsetBroadcast, new IntentFilter(action));
 
@@ -224,7 +219,7 @@ public class MusicManager2 implements MediaController.MediaPlayerControl {
         loader.start();
     }
 
-    private ServiceConnection musicConnection = new ServiceConnection(){
+    private final ServiceConnection musicConnection = new ServiceConnection(){
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {

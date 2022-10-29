@@ -3,10 +3,8 @@ package ohi.andre.consolelauncher.managers.suggestions;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +60,8 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 import static ohi.andre.consolelauncher.commands.CommandTuils.xmlPrefsEntrys;
 import static ohi.andre.consolelauncher.commands.CommandTuils.xmlPrefsFiles;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by francescoandreuzzi on 25/12/15.
  */
@@ -76,45 +76,48 @@ public class SuggestionsManager {
     private final String[] FILE_SPLITTERS = {Tuils.SPACE, "-", "_"};
     private final String[] XML_PREFS_SPLITTERS = {"_"};
 
-    private boolean showAliasDefault, clickToLaunch, showAppsGpDefault, enabled;
-    private int minCmdPriority;
+    private final boolean showAliasDefault;
+    private final boolean clickToLaunch;
+    private final boolean showAppsGpDefault;
+    private boolean enabled;
+    private final int minCmdPriority;
 
-    private String multipleCmdSeparator;
+    private final String multipleCmdSeparator;
 
-    private boolean doubleSpaceFirstSuggestion;
-    private LinearLayout suggestionsView;
+    private final boolean doubleSpaceFirstSuggestion;
+    private final LinearLayout suggestionsView;
     private SuggestionRunnable suggestionRunnable;
     private LinearLayout.LayoutParams suggestionViewParams;
     private SuggestionsManager.Suggestion lastFirst;
 
-    private TerminalManager mTerminalAdapter;
+    private final TerminalManager mTerminalAdapter;
 
-    private View.OnClickListener clickListener = v -> {
+    private final View.OnClickListener clickListener = v -> {
         Suggestion suggestion = (Suggestion) v.getTag(R.id.suggestion_id);
         clickSuggestion(suggestion);
     };
 
-    private MainPack pack;
+    private final MainPack pack;
     private StoppableThread lastSuggestionThread;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
-    private RemoverRunnable removeAllSuggestions;
+    private final RemoverRunnable removeAllSuggestions;
 
-    private int[] spaces;
+    private final int[] spaces;
 
     int[] counts, noInputCounts;
 
-    private Pattern rmQuotes = Pattern.compile("['\"]");
+    private final Pattern rmQuotes = Pattern.compile("['\"]");
 
-    int suggestionsPerCategory;
-    float suggestionsDeadline;
+    final int suggestionsPerCategory;
+    final float suggestionsDeadline;
 
-    private CustomComparator comparator;
+    private final CustomComparator comparator;
 
     private Algorithm algInstance;
     private AlgMap.Alg alg;
 
-    private int quickCompare;
+    private final int quickCompare;
 
     public SuggestionsManager(LinearLayout suggestionsView, MainPack mainPack, TerminalManager mTerminalAdapter) {
         this.suggestionsView = suggestionsView;
@@ -314,7 +317,7 @@ public class SuggestionsManager {
         suggestionsView.removeAllViews();
     }
 
-    Runnable hideRunnable = new Runnable() {
+    final Runnable hideRunnable = new Runnable() {
         @Override
         public void run() {
             suggestionsView.setVisibility(View.GONE);
@@ -330,7 +333,7 @@ public class SuggestionsManager {
         }
     }
 
-    Runnable showRunnable = new Runnable() {
+    final Runnable showRunnable = new Runnable() {
         @Override
         public void run() {
             suggestionsView.setVisibility(View.VISIBLE);
@@ -473,7 +476,7 @@ public class SuggestionsManager {
                     lastWord = lastInput;
                 } else {
                     before = lastInput.substring(0,lastSpace);
-                    lastWord = lastInput.substring(lastSpace + 1,lastInput.length());
+                    lastWord = lastInput.substring(lastSpace + 1);
                 }
 
                 final List<SuggestionsManager.Suggestion> suggestions;
@@ -1137,7 +1140,7 @@ public class SuggestionsManager {
             for(XMLPrefsManager.XMLPrefsRoot element : XMLPrefsManager.XMLPrefsRoot.values())
                 xmlPrefsFiles.add(element.path);
             xmlPrefsFiles.add(AppsManager.PATH);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) xmlPrefsFiles.add(ReplyManager.PATH);
+            xmlPrefsFiles.add(ReplyManager.PATH);
             xmlPrefsFiles.add(NotificationManager.PATH);
             xmlPrefsFiles.add(RssManager.PATH);
         }
@@ -1287,12 +1290,13 @@ public class SuggestionsManager {
         public static final int TYPE_PERMANENT = 15;
         public static final int TYPE_CONFIGFILE = 16;
 
-        public String text, textBefore;
+        public final String text;
+        public final String textBefore;
 
-        public boolean exec;
-        public int type;
+        public final boolean exec;
+        public final int type;
 
-        public Object object;
+        public final Object object;
 
         public static boolean appendQuotesBeforeFile;
 
@@ -1354,17 +1358,19 @@ public class SuggestionsManager {
             }
         }
 
+        @NonNull
         @Override
         public String toString() {
             return text;
         }
     }
 
-    private class CustomComparator implements Comparator<Suggestion>  {
+    private static class CustomComparator implements Comparator<Suggestion>  {
 
         public boolean noInput;
 
-        public int[] noInputIndexes, inputIndexes;
+        public final int[] noInputIndexes;
+        public final int[] inputIndexes;
 
         public CustomComparator(int[] noInputIndexes, int[] inputIndexes) {
             this.noInputIndexes = noInputIndexes;

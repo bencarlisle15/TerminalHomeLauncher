@@ -1,6 +1,5 @@
 package ohi.andre.consolelauncher.managers;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -35,7 +34,6 @@ import java.util.regex.Pattern;
 
 import ohi.andre.consolelauncher.BuildConfig;
 import ohi.andre.consolelauncher.R;
-import ohi.andre.consolelauncher.commands.main.raw.shortcut;
 import ohi.andre.consolelauncher.managers.xml.XMLPrefsManager;
 import ohi.andre.consolelauncher.managers.xml.options.Behavior;
 import ohi.andre.consolelauncher.managers.xml.options.Theme;
@@ -56,36 +54,41 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class NotesManager {
 
-    public static String ACTION_RM = BuildConfig.APPLICATION_ID + ".rm_note";
-    public static String ACTION_ADD = BuildConfig.APPLICATION_ID + ".add_note";
-    public static String ACTION_CLEAR = BuildConfig.APPLICATION_ID + ".clear_notes";
-    public static String ACTION_LS = BuildConfig.APPLICATION_ID + ".ls_notes";
-    public static String ACTION_LOCK = BuildConfig.APPLICATION_ID + ".lock_notes";
-    public static String ACTION_CP = BuildConfig.APPLICATION_ID + ".cp_notes";
+    public static final String ACTION_RM = BuildConfig.APPLICATION_ID + ".rm_note";
+    public static final String ACTION_ADD = BuildConfig.APPLICATION_ID + ".add_note";
+    public static final String ACTION_CLEAR = BuildConfig.APPLICATION_ID + ".clear_notes";
+    public static final String ACTION_LS = BuildConfig.APPLICATION_ID + ".ls_notes";
+    public static final String ACTION_LOCK = BuildConfig.APPLICATION_ID + ".lock_notes";
+    public static final String ACTION_CP = BuildConfig.APPLICATION_ID + ".cp_notes";
 
-    public static String BROADCAST_COUNT = "broadcastCount";
-    public static String CREATION_TIME = "creationTime", TEXT = "text", LOCK = "lock";
+    public static final String BROADCAST_COUNT = "broadcastCount";
+    public static final String CREATION_TIME = "creationTime";
+    public static final String TEXT = "text";
+    public static final String LOCK = "lock";
 
     private final String PATH = "notes.xml", NAME = "NOTES", NOTE_NODE = "note";
 
     CharSequence oldNotes;
     public boolean hasChanged;
 
-    Set<Class> classes;
-    List<Note> notes;
+    final Set<Class> classes;
+    final List<Note> notes;
 
-    Pattern optionalPattern;
-    String footer, header, divider;
-    int color, lockedColor;
+    final Pattern optionalPattern;
+    final String footer;
+    final String header;
+    String divider;
+    final int color;
+    final int lockedColor;
 
-    boolean allowLink;
+    final boolean allowLink;
     int linkColor;
 
-    BroadcastReceiver receiver;
+    final BroadcastReceiver receiver;
 
-    PackageManager packageManager;
+    final PackageManager packageManager;
 
-    Context mContext;
+    final Context mContext;
 
     public static int broadcastCount;
 
@@ -250,11 +253,11 @@ public class NotesManager {
         invalidateNotes();
     }
 
-    Pattern colorPattern = Pattern.compile("(\\d+|#[\\da-zA-Z]{6,8})\\(([^)]*)\\)");
-    Pattern countPattern = Pattern.compile("%c", Pattern.CASE_INSENSITIVE);
-    Pattern lockPattern = Pattern.compile("%l", Pattern.CASE_INSENSITIVE);
-    Pattern rowPattern = Pattern.compile("%r", Pattern.CASE_INSENSITIVE);
-    Pattern uriPattern = Pattern.compile("(http[s]?:[^\\s]+|www\\.[^\\s]*)\\.[a-z]+");
+    final Pattern colorPattern = Pattern.compile("(\\d+|#[\\da-zA-Z]{6,8})\\(([^)]*)\\)");
+    final Pattern countPattern = Pattern.compile("%c", Pattern.CASE_INSENSITIVE);
+    final Pattern lockPattern = Pattern.compile("%l", Pattern.CASE_INSENSITIVE);
+    final Pattern rowPattern = Pattern.compile("%r", Pattern.CASE_INSENSITIVE);
+    final Pattern uriPattern = Pattern.compile("(http[s]?:[^\\s]+|www\\.[^\\s]*)\\.[a-z]+");
 
     private void invalidateNotes() {
         String header = this.header;
@@ -402,10 +405,6 @@ public class NotesManager {
     }
 
     private void cpNote(String s) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            Tuils.sendOutput(mContext, R.string.api_low);
-            return;
-        }
 
         int index = findNote(s);
         if(index == -1) {
@@ -548,9 +547,9 @@ public class NotesManager {
         LocalBroadcastManager.getInstance(context.getApplicationContext()).unregisterReceiver(receiver);
     }
 
-    private class Class {
-        int id;
-        int color;
+    private static class Class {
+        final int id;
+        final int color;
 
         public Class(int id, int color) {
             this.id = id;
@@ -566,8 +565,8 @@ public class NotesManager {
         private static final int SORTING_LOCK_BEFORE = 4;
         private static final int SORTING_UNLOCK_BEFORE = 5;
 
-        long creationTime;
-        String text;
+        final long creationTime;
+        final String text;
         boolean lock;
 
         public static int sorting = Integer.MAX_VALUE;
@@ -610,6 +609,7 @@ public class NotesManager {
             }
         }
 
+        @NonNull
         @Override
         public String toString() {
             return creationTime + " : " + text;

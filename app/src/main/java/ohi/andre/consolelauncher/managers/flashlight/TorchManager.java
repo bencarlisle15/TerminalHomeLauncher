@@ -1,7 +1,6 @@
 package ohi.andre.consolelauncher.managers.flashlight;
 
 import android.content.Context;
-import android.os.Build;
 
 /**
  * Created by francescoandreuzzi on 20/08/2017.
@@ -15,7 +14,7 @@ public class TorchManager {
     private String torchType;
 
     private TorchManager() {
-        this.flashType = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) ? Flashlight2.TYPE : Flashlight1.TYPE;
+        this.flashType = Flashlight2.TYPE;
         this.setTorchType(Constants.ID_DEVICE_OUTPUT_TORCH_FLASH);
     }
 

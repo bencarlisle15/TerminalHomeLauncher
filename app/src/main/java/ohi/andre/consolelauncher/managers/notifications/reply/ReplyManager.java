@@ -1,6 +1,5 @@
 package ohi.andre.consolelauncher.managers.notifications.reply;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.RemoteInput;
 import android.content.BroadcastReceiver;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
@@ -48,13 +46,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class ReplyManager implements XMLPrefsElement {
 
-    public static String PATH = "reply.xml";
-    public static String NAME = "REPLY";
-    public static String ACTION = BuildConfig.APPLICATION_ID + ".reply";
-    public static String ID = "id";
-    public static String WHAT = "what";
-    public static String ACTION_UPDATE = BuildConfig.APPLICATION_ID + ".update";
-    public static String ACTION_LS = BuildConfig.APPLICATION_ID + ".lsreplies";
+    public static final String PATH = "reply.xml";
+    public static final String NAME = "REPLY";
+    public static final String ACTION = BuildConfig.APPLICATION_ID + ".reply";
+    public static final String ID = "id";
+    public static final String WHAT = "what";
+    public static final String ACTION_UPDATE = BuildConfig.APPLICATION_ID + ".update";
+    public static final String ACTION_LS = BuildConfig.APPLICATION_ID + ".lsreplies";
 
     private static final String ID_ATTRIBUTE = "id";
 
@@ -78,7 +76,7 @@ public class ReplyManager implements XMLPrefsElement {
     }
 
     public ReplyManager(Context context) {
-        enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH;
+        enabled = true;
         if(!enabled) return;
 
         notificationWears = new HashSet<>();
@@ -219,7 +217,6 @@ public class ReplyManager implements XMLPrefsElement {
         nextUsableId = nextUsableId();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void onNotification(StatusBarNotification notification, CharSequence text) {
         if(!enabled) return;
 
@@ -254,7 +251,6 @@ public class ReplyManager implements XMLPrefsElement {
         else Tuils.sendOutput(context, R.string.reply_notification_not_found);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     private void replyTo(Context context, NotificationWear notificationWear, String what) {
         RemoteInput[] remoteInputs = notificationWear.remoteInputs;
 
@@ -271,7 +267,6 @@ public class ReplyManager implements XMLPrefsElement {
         LocalBroadcastManager.getInstance(context.getApplicationContext()).sendBroadcast(i);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     private NotificationWear extractWearNotification(StatusBarNotification statusBarNotification) {
         NotificationWear notificationWear = new NotificationWear();
 

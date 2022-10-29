@@ -2,9 +2,7 @@ package ohi.andre.consolelauncher.tuils;
 
 import android.app.Activity;
 import android.graphics.Rect;
-import android.os.Build;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import java.lang.reflect.Field;
@@ -22,12 +20,12 @@ public class Assist {
         new Assist(activity);
     }
 
-    private View mChildOfContent;
+    private final View mChildOfContent;
     private int usableHeightPrevious;
-    private FrameLayout.LayoutParams frameLayoutParams;
+    private final FrameLayout.LayoutParams frameLayoutParams;
 
     private Assist(Activity activity) {
-        FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
+        FrameLayout content = activity.findViewById(android.R.id.content);
         mChildOfContent = content.getChildAt(0);
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(this::possiblyResizeChildOfContent);
         frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
@@ -45,11 +43,7 @@ public class Assist {
                 // keyboard probably just became hidden
                 frameLayoutParams.height = usableHeightSansKeyboard;
             }
-            if (Build.VERSION.SDK_INT >= 11) {
-                mChildOfContent.setBottom(frameLayoutParams.height);
-            } else {
-                setPrivateField(mChildOfContent, "mBottom", frameLayoutParams.height);
-            }
+            mChildOfContent.setBottom(frameLayoutParams.height);
             mChildOfContent.requestLayout();
             usableHeightPrevious = usableHeightNow;
         }

@@ -15,7 +15,7 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 
 public class CommandGroup {
 
-    private String packageName;
+    private final String packageName;
     private CommandAbstraction[] commands;
     private String[] commandNames;
 

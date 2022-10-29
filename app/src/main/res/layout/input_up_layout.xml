@@ -18,7 +18,7 @@
                 android:id="@+id/suggestions_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:orientation="horizontal"
                 android:focusable="false"
                 android:focusableInTouchMode="false">
@@ -63,7 +63,8 @@
             android:layout_weight="@integer/enter_view_weight"
 
             android:background="@null"
-            android:src="@drawable/ic_enter"/>
+            android:src="@drawable/ic_enter"
+            android:contentDescription="@string/submit" />
 
     </LinearLayout>
 
@@ -76,19 +77,23 @@
 
         <ImageButton android:id="@+id/delete_view"
             style="@style/ToolsBar"
-            android:src="@drawable/ic_clear"/>
+            android:src="@drawable/ic_clear"
+            android:contentDescription="@string/delete" />
 
         <ImageButton android:id="@+id/back_view"
             style="@style/ToolsBar"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back"
+            android:contentDescription="@string/up" />
 
         <ImageButton android:id="@+id/next_view"
             style="@style/ToolsBar"
-            android:src="@drawable/ic_next"/>
+            android:src="@drawable/ic_next"
+            android:contentDescription="@string/down" />
 
         <ImageButton android:id="@+id/paste_view"
             style="@style/ToolsBar"
-            android:src="@drawable/ic_paste"/>
+            android:src="@drawable/ic_paste"
+            android:contentDescription="@string/paste" />
 
     </LinearLayout>
 

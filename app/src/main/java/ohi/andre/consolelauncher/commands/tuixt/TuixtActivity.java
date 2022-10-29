@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
@@ -50,9 +49,9 @@ public class TuixtActivity extends Activity {
 
     private long lastEnter;
 
-    public static String PATH = "path";
+    public static final String PATH = "path";
 
-    public static String ERROR_KEY = "error";
+    public static final String ERROR_KEY = "error";
 
     private EditText inputView;
     private EditText fileView;
@@ -85,7 +84,7 @@ public class TuixtActivity extends Activity {
             finish();
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !XMLPrefsManager.getBoolean(Ui.ignore_bar_color)) {
+        if(!XMLPrefsManager.getBoolean(Ui.ignore_bar_color)) {
             Window window = getWindow();
 
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -108,13 +107,13 @@ public class TuixtActivity extends Activity {
         View inputOutputView = inflater.inflate(layoutId, null);
         rootView.addView(inputOutputView);
 
-        fileView = (EditText) inputOutputView.findViewById(R.id.file_view);
-        inputView = (EditText) inputOutputView.findViewById(R.id.input_view);
-        outputView = (TextView) inputOutputView.findViewById(R.id.output_view);
+        fileView = inputOutputView.findViewById(R.id.file_view);
+        inputView = inputOutputView.findViewById(R.id.input_view);
+        outputView = inputOutputView.findViewById(R.id.output_view);
 
-        TextView prefixView = (TextView) inputOutputView.findViewById(R.id.prefix_view);
+        TextView prefixView = inputOutputView.findViewById(R.id.prefix_view);
 
-        ImageButton submitView = (ImageButton) inputOutputView.findViewById(R.id.submit_tv);
+        ImageButton submitView = inputOutputView.findViewById(R.id.submit_tv);
         boolean showSubmit = XMLPrefsManager.getBoolean(Ui.show_enter_button);
         if (!showSubmit) {
             submitView.setVisibility(View.GONE);
@@ -145,7 +144,6 @@ public class TuixtActivity extends Activity {
                 outputView.setVisibility(View.GONE);
                 outputView.setText(Tuils.EMPTYSTRING);
             }
-
             return false;
         });
 
@@ -189,7 +187,8 @@ public class TuixtActivity extends Activity {
 
         pack = new TuixtPack(group, file, this, fileView);
 
-        fileView.setText(getString(R.string.tuixt_reading) + Tuils.SPACE + path);
+        String fileText = getString(R.string.tuixt_reading) + Tuils.SPACE + path;
+        fileView.setText(fileText);
         new StoppableThread() {
 
             @Override
@@ -240,7 +239,8 @@ public class TuixtActivity extends Activity {
             editor.putBoolean(FIRSTACCESS_KEY, false);
             editor.commit();
 
-            inputView.setText("help");
+            String helpString = "help";
+            inputView.setText(helpString);
             inputView.setSelection(inputView.getText().length());
         }
     }

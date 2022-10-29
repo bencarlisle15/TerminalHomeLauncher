@@ -10,7 +10,7 @@ public class RemoverRunnable implements Runnable {
 
     public boolean stop = false, isGoingToRun = false;
 
-    public LinearLayout suggestionsView;
+    public final LinearLayout suggestionsView;
 
     public RemoverRunnable(LinearLayout suggestionsView) {
         this.suggestionsView = suggestionsView;

@@ -79,7 +79,7 @@ public class FileManager {
             if (slash == -1)
                 slash = 0;
 
-            toAdd = path.substring(slash, path.length());
+            toAdd = path.substring(slash);
 //            add a "/" to be sure
             if (!toAdd.startsWith(File.separator))
                 toAdd = toAdd.concat(File.separator);
@@ -101,7 +101,7 @@ public class FileManager {
             count = pathSection.lastIndexOf(File.separator);
 
 //            get the part between "/" and end of path or "/"
-            cut = pathSection.substring(count + 1, pathSection.length());
+            cut = pathSection.substring(count + 1);
 //            if cut is ..
             if (cut.equals("..")) {
 //                find the slash before count
@@ -146,8 +146,8 @@ public class FileManager {
     }
 
     public static class DirInfo {
-        public File file;
-        public String notFound;
+        public final File file;
+        public final String notFound;
 
         public DirInfo(File f, String nF) {
             this.file = f;

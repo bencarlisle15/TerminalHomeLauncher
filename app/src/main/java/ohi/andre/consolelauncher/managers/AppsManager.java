@@ -65,28 +65,30 @@ public class AppsManager implements XMLPrefsElement {
 
     public static final String PATH = "apps.xml";
     private final String NAME = "APPS";
-    private File file;
+    private final File file;
 
     private final String SHOW_ATTRIBUTE = "show", APPS_ATTRIBUTE = "apps", BGCOLOR_ATTRIBUTE = "bgColor", FORECOLOR_ATTRIBUTE = "foreColor";
     private static final String APPS_SEPARATOR = ";";
 
-    private Context context;
+    private final Context context;
 
     private AppsHolder appsHolder;
     private List<LaunchInfo> hiddenApps;
 
     private final String PREFS = "apps";
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences preferences;
+    private final SharedPreferences.Editor editor;
 
     public static XMLPrefsElement instance = null;
 
     private XMLPrefsList prefsList;
 
-    public List<Group> groups;
+    public final List<Group> groups;
 
-    private Pattern pp, pl;
-    private String appInstalledFormat, appUninstalledFormat;
+    private final Pattern pp;
+    private final Pattern pl;
+    private final String appInstalledFormat;
+    private final String appUninstalledFormat;
     int appInstalledColor, appUninstalledColor;
 
     @Override
@@ -109,7 +111,7 @@ public class AppsManager implements XMLPrefsElement {
         return prefsList;
     }
 
-    private BroadcastReceiver appsBroadcast = new BroadcastReceiver() {
+    private final BroadcastReceiver appsBroadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -212,7 +214,7 @@ public class AppsManager implements XMLPrefsElement {
                     final Node node = nodes.item(count);
 
                     String nn = node.getNodeName();
-                    int nodeIndex = Tuils.find(nn, (List) enums);
+                    int nodeIndex = Tuils.find(nn, enums);
                     if (nodeIndex != -1) {
 //                        default_app...
                         if(nn.startsWith("d")) {
@@ -523,11 +525,7 @@ public class AppsManager implements XMLPrefsElement {
 
     public void writeLaunchTimes(LaunchInfo info) {
         editor.putInt(info.write(), info.launchedTimes);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            editor.apply();
-        } else {
-            editor.commit();
-        }
+        editor.apply();
 
         if(appsHolder != null) appsHolder.update(true);
     }
@@ -910,7 +908,7 @@ public class AppsManager implements XMLPrefsElement {
 
         public static int sorting;
 
-        public static Comparator<GroupLaunchInfo> comparator = new Comparator<GroupLaunchInfo>() {
+        public static final Comparator<GroupLaunchInfo> comparator = new Comparator<GroupLaunchInfo>() {
             @Override
             public int compare(GroupLaunchInfo o1, GroupLaunchInfo o2) {
                 switch (sorting) {
@@ -932,12 +930,13 @@ public class AppsManager implements XMLPrefsElement {
             }
         };
 
-        List<GroupLaunchInfo> apps;
+        final List<GroupLaunchInfo> apps;
 
         int bgColor = Integer.MAX_VALUE;
         int foreColor = Integer.MAX_VALUE;
 
-        String name, lowercaseName;
+        final String name;
+        final String lowercaseName;
 
         public Group(String name) {
             this.name = name;
@@ -997,7 +996,7 @@ public class AppsManager implements XMLPrefsElement {
         }
 
         @Override
-        public List<? extends Object> members() {
+        public List<?> members() {
             return apps;
         }
 
@@ -1043,9 +1042,9 @@ public class AppsManager implements XMLPrefsElement {
             return name();
         }
 
-        public class GroupLaunchInfo extends LaunchInfo {
+        public static class GroupLaunchInfo extends LaunchInfo {
 
-            int initialIndex;
+            final int initialIndex;
 
             public GroupLaunchInfo(LaunchInfo info, int index) {
                 super(info.componentName.getPackageName(), info.componentName.getClassName(), info.publicLabel);
@@ -1062,7 +1061,7 @@ public class AppsManager implements XMLPrefsElement {
 
         private static final String COMPONENT_SEPARATOR = "-";
 
-        public ComponentName componentName;
+        public final ComponentName componentName;
 
         public String publicLabel, unspacedLowercaseLabel, lowercaseLabel;
         public int launchedTimes = 0;
@@ -1111,12 +1110,10 @@ public class AppsManager implements XMLPrefsElement {
             String[] split2 = app.split(COMPONENT_SEPARATOR);
 
             if(split2.length == 1) {
-                if(componentName.getPackageName().equals(split2[0])) return true;
+                return componentName.getPackageName().equals(split2[0]);
             } else {
-                if(componentName.getPackageName().equals(split2[0]) && componentName.getClassName().equals(split2[1])) return true;
+                return componentName.getPackageName().equals(split2[0]) && componentName.getClassName().equals(split2[1]);
             }
-
-            return false;
         }
 
         public static ComponentName componentInfo(String app) {
@@ -1153,6 +1150,7 @@ public class AppsManager implements XMLPrefsElement {
             return false;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return componentName.getPackageName() + " - " + componentName.getClassName() + " --> " + publicLabel + ", n=" + launchedTimes;
@@ -1194,17 +1192,17 @@ public class AppsManager implements XMLPrefsElement {
         }
     }
 
-    private class AppsHolder {
+    private static class AppsHolder {
 
         final int MOST_USED = 10, NULL = 11, USER_DEFINIED = 12;
 
-        private List<LaunchInfo> infos;
-        private XMLPrefsList values;
+        private final List<LaunchInfo> infos;
+        private final XMLPrefsList values;
 
         private SuggestedAppMgr suggestedAppMgr;
 
         private class SuggestedAppMgr {
-            private List<SuggestedApp> suggested;
+            private final List<SuggestedApp> suggested;
             private int lastWriteable = -1;
 
             public SuggestedAppMgr(XMLPrefsList values, List<LaunchInfo> apps) {
@@ -1327,9 +1325,9 @@ public class AppsManager implements XMLPrefsElement {
 //            }
 
             private class SuggestedApp implements Comparable {
-                int type;
+                final int type;
                 LaunchInfo app;
-                int index;
+                final int index;
 
                 public SuggestedApp(int type, int index) {
                     this(null, type, index);
@@ -1382,7 +1380,7 @@ public class AppsManager implements XMLPrefsElement {
             }
         }
 
-        Comparator<LaunchInfo> mostUsedComparator = (lhs, rhs) -> rhs.launchedTimes > lhs.launchedTimes ? -1 : rhs.launchedTimes == lhs.launchedTimes ? 0 : 1;
+        final Comparator<LaunchInfo> mostUsedComparator = (lhs, rhs) -> rhs.launchedTimes > lhs.launchedTimes ? -1 : rhs.launchedTimes == lhs.launchedTimes ? 0 : 1;
 
         public AppsHolder(List<LaunchInfo> infos, XMLPrefsList values) {
             this.infos = infos;
@@ -1433,7 +1431,7 @@ public class AppsManager implements XMLPrefsElement {
 
         public LaunchInfo[] getSuggestedApps() {
             List<LaunchInfo> apps = suggestedAppMgr.apps();
-            return apps.toArray(new LaunchInfo[apps.size()]);
+            return apps.toArray(new LaunchInfo[0]);
         }
     }
 
@@ -1494,7 +1492,7 @@ public class AppsManager implements XMLPrefsElement {
             }
         }
 
-        static Pattern activityPattern = Pattern.compile("activity", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
+        static final Pattern activityPattern = Pattern.compile("activity", Pattern.CASE_INSENSITIVE | Pattern.LITERAL);
         public static String insertActivityName(String oldLabel, String activityName) {
             String name;
 
@@ -1528,14 +1526,12 @@ public class AppsManager implements XMLPrefsElement {
 //                    is better than
 //                    messenger.facebook
                     prefix = packageName.substring(0, firstDot - 1);
-                    prefix = prefix.substring(0,1).toUpperCase() + prefix.substring(1).toLowerCase();
-                    return prefix + Tuils.SPACE + oldLabel;
                 } else {
 //                    two dots or more, the second word is the company name
                     prefix = packageName.substring(firstDot, secondDot + firstDot);
-                    prefix = prefix.substring(0,1).toUpperCase() + prefix.substring(1).toLowerCase();
-                    return prefix + Tuils.SPACE + oldLabel;
                 }
+                prefix = prefix.substring(0,1).toUpperCase() + prefix.substring(1).toLowerCase();
+                return prefix + Tuils.SPACE + oldLabel;
 
             } catch (Exception e) {
                 return packageName;
@@ -1549,9 +1545,7 @@ public class AppsManager implements XMLPrefsElement {
             builder.append("vrs: ").append(info.versionCode).append(" - ").append(info.versionName).append(Tuils.NEWLINE).append(Tuils.NEWLINE);
             builder.append("launched_times: ").append(app.launchedTimes).append(Tuils.NEWLINE).append(Tuils.NEWLINE);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                builder.append("Install: ").append(TimeManager.instance.replace("%t0", info.firstInstallTime, Integer.MAX_VALUE)).append(Tuils.NEWLINE).append(Tuils.NEWLINE);
-            }
+            builder.append("Install: ").append(TimeManager.instance.replace("%t0", info.firstInstallTime, Integer.MAX_VALUE)).append(Tuils.NEWLINE).append(Tuils.NEWLINE);
 
             ActivityInfo[] a = info.activities;
             if(a != null && a.length > 0) {

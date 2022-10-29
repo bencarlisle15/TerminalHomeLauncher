@@ -36,17 +36,17 @@ public class TuiLocationManager {
 
     private static final int MAX_DELAY = 10000;
 
-    Context context;
-    BroadcastReceiver receiver;
+    final Context context;
+    final BroadcastReceiver receiver;
 
-    LocationListener locationListener;
+    final LocationListener locationListener;
 
     Handler handler;
 
     public boolean locationAvailable = false;
     public double latitude, longitude;
 
-    private List<String> actionsPool;
+    private final List<String> actionsPool;
 
     private static TuiLocationManager instance;
     public static TuiLocationManager instance(Context context) {
@@ -138,7 +138,7 @@ public class TuiLocationManager {
         LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         try {
-            manager.requestLocationUpdates(XMLPrefsManager.getInt(Behavior.location_update_mintime) * 60 * 1000, XMLPrefsManager.getInt(Behavior.location_update_mindistance),
+            manager.requestLocationUpdates((long) XMLPrefsManager.getInt(Behavior.location_update_mintime) * 60 * 1000, XMLPrefsManager.getInt(Behavior.location_update_mindistance),
                     c, locationListener, Looper.getMainLooper());
         } catch (Exception e) {
             Tuils.log(e);

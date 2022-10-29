@@ -1,9 +1,7 @@
 package ohi.andre.consolelauncher.managers.notifications;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,18 +30,19 @@ import static ohi.andre.consolelauncher.managers.xml.XMLPrefsManager.resetFile;
 import static ohi.andre.consolelauncher.managers.xml.XMLPrefsManager.set;
 import static ohi.andre.consolelauncher.managers.xml.XMLPrefsManager.writeTo;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by francescoandreuzzi on 29/04/2017.
  */
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationManager implements XMLPrefsElement {
 
-    private static String COLOR_ATTRIBUTE = "color";
-    public static String ENABLED_ATTRIBUTE = "enabled";
-    public static String ID_ATTRIBUTE = "id";
-    public static String FORMAT_ATTRIBUTE = "format";
-    public static String FILTER_ATTRIBUTE = "filter";
+    private static final String COLOR_ATTRIBUTE = "color";
+    public static final String ENABLED_ATTRIBUTE = "enabled";
+    public static final String ID_ATTRIBUTE = "id";
+    public static final String FORMAT_ATTRIBUTE = "format";
+    public static final String FILTER_ATTRIBUTE = "filter";
 
     public static final String PATH = "notifications.xml";
     private static final String NAME = "NOTIFICATIONS";
@@ -130,7 +129,7 @@ public class NotificationManager implements XMLPrefsElement {
                 Node node = nodes.item(count);
 
                 String nn = node.getNodeName();
-                if (Tuils.find(nn, (List) enums) != -1) {
+                if (Tuils.find(nn, enums) != -1) {
                     values.add(nn, node.getAttributes().getNamedItem(VALUE_ATTRIBUTE).getNodeValue());
 
                     for (int en = 0; en < enums.size(); en++) {
@@ -317,8 +316,10 @@ public class NotificationManager implements XMLPrefsElement {
     }
 
     public static class NotificatedApp {
-        String pkg, color, format;
-        boolean enabled;
+        final String pkg;
+        final String color;
+        String format;
+        final boolean enabled;
 
         public NotificatedApp(String pkg, String color, String format, boolean enabled) {
             this.pkg = pkg;
@@ -332,6 +333,7 @@ public class NotificationManager implements XMLPrefsElement {
             return this.toString().equals(obj.toString());
         }
 
+        @NonNull
         @Override
         public String toString() {
             return pkg;

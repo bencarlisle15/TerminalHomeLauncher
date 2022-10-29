@@ -10,8 +10,10 @@ import it.andreuzzi.comparestring2.StringableObject;
 
 public class Song implements StringableObject  {
 
-    private long id;
-    private String title, path, lowercaseTitle;
+    private final long id;
+    private final String title;
+    private String path;
+    private String lowercaseTitle;
 
     public Song(long songID, String songTitle) {
         id = songID;

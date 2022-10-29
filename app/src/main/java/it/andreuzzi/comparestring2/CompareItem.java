@@ -23,6 +23,8 @@
  */
 package it.andreuzzi.comparestring2;
 
+import androidx.annotation.NonNull;
+
 /**
  * 
  * This class holds the result of a comparison.
@@ -30,7 +32,7 @@ package it.andreuzzi.comparestring2;
  * @author francescoandreuzzi
  */
 public class CompareItem {
-    public StringableObject o;
+    public final StringableObject o;
     public float r;
     
     public CompareItem(StringableObject obj, float rank) {
@@ -38,6 +40,7 @@ public class CompareItem {
         this.r = rank;
     }
     
+    @NonNull
     @Override
     public String toString() {
         return o.toString() + " - " + r;

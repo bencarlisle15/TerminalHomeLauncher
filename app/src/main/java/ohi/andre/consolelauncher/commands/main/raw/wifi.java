@@ -17,7 +17,7 @@ public class wifi implements CommandAbstraction {
             info.wifi = (WifiManager) info.context.getSystemService(Context.WIFI_SERVICE);
         boolean active = !info.wifi.isWifiEnabled();
         info.wifi.setWifiEnabled(active);
-        return info.res.getString(R.string.output_wifi) + " " + Boolean.toString(active);
+        return info.res.getString(R.string.output_wifi) + " " + active;
     }
 
     @Override

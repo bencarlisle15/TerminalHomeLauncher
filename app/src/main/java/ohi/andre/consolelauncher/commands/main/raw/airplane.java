@@ -1,7 +1,6 @@
 package ohi.andre.consolelauncher.commands.main.raw;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 
@@ -19,16 +18,6 @@ public class airplane implements APICommand, CommandAbstraction {
     @Override
     public String exec(ExecutePack pack) {
         MainPack info = (MainPack) pack;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            boolean isEnabled = isEnabled(info.context);
-            Settings.System.putInt(info.context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, isEnabled ? 0 : 1);
-
-            Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-            intent.putExtra("state", !isEnabled);
-            info.context.sendBroadcast(intent);
-
-            return info.res.getString(R.string.output_airplane) + !isEnabled;
-        }
         return null;
     }
 

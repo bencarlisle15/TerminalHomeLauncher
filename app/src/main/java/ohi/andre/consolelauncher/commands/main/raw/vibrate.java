@@ -18,7 +18,7 @@ public class vibrate implements CommandAbstraction {
     @Override
     public String exec(ExecutePack pack) throws Exception {
         String text = pack.getString();
-        Context context = ((MainPack) pack).context;
+        Context context = pack.context;
 
         char separator = Tuils.firstNonDigit(text);
 
@@ -43,7 +43,7 @@ public class vibrate implements CommandAbstraction {
             }
 
             String[] split = text.split(separator + Tuils.EMPTYSTRING);
-            long pattern[] = new long[split.length];
+            long[] pattern = new long[split.length];
 
             for(int c = 0; c < split.length; c++) {
                 try {
@@ -81,6 +81,6 @@ public class vibrate implements CommandAbstraction {
 
     @Override
     public String onNotArgEnough(ExecutePack pack, int nArgs) {
-        return ((MainPack) pack).context.getString(helpRes());
+        return pack.context.getString(helpRes());
     }
 }

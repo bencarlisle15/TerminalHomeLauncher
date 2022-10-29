@@ -12,7 +12,6 @@
 
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
--dontwarn sun.misc.Unsafe
 
 -dontwarn okhttp3.**
 -dontwarn okio.**

@@ -2,20 +2,16 @@
 
     <!-- various text -->
     <string name="app_name">T-UI</string>
-    <string name="location_off">Turn on GPS</string>
     <string name="share_label">Share</string>
     <string name="output_about">Francesco Andreuzzi (Italy)\n\t-> Programmer
         \n\nThanks to Luke Winward for his original idea</string>
     <string name="output_refresh">Refresh: apps, alias, music, contacts, rss feeds</string>
     <string name="output_rate">Thank you!</string>
     <string name="start_notification">T-UI started</string>
-    <string name="tui_running">T-UI is running</string>
     <string name="admin_permission">Lock the screen on double tap</string>
     <string name="tui_reset">t-ui reset to default settings</string>
     <string name="copied">Copied:</string>
-    <string name="tui_busy">t-ui is busy, use \"ctrlc\" to stop the process</string>
     <string name="donate">Do you like my work? You can offer me a coffee (cmd: $ donate). Thank you!</string>
-    <string name="open_file_chooser">Open file with...</string>
 
     <!-- weather -->
     <string name="weather_cant_update">You can\'t perform a manual update with the default key. You have to create a custom key on the website</string>
@@ -37,16 +33,12 @@
     <string name="exclude_notification">Exclude notification</string>
     <string name="exclude_app">Exclude app</string>
     <string name="reply_notification">Reply to the last notification</string>
-    <string name="notification_service_not_running">The notification service is\'t running</string>
 
     <!-- regex -->
     <string name="invalid_regex">Invalid regex:</string>
 
     <!-- theme -->
     <string name="theme_not_found">Theme not found</string>
-    <string name="theme_invalid">Invalid theme</string>
-    <string name="theme_old_not_found">You don\'t have an old theme</string>
-    <string name="theme_reverted">Reverted to the previous theme</string>
     <string name="theme_unable">Couldn\'t apply this theme</string>
 
     <!-- files -->
@@ -56,10 +48,8 @@
     <!-- notifications -->
     <string name="notification_reader">T-UI notification reader</string>
     <string name="no_notification_access">Unfortunately t-ui can\'t redirect you to the \"Notification access\" page of your system settings</string>
-    <string name="notification_low_api">Notifications are supported on Android 4.3+ only. Use \'config -set show_notifications false\' to disable this message</string>
 
     <!-- helps texts -->
-    <string name="firsthelp_text">First time with t-ui?\n\ttutorial -> view the tutorial on GitHub\n\thelp     -> get a list of available commands</string>
     <string name="permissions_toast">You have to grant Storage permission</string>
     <string name="output_usedefapp">You can use \"apps -default_app\" instead</string>
 
@@ -103,8 +93,6 @@
     <!-- apps -->
     <string name="output_appnotfound">Application not found</string>
     <string name="activity_not_found">Activity not found</string>
-    <string name="app_installed">App installed:</string>
-    <string name="app_uninstalled">App uninstalled:</string>
     <string name="app_shortcut_not_found">Shortcut not found</string>
 
     <!-- pending operation -->
@@ -114,11 +102,9 @@
     <!-- various errors -->
     <string name="output_nopermissions">You didn\'t grant the permission</string>
     <string name="output_waitingpermission">Waiting permission</string>
-    <string name="output_problemcamera">There was a problem while connecting to your device camera</string>
     <string name="output_invalidarg">Invalid argument</string>
     <string name="output_lessarg">Less arguments than expected</string>
     <string name="invalid_integer">Invalid integer</string>
-    <string name="output_nothing_found">Not found</string>
     <string name="output_xmlproblem1">There was an XML problem with your file</string>
     <string name="output_xmlproblem2">, t-ui will use default values.\nFix or delete the file to recover your options</string>
     <string name="output_errorlabel">Error:</string>
@@ -135,13 +121,11 @@
     <string name="no_result">No results</string>
     <string name="unavailable_name">Name unavailable</string>
     <string name="invalid_name">Invalid name</string>
-    <string name="api_low">Low Android version</string>
     <string name="invalid_datastoretype">Invalid type</string>
     <string name="location_error">Couldn\'t get your location</string>
 
     <!-- note -->
     <string name="note_not_found">Note not found</string>
-    <string name="row_used">This row is busy</string>
     <string name="note_max_reached">Your notes reached the value set in notes_max_lines. You can scroll to see them all, change the value, or disable this message (ui.xml: show_scroll_notes_message).</string>
 
     <!-- id -->
@@ -157,8 +141,6 @@
     <string name="rss_invalid_empty">Invalid RSS: the file is empty:</string>
 
     <!-- alias -->
-    <string name="output_aliasnotfound">Alias not found:</string>
-    <string name="output_problemaddingalias">There was a problem with your alias</string>
     <string name="output_notaddingalias1">The name of your alias:</string>
     <string name="output_notaddingalias2">is equal to its value. This may lead to bad behaviors, so it has been excluded. You should edit the name to use it</string>
     <string name="output_notaddingalias3">is equal to the part of its value before the first space (i.e. aliasName=play ; aliasValue = play store). This may lead to crashes and freezes, so it has been excluded. You should edit the name to use it</string>
@@ -183,11 +165,9 @@
     <string name="output_data">Mobile Data active:</string>
     <string name="output_bluetooth">Bluetooth active:</string>
     <string name="output_bluetooth_unavailable">Bluetooth is not available on this device</string>
-    <string name="output_airplane">Airplane mode active:</string>
 
     <!-- music -->
     <string name="output_playing">Playing:</string>
-    <string name="output_stopped">Player stopped</string>
     <string name="output_songnotfound">Song not found</string>
     <string name="output_musicdisabled">enable_music is false</string>
     <string name="no_songs">0 songs found</string>
@@ -197,9 +177,6 @@
     <string name="output_invalid_param">Invalid option:</string>
 
     <!-- flash -->
-    <string name="output_flashon">Flashlight ON</string>
-    <string name="output_flashoff">Flashlight OFF</string>
-    <string name="output_flashlightnotavailable">Your device doesn\'t support flashlight</string>
 
     <!-- status -->
     <string name="battery_label">Battery:</string>
@@ -260,7 +237,7 @@
     <string name="help_changelog">Show the changelog of the current version</string>
     <string name="help_config">-set [option] [value] -> set the value of an option
         \n-append [option] [value] -> append the given string to the value of the selected option
-        \n-file [file] -> open a config file (behavior.xml, ui.xml, theme.xml, ...)
+        \n-file [file] -> open a config file (behavior.xml, ui.xml, theme.xml, …)
         \n-erase [option] -> set the value of an option to \"\"
         \n-setr [option] [value] -> same to \"-set\", but restarts t-ui automatically
         \n-get [option] -> get the value of an option
@@ -314,8 +291,8 @@
         \n-check [ID or packageName] -> check the last notification from the application bound with the given ID
         \n-tutorial -> open the tutorial page on GitHub</string>
     <string name="help_restart">Restart t-ui and load modified values</string>
-    <string name="help_search">-gg [search this...] -> Google Search
-        \n-ps [search this...] -> Google Play Store
+    <string name="help_search">-gg [search this…] -> Google Search
+        \n-ps [search this…] -> Google Play Store
         \n-u [URL] -> open the URL
         \n-yt [search this...] -> YouTube
         \n-dd [search this...] -> DuckDuck Go
@@ -349,9 +326,6 @@
         \n-telegram -> open the official Telegram group
         \n-sourcecode -> open the GitHub page
         \n-folder -> print the path of the t-ui folder</string>
-    <string name="help_tuinotes">-add [line] [text] -> add a new note at the specified line (the note will be appended if line is omitted)
-        \n-rm [line] -> remove the note at the specified line
-        \n-clear -> remove all the notes</string>
     <string name="help_tutorial">Open the tutorial page on GitHub</string>
     <string name="help_uninstall">Uninstall an application
         \n\nUsage:
@@ -366,7 +340,7 @@
     <string name="help_vibrate">Make your device vibrate.
         \n\nUsage:
         \n$ vibrate [milliseconds]
-        \n$ vibrate [pattern: wait, vibrate, wait, vibrate, wait, ...]
+        \n$ vibrate [pattern: wait, vibrate, wait, vibrate, wait, …]
         \n\nExample:
         \n$ vibrate 300
         \n$ vibrate 0,300,500,300</string>
@@ -438,5 +412,10 @@
         \nUsage:
         \n$ open [pathToFile]
     </string>
+    <string name="submit">Submit</string>
+    <string name="delete">Delete</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="paste">Paste</string>
 
 </resources>

@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
@@ -47,10 +46,10 @@ public class PrivateIOReceiver extends BroadcastReceiver {
     public static final String CURRENT_ID = BuildConfig.APPLICATION_ID + ".current_id";
     public static final String INFO_AREA = BuildConfig.APPLICATION_ID + ".info_area";
 
-    Outputable outputable;
-    Inputable inputable;
+    final Outputable outputable;
+    final Inputable inputable;
 
-    Activity activity;
+    final Activity activity;
 
     public static int currentId = 0;
 
@@ -99,7 +98,7 @@ public class PrivateIOReceiver extends BroadcastReceiver {
             }
             else if(intent.getAction().equals(ACTION_INPUT)) {
                 inputable.in(text.toString());
-            } else if(intent.getAction().equals(ACTION_REPLY) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            } else if(intent.getAction().equals(ACTION_REPLY)) {
                 Bundle b = intent.getBundleExtra(BUNDLE);
                 Parcelable[] ps = intent.getParcelableArrayExtra(REMOTE_INPUTS);
                 PendingIntent pi = intent.getParcelableExtra(PENDING_INTENT);

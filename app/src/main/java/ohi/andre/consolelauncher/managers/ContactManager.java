@@ -30,12 +30,12 @@ import ohi.andre.consolelauncher.tuils.Tuils;
 
 public class ContactManager {
 
-    public static String ACTION_REFRESH = BuildConfig.APPLICATION_ID + ".refresh_contacts";
+    public static final String ACTION_REFRESH = BuildConfig.APPLICATION_ID + ".refresh_contacts";
 
-    private Context context;
+    private final Context context;
     private List<Contact> contacts;
 
-    private BroadcastReceiver receiver;
+    private final BroadcastReceiver receiver;
 
     public ContactManager(Context context) {
         this.context = context;
@@ -115,7 +115,6 @@ public class ContactManager {
 
                             lastNumbers = new ArrayList<>();
                             nrml = new ArrayList<>();
-                            name = null;
                             defaultNumber = 0;
 
                             name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -210,11 +209,14 @@ public class ContactManager {
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] {id},
                 null);
 
-        if(mCursor == null || mCursor.getCount() == 0) return null;
+        if(mCursor == null || mCursor.getCount() == 0) {
+            mCursor.close();
+            return null;
+        }
         mCursor.moveToNext();
 
         about[NAME] = mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-        about[NUMBERS] = new String(Tuils.EMPTYSTRING);
+        about[NUMBERS] = Tuils.EMPTYSTRING;
 
         int timesContacted = -1;
         long lastContacted = Long.MAX_VALUE;
@@ -222,8 +224,8 @@ public class ContactManager {
             int tempT = mCursor.getInt(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TIMES_CONTACTED));
             long tempL = mCursor.getLong(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LAST_TIME_CONTACTED));
 
-            timesContacted = tempT > timesContacted ? tempT : timesContacted;
-            if(tempL > 0) lastContacted = tempL < lastContacted ? tempL : lastContacted;
+            timesContacted = Math.max(tempT, timesContacted);
+            if(tempL > 0) lastContacted = Math.min(tempL, lastContacted);
 
             String n = mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             about[NUMBERS] = (about[NUMBERS].length() > 0 ? about[NUMBERS] + Tuils.NEWLINE : Tuils.EMPTYSTRING) + n;
@@ -234,7 +236,7 @@ public class ContactManager {
             long difference = System.currentTimeMillis() - lastContacted;
             long sc = difference / 1000;
             if(sc < 60) {
-                about[LAST_CONTACTED] = "sec: " + String.valueOf(lastContacted);
+                about[LAST_CONTACTED] = "sec: " + lastContacted;
             } else {
                 int ms = (int) (sc / 60);
                 sc = ms % 60;
@@ -253,6 +255,7 @@ public class ContactManager {
                 }
             }
         }
+        mCursor.close();
 
         return about;
     }
@@ -303,8 +306,9 @@ public class ContactManager {
     }
 
     public static class Contact implements Comparable<Contact>, StringableObject {
-        public String name, lowercaseName;
-        public List<String> numbers;
+        public final String name;
+        public final String lowercaseName;
+        public final List<String> numbers;
 
         private int selectedNumber;
 

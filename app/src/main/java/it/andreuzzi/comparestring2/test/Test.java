@@ -13,9 +13,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import it.andreuzzi.comparestring2.AlgMap.Alg;
 import it.andreuzzi.comparestring2.algs.interfaces.Algorithm;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
 /*
@@ -82,8 +79,7 @@ public class Test {
         if((on & NORM_SIMILARITY_ALG) == NORM_SIMILARITY_ALG) algs.addAll(Arrays.asList(AlgMap.NormSimAlg.values()));
         if((on & METRIC_DISTANCE_ALG) == METRIC_DISTANCE_ALG) algs.addAll(Arrays.asList(AlgMap.MetricDistAlg.values()));
 
-        Alg[] algsArray = algs.toArray(new Alg[algs.size()]);
-        return algsArray;
+        return algs.toArray(new Alg[algs.size()]);
     }
 
 //    --------------------------------------------------------
@@ -216,7 +212,7 @@ public class Test {
     public static void printResult(List<TestResult> result, PrintStream stream, int sortMode, boolean descendent) {
         Collections.sort(result, Comparators.getComparator(sortMode, descendent));
 
-        result.stream().forEach(r -> {
+        result.forEach(r -> {
             try {
                 stream.write((r.toString() + "\n").getBytes());
             } catch (IOException ex) {
@@ -267,11 +263,11 @@ public class Test {
     }
 
     private static class Comparators {
-        static Comparator<TestResult> algCategory = (TestResult o1, TestResult o2) -> o1.alg.typeCode() - o2.alg.typeCode();
-        static Comparator<TestResult> algResultDescendent = (TestResult o1, TestResult o2) -> (int) (o2.result - o1.result);
-        static Comparator<TestResult> algTimeDescendent = (TestResult o1, TestResult o2) -> (int) (o2.time - o1.time);
-        static Comparator<TestResult> algResultAscendent = (TestResult o1, TestResult o2) -> (int) (o1.result - o2.result);
-        static Comparator<TestResult> algTimeAscendent = (TestResult o1, TestResult o2) -> (int) (o1.time - o2.time);
+        static final Comparator<TestResult> algCategory = (TestResult o1, TestResult o2) -> o1.alg.typeCode() - o2.alg.typeCode();
+        static final Comparator<TestResult> algResultDescendent = (TestResult o1, TestResult o2) -> (int) (o2.result - o1.result);
+        static final Comparator<TestResult> algTimeDescendent = (TestResult o1, TestResult o2) -> (int) (o2.time - o1.time);
+        static final Comparator<TestResult> algResultAscendent = (TestResult o1, TestResult o2) -> (int) (o1.result - o2.result);
+        static final Comparator<TestResult> algTimeAscendent = (TestResult o1, TestResult o2) -> (int) (o1.time - o2.time);
 
         public static Comparator<TestResult> getComparator(int sortMode, boolean descendent) {
             switch (sortMode) {

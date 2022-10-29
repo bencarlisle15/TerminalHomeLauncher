@@ -11,8 +11,8 @@ import ohi.andre.consolelauncher.tuils.interfaces.OnTextChanged;
 
 public class SuggestionTextWatcher implements TextWatcher {
 
-    SuggestionsManager suggestionsManager;
-    OnTextChanged textChanged;
+    final SuggestionsManager suggestionsManager;
+    final OnTextChanged textChanged;
 
     int before = Integer.MIN_VALUE;
 

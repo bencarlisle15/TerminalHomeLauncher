@@ -10,7 +10,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 
@@ -161,7 +160,7 @@ public class MusicService extends Service implements
 
     public static Notification buildNotification(Context context, String songTitle) {
         Intent notIntent = new Intent(context, LauncherActivity.class);
-        PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
 
         Notification not;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -172,25 +171,22 @@ public class MusicService extends Service implements
                 .setContentTitle("Playing")
                 .setContentText(songTitle);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String label = "cmd";
-            RemoteInput remoteInput = new RemoteInput.Builder(PrivateIOReceiver.TEXT)
-                    .setLabel(label)
-                    .build();
+        String label = "cmd";
+        RemoteInput remoteInput = new RemoteInput.Builder(PrivateIOReceiver.TEXT)
+                .setLabel(label)
+                .build();
 
-            Intent i = new Intent(PublicIOReceiver.ACTION_CMD);
-            i.putExtra(MainManager.MUSIC_SERVICE, true);
+        Intent i = new Intent(PublicIOReceiver.ACTION_CMD);
+        i.putExtra(MainManager.MUSIC_SERVICE, true);
 
-            NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.mipmap.ic_launcher, label,
-                    PendingIntent.getBroadcast(context.getApplicationContext(), 10, i, PendingIntent.FLAG_UPDATE_CURRENT))
-                    .addRemoteInput(remoteInput)
-                    .build();
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.mipmap.ic_launcher, label,
+                PendingIntent.getBroadcast(context.getApplicationContext(), 10, i, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE))
+                .addRemoteInput(remoteInput)
+                .build();
 
-            builder.addAction(action);
-        }
+        builder.addAction(action);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) not = builder.build();
-        else not = builder.getNotification();
+        not = builder.build();
 
         return not;
     }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
@@ -56,27 +58,28 @@ public class RssManager implements XMLPrefsElement {
 
     private final String RSS_FOLDER = "rss";
 
-    public static String TIME_ATTRIBUTE  = "updateTimeSec";
-    public static String SHOW_ATTRIBUTE = "show";
-    public static String URL_ATTRIBUTE = "url";
-    public static String LASTCHECKED_ATTRIBUTE = "lastChecked";
-    public static String LAST_SHOWN_ITEM_ATTRIBUTE = "lastShownItem";
-    public static String ID_ATTRIBUTE = "id", FORMAT_ATTRIBUTE = "format";
-    public static String INCLUDE_ATTRIBUTE = "includeIfMatches";
-    public static String EXCLUDE_ATTRIBUTE = "excludeIfMatches";
-    public static String COLOR_ATTRIBUTE = "color";
-    public static String WIFIONLY_ATTRIBUTE = "wifiOnly";
-    public static String TIME_FORMAT_ATTRIBUTE = "timeFormat";
-    public static String DATE_TAG_ATTRIBUTE = "pubDateTag";
-    public static String ENTRY_TAG_ATTRIBUTE = "entryTag";
-    public static String ON_ATTRIBUTE = "on";
-    public static String CMD_ATTRIBUTE = "cmd";
+    public static final String TIME_ATTRIBUTE  = "updateTimeSec";
+    public static final String SHOW_ATTRIBUTE = "show";
+    public static final String URL_ATTRIBUTE = "url";
+    public static final String LASTCHECKED_ATTRIBUTE = "lastChecked";
+    public static final String LAST_SHOWN_ITEM_ATTRIBUTE = "lastShownItem";
+    public static final String ID_ATTRIBUTE = "id";
+    public static final String FORMAT_ATTRIBUTE = "format";
+    public static final String INCLUDE_ATTRIBUTE = "includeIfMatches";
+    public static final String EXCLUDE_ATTRIBUTE = "excludeIfMatches";
+    public static final String COLOR_ATTRIBUTE = "color";
+    public static final String WIFIONLY_ATTRIBUTE = "wifiOnly";
+    public static final String TIME_FORMAT_ATTRIBUTE = "timeFormat";
+    public static final String DATE_TAG_ATTRIBUTE = "pubDateTag";
+    public static final String ENTRY_TAG_ATTRIBUTE = "entryTag";
+    public static final String ON_ATTRIBUTE = "on";
+    public static final String CMD_ATTRIBUTE = "cmd";
 
     public static final String RSS_LABEL = "rss", FORMAT_LABEL = "format", REGEX_CMD_LABEL = "regex";
 
     private final String PUBDATE_CHILD = "pubDate", ENTRY_CHILD = "item", LINK_CHILD = "link", HREF_ATTRIBUTE = "href";
 
-    private SimpleDateFormat defaultRSSDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+    private final SimpleDateFormat defaultRSSDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
 
     private static XMLPrefsList values;
 
@@ -110,23 +113,24 @@ public class RssManager implements XMLPrefsElement {
 
     private boolean includeRssDefault, showDownloadMessage, click;
 
-    private Context context;
-    private Handler handler;
+    private final Context context;
+    private final Handler handler;
 
-    private File root, rssIndexFile;
+    private final File root;
+    private final File rssIndexFile;
 
     private List<Rss> feeds;
     private List<XMLPrefsManager.IdValue> formats;
     private List<CmdableRegex> cmdRegexes;
 
-    private OkHttpClient client;
+    private final OkHttpClient client;
 
     //    those will obscure the tag and its content
     private Pattern[] hideTagPatterns;
 
     private Pattern urlPattern, idPattern, bPattern, kbPattern, mbPattern, gbPattern;
 
-    private ConnectivityManager connectivityManager;
+    private final ConnectivityManager connectivityManager;
 
     public RssManager(Context context, OkHttpClient client) {
         instance = this;
@@ -197,7 +201,7 @@ public class RssManager implements XMLPrefsElement {
                         Node node = nodes.item(count);
 
                         String nn = node.getNodeName();
-                        if (Tuils.find(nn, (List) enums) != -1) {
+                        if (Tuils.find(nn, enums) != -1) {
 //                              is an enum value
                             values.add(nn, node.getAttributes().getNamedItem(VALUE_ATTRIBUTE).getNodeValue());
 
@@ -385,7 +389,7 @@ public class RssManager implements XMLPrefsElement {
     }
 
     public String removeFormat(int id) {
-        String output = XMLPrefsManager.removeNode(rssIndexFile, FORMAT_LABEL, new String[] {ID_ATTRIBUTE}, new String[] {String.valueOf(id)});;
+        String output = XMLPrefsManager.removeNode(rssIndexFile, FORMAT_LABEL, new String[] {ID_ATTRIBUTE}, new String[] {String.valueOf(id)});
         if(output == null) {
             return null;
         } else {
@@ -598,7 +602,7 @@ public class RssManager implements XMLPrefsElement {
 
 //    base methods
 
-    private Runnable updateRunnable = new Runnable() {
+    private final Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
             for(Rss feed : feeds) {
@@ -634,7 +638,7 @@ public class RssManager implements XMLPrefsElement {
             public void run() {
                 super.run();
 
-                if(!Tuils.hasInternetAccess()) {
+                if(Tuils.hasNoInternetAccess()) {
                     if(force) Tuils.sendOutput(Color.RED, context, R.string.no_internet);
                     return;
                 }
@@ -1098,14 +1102,14 @@ public class RssManager implements XMLPrefsElement {
             return false;
         }
 
+        @NonNull
         @Override
         public String toString() {
             String dots = ":";
-            return new StringBuilder().append(ID_LABEL).append(dots).append(Tuils.SPACE).append(id).append(Tuils.SPACE)
-                    .append(URL_LABEL).append(dots).append(Tuils.SPACE).append(url).append(Tuils.SPACE)
-                    .append(UPDATE_TIME_LABEL).append(dots).append(Tuils.SPACE).append(updateTimeSeconds).append(Tuils.SPACE)
-                    .append(SHOW_LABEL).append(dots).append(Tuils.SPACE).append(show)
-                    .toString();
+            return ID_LABEL + dots + Tuils.SPACE + id + Tuils.SPACE +
+                    URL_LABEL + dots + Tuils.SPACE + url + Tuils.SPACE +
+                    UPDATE_TIME_LABEL + dots + Tuils.SPACE + updateTimeSeconds + Tuils.SPACE +
+                    SHOW_LABEL + dots + Tuils.SPACE + show;
         }
     }
 
@@ -1151,9 +1155,9 @@ public class RssManager implements XMLPrefsElement {
         return check;
     }
 
-    private class CmdableRegex extends RegexManager.Regex {
+    private static class CmdableRegex extends RegexManager.Regex {
         int[] on;
-        String cmd;
+        final String cmd;
 
         public CmdableRegex(int id, String on, String regex, String cmd) {
             this.id = id;

@@ -17,11 +17,11 @@ import ohi.andre.consolelauncher.managers.TuiLocationManager;
 
 public class location implements APICommand, CommandAbstraction {
 
-    public static String ACTION_LOCATION_CMD_GOT = BuildConfig.APPLICATION_ID + ".loc_cmd_location";
+    public static final String ACTION_LOCATION_CMD_GOT = BuildConfig.APPLICATION_ID + ".loc_cmd_location";
 
     @Override
     public String exec(final ExecutePack pack) throws Exception {
-        final Context context = ((MainPack) pack).context;
+        final Context context = pack.context;
 
 //        if(handler != null) handler = new Handler();
 //

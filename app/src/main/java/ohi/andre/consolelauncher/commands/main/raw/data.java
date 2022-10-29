@@ -22,7 +22,7 @@ public class data implements APICommand, CommandAbstraction {
     public String exec(ExecutePack pack) {
         MainPack info = (MainPack) pack;
         boolean active = toggle(info);
-        return info.res.getString(R.string.output_data) + Tuils.SPACE + Boolean.toString(active);
+        return info.res.getString(R.string.output_data) + Tuils.SPACE + active;
     }
 
     private boolean toggle(MainPack info) {

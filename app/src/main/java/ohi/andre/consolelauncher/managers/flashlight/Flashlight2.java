@@ -18,7 +18,6 @@
 
 package ohi.andre.consolelauncher.managers.flashlight;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
@@ -33,7 +32,6 @@ import ohi.andre.consolelauncher.tuils.PrivateIOReceiver;
  * Created by I327891 on 04-Feb-17.
  */
 
-@TargetApi(23)
 public class Flashlight2 extends Flashlight {
 
     public static final String TYPE = Constants.ID_DEVICE_OUTPUT_TORCH_FLASH_NEW;

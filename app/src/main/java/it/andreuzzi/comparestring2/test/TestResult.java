@@ -25,6 +25,8 @@
 
 package it.andreuzzi.comparestring2.test;
 
+import androidx.annotation.NonNull;
+
 import it.andreuzzi.comparestring2.AlgMap.Alg;
 
 /**
@@ -32,12 +34,13 @@ import it.andreuzzi.comparestring2.AlgMap.Alg;
  * @author francescoandreuzzi
  */
 public class TestResult {
-    String s1, s2;
+    final String s1;
+    final String s2;
     
-    Alg alg;
+    final Alg alg;
     
-    double result;
-    long time;
+    final double result;
+    final long time;
     
     public TestResult(Alg alg, String s1, String s2, double result, long time) {
         this.alg = alg;
@@ -49,6 +52,7 @@ public class TestResult {
         this.time = time;
     }
     
+    @NonNull
     @Override
     public String toString() {
         String algName = alg.label();

@@ -90,16 +90,14 @@ public class status implements CommandAbstraction {
         if(adapter == null) bluetoothOn = false;
         else bluetoothOn = adapter.isEnabled();
 
-        StringBuilder builder = new StringBuilder();
-        builder
-                .append(info.res.getString(R.string.battery_label)).append(Tuils.SPACE).append(level).append("%").append(Tuils.NEWLINE)
-                .append(info.res.getString(R.string.wifi_label)).append(Tuils.SPACE).append(wifiConnected).append(Tuils.NEWLINE)
-                .append(info.res.getString(R.string.mobile_data_label)).append(Tuils.SPACE).append(mobileOn).append(Tuils.NEWLINE)
-                .append(info.res.getString(R.string.bluetooth_label)).append(Tuils.SPACE).append(bluetoothOn).append(Tuils.NEWLINE)
-                .append(info.res.getString(R.string.location_label)).append(Tuils.SPACE).append(gps_enabled || network_enabled).append(Tuils.NEWLINE)
-                .append(info.res.getString(R.string.brightness_label)).append(Tuils.SPACE).append(autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC ? "(auto) " : Tuils.EMPTYSTRING).append(b).append("%");
+        String builder = info.res.getString(R.string.battery_label) + Tuils.SPACE + level + "%" + Tuils.NEWLINE +
+                info.res.getString(R.string.wifi_label) + Tuils.SPACE + wifiConnected + Tuils.NEWLINE +
+                info.res.getString(R.string.mobile_data_label) + Tuils.SPACE + mobileOn + Tuils.NEWLINE +
+                info.res.getString(R.string.bluetooth_label) + Tuils.SPACE + bluetoothOn + Tuils.NEWLINE +
+                info.res.getString(R.string.location_label) + Tuils.SPACE + (gps_enabled || network_enabled) + Tuils.NEWLINE +
+                info.res.getString(R.string.brightness_label) + Tuils.SPACE + (autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC ? "(auto) " : Tuils.EMPTYSTRING) + b + "%";
 
-        return builder.toString();
+        return builder;
     }
 
     @Override
