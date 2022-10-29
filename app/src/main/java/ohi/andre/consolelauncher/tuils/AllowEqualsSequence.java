@@ -81,7 +81,6 @@ public class AllowEqualsSequence {
         }
 
         @NonNull
-        @NonNull
         @Override
         public String toString() {
             return "key: " + key + ": " + obj;
