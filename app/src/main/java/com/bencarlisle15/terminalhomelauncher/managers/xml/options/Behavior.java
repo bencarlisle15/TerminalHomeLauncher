@@ -861,7 +861,7 @@ public enum Behavior implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "The separator between two optional values (doesn\'t affect notification optional values)";
+            return "The separator between two optional values (doesn't affect notification optional values)";
         }
 
         @Override
@@ -1165,7 +1165,7 @@ public enum Behavior implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "The weather update time in seconds. This can only be used if you\'re using a custom weather key";
+            return "The weather update time in seconds. This can only be used if you're using a custom weather key";
         }
 
         @Override

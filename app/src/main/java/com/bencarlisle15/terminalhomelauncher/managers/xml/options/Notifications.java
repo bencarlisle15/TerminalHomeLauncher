@@ -94,7 +94,7 @@ public enum Notifications implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "If false, the \"Exclude app\" option won\'t be shown in the long click popup menu";
+            return "If false, the \"Exclude app\" option won't be shown in the long click popup menu";
         }
 
         @Override
@@ -110,7 +110,7 @@ public enum Notifications implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "If false, the \"Exclude notification\" option won\'t be shown in the long click popup menu";
+            return "If false, the \"Exclude notification\" option won't be shown in the long click popup menu";
         }
 
         @Override
@@ -126,7 +126,7 @@ public enum Notifications implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "If false, the \"Reply to the last notification\" option won\'t be shown in the long click popup menu";
+            return "If false, the \"Reply to the last notification\" option won't be shown in the long click popup menu";
         }
 
         @Override

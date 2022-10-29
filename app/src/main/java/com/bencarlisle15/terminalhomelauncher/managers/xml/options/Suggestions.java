@@ -337,7 +337,7 @@ public enum Suggestions implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "The number of suggestions shown per category. This doesn\'t affect \"noinput_suggestions_order\" and \"suggestions_order\"";
+            return "The number of suggestions shown per category. This doesn't affect \"noinput_suggestions_order\" and \"suggestions_order\"";
         }
     },
     suggestions_deadline {

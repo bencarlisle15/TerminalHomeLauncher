@@ -162,7 +162,6 @@
 
     <!-- phone -->
     <string name="output_wifi">WiFi active:</string>
-    <string name="output_data">Mobile Data active:</string>
     <string name="output_bluetooth">Bluetooth active:</string>
     <string name="output_bluetooth_unavailable">Bluetooth is not available on this device</string>
 
@@ -247,7 +246,6 @@
         \n-apply [file] -> move a file to the t-ui directory
         \n-tutorial -> open the tutorial page
     </string>
-    <string name="help_data">Toggle mobile data</string>
     <string name="help_devutils">There\'s nothing interesting there</string>
     <string name="help_donate">Offer a coffee to the developer (PayPal only)</string>
     <string name="help_flash">Toggle the flashlight</string>
@@ -295,7 +293,7 @@
         \n-ps [search this…] -> Google Play Store
         \n-u [URL] -> open the URL
         \n-yt [search this…] -> YouTube
-        \n-dd [search this...] -> DuckDuck Go
+        \n-dd [search this…] -> DuckDuck Go
     </string>
     <string name="help_share">$ share [pathToFile]
     </string>

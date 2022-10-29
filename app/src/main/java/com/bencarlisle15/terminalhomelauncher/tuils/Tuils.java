@@ -67,13 +67,14 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import dalvik.system.DexFile;
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
@@ -720,14 +721,7 @@ public class Tuils {
         List<String> classes = new ArrayList<>();
         String packageCodePath = c.getPackageCodePath();
         DexFile df = new DexFile(packageCodePath);
-        for (Enumeration<String> iter = df.entries(); iter.hasMoreElements(); ) {
-            String className = iter.nextElement();
-            if (className.contains(packageName) && !className.contains("$")) {
-                classes.add(className.substring(className.lastIndexOf(".") + 1));
-            }
-        }
-
-        return classes;
+        return Collections.list(df.entries()).stream().filter(className -> className.contains(packageName) && !className.contains("$")).collect(Collectors.toList());
     }
 
     public static int scale(int[] from, int[] to, int n) {

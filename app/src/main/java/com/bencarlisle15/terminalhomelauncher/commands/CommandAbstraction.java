@@ -32,4 +32,9 @@ public interface CommandAbstraction {
     int helpRes();
     String onArgNotFound(ExecutePack pack, int indexNotFound);
     String onNotArgEnough(ExecutePack pack, int nArgs);
+
+    default String getCommandName() {
+        String className = this.getClass().getSimpleName();
+        return className.substring(className.lastIndexOf(".") + 1).toLowerCase();
+    }
 }

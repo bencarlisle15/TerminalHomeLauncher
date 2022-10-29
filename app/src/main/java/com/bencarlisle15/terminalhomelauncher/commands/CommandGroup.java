@@ -2,12 +2,10 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -31,23 +29,26 @@ public class CommandGroup {
             return;
         }
 
+
         List<CommandAbstraction> cmdAbs = new ArrayList<>();
+
+        Collections.sort(cmds);
+
         Iterator<String> iterator = cmds.iterator();
+
+        List<String> commandNamesList = new ArrayList<>();
+
         while (iterator.hasNext()) {
             String s = iterator.next();
             CommandAbstraction ca = buildCommand(s);
+
             if(ca != null && ( !(ca instanceof APICommand) || ((APICommand) ca).willWorkOn(Build.VERSION.SDK_INT))) {
                 cmdAbs.add(ca);
-            } else {
-                iterator.remove();
+                commandNamesList.add(ca.getCommandName());
             }
         }
 
-        Collections.sort(cmds);
-        commandNames = new String[cmds.size()];
-        for (int i = 0; i < commandNames.length; i++) {
-            commandNames[i] = cmds.get(i).toLowerCase();
-        }
+        commandNames = commandNamesList.toArray(new String[0]);
 
         cmdAbs.sort((o1, o2) -> o2.priority() - o1.priority());
         commands = new CommandAbstraction[cmdAbs.size()];
@@ -56,7 +57,7 @@ public class CommandGroup {
 
     public CommandAbstraction getCommandByName(String name) {
         for(CommandAbstraction c : commands) {
-            if(c.getClass().getSimpleName().equals(name)) {
+            if(c.getCommandName().equals(name)) {
                 return c;
             }
         }
@@ -64,8 +65,7 @@ public class CommandGroup {
         return null;
     }
 
-    private CommandAbstraction buildCommand(String name) {
-        String fullCmdName = packageName + Tuils.DOT + name;
+    private CommandAbstraction buildCommand(String fullCmdName) {
         try {
             Class<CommandAbstraction> clazz = (Class<CommandAbstraction>) Class.forName(fullCmdName);
             if(CommandAbstraction.class.isAssignableFrom(clazz)) {

@@ -676,7 +676,7 @@ public enum Ui implements XMLPrefsSave {
 
         @Override
         public String info() {
-            return "If false, the restart message won\'t be shown";
+            return "If false, the restart message won't be shown";
         }
 
         @Override

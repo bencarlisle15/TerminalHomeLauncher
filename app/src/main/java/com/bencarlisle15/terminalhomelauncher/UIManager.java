@@ -187,7 +187,7 @@ public class UIManager implements OnTouchListener {
                     charging = plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
                 }
 
-                String optionalSeparator = "\\" + XMLPrefsManager.get(Behavior.optional_values_separator);
+                @SuppressWarnings("Annotator") String optionalSeparator = "\\" + XMLPrefsManager.get(Behavior.optional_values_separator);
                 String optional = "%\\(([^" + optionalSeparator + "]*)" + optionalSeparator + "([^)]*)\\)";
                 optionalCharging = Pattern.compile(optional, Pattern.CASE_INSENSITIVE);
             }
@@ -492,6 +492,7 @@ public class UIManager implements OnTouchListener {
                 wifiManager = (WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+                //noinspection Annotator
                 optionalValueSeparator = "\\" + XMLPrefsManager.get(Behavior.optional_values_separator);
 
                 String wifiRegex = "%\\(([^" + optionalValueSeparator + "]*)" + optionalValueSeparator + "([^)]*)\\)";

@@ -103,7 +103,7 @@ public class NotesManager {
 
         packageManager = context.getPackageManager();
 
-        String optionalSeparator = "\\" + XMLPrefsManager.get(Behavior.optional_values_separator);
+        @SuppressWarnings("Annotator") String optionalSeparator = "\\" + XMLPrefsManager.get(Behavior.optional_values_separator);
         String optional = "%\\(([^" + optionalSeparator + "]*)" + optionalSeparator + "([^)]*)\\)";
         optionalPattern = Pattern.compile(optional, Pattern.CASE_INSENSITIVE);
 

@@ -115,7 +115,7 @@ public class PrivateIOReceiver extends BroadcastReceiver {
                 }
 
                 if(pi == null) {
-                    Tuils.sendOutput(Color.RED, context, "The pending intent couldn\'t be found");
+                    Tuils.sendOutput(Color.RED, context, "The pending intent couldn't be found");
                     return;
                 }
 
