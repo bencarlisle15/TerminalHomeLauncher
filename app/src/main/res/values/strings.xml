@@ -300,11 +300,6 @@
         \n-use [shortcutID OR shortcut index] [optional: appName] -> use the specified shortcut
         \n-cp [index] [appName] -> copy to clipboard the nth shortcut of the selected app (first: 0)</string>
     <string name="help_status">Get info about battery charge, wifi status and mobile data</string>
-    <string name="help_theme">-apply [name] -> apply the selected theme (case sensitive). require internet connection. may take some seconds
-        \n-old -> re-apply the theme that was replaced by the current one
-        \n-standard -> apply the standard theme
-        \n-view -> view the available themes
-        \n-create -> create a new theme</string>
     <string name="help_time">Print the current time with the given format
         \n\nUsage:
         \n$ time [index] (index means the index of the desired time_format</string>

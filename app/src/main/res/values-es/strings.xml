@@ -301,11 +301,6 @@
         \n-use [shortcutID OR shortcut index] [optional: appName] -> usa el atajo especificado
         \n-cp [index] [appName] -> copie al portapapeles el enésimo acceso directo de la aplicación seleccionada (primero: 0)</string>
     <string name="help_status">Obtenga información sobre la carga de la batería, el estado del wifi y los datos móviles</string>
-    <string name="help_theme">-apply [name] -> Aplicar el tema seleccionado (mayúsculas y minúsculas). requiere conexión a internet. puede tomar algunos segundos
-        \n-old -> vuelva a aplicar el tema que fue reemplazado por el actual
-        \n-standard -> aplicar el tema estándar
-        \n-view -> ver los temas disponibles
-        \n-create -> crear un nuevo tema</string>
     <string name="help_time">Imprime la hora actual con el formato dado
         \n\nUso:
         \n$ time [index] (index significa el índice del formato de tiempo deseado)</string>

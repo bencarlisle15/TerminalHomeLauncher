@@ -19,7 +19,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCom
  * Created by francescoandreuzzi on 02/03/2017.
  */
 
-public class sms extends RedirectCommand {
+public class Sms extends RedirectCommand {
 
     @Override
     public String exec(ExecutePack pack) throws Exception {
