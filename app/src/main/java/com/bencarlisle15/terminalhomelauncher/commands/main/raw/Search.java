@@ -20,7 +20,7 @@ public class Search extends ParamCommand {
 
     private static final String YOUTUBE_PREFIX = "https://www.youtube.com/results?search_query=";
     private static final String YOUTUBE_PACKAGE = "com.google.android.youtube";
-    private static final String GOOGLE_PREFIX = "http://www.google.com/#q=";
+    private static final String GOOGLE_PREFIX = "https://www.google.com/search?q=";
     private static final String GOOGLE_PACKAGE = "com.google.android.googlequicksearchbox";
     private static final String GOOGLE_ACTIVITY = ".SearchActivity";
     private static final String PLAYSTORE_PREFIX = "market://search?q=";

@@ -2,6 +2,7 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.APICommand;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
@@ -26,7 +27,6 @@ public class CommandGroup {
         } catch (IOException e) {
             return;
         }
-
 
         List<CommandAbstraction> cmdAbs = new ArrayList<>();
 

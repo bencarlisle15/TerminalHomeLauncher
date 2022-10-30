@@ -3,8 +3,6 @@ package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
-import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
-import com.bencarlisle15.terminalhomelauncher.managers.ChangelogManager;
 
 /**
  * Created by francescoandreuzzi on 26/03/2018.
@@ -12,10 +10,11 @@ import com.bencarlisle15.terminalhomelauncher.managers.ChangelogManager;
 
 public class Changelog implements CommandAbstraction {
 
+    private final static String CURRENT_CHANGELOG = "Under new management";
+
     @Override
     public String exec(ExecutePack pack) throws Exception {
-        ChangelogManager.printLog(pack.context, ((MainPack) pack).client, true);
-        return null;
+        return CURRENT_CHANGELOG;
     }
 
     @Override

@@ -20,7 +20,6 @@ import com.bencarlisle15.terminalhomelauncher.commands.main.raw.Location;
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.RedirectCommand;
 import com.bencarlisle15.terminalhomelauncher.managers.AliasManager;
 import com.bencarlisle15.terminalhomelauncher.managers.AppsManager;
-import com.bencarlisle15.terminalhomelauncher.managers.ChangelogManager;
 import com.bencarlisle15.terminalhomelauncher.managers.ContactManager;
 import com.bencarlisle15.terminalhomelauncher.managers.HTMLExtractManager;
 import com.bencarlisle15.terminalhomelauncher.managers.MessagesManager;
@@ -171,7 +170,6 @@ public class MainManager {
         RssManager rssManager = new RssManager(mContext, client);
         themeManager = new ThemeManager(client, mContext, c);
         MusicManager musicManager = XMLPrefsManager.getBoolean(Behavior.enable_music) ? new MusicManager(mContext) : null;
-        ChangelogManager.printLog(mContext, client);
         htmlExtractManager = new HTMLExtractManager(mContext, client);
 
         if (XMLPrefsManager.getBoolean(Behavior.show_hints)) {
