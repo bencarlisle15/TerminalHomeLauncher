@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.nfc.NfcAdapter;
 import android.provider.Settings;
 
 import com.bencarlisle15.terminalhomelauncher.R;
@@ -110,12 +111,20 @@ public class Status implements CommandAbstraction {
         if (adapter == null) bluetoothOn = false;
         else bluetoothOn = adapter.isEnabled();
 
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(info.context.getApplicationContext());
+
+        boolean nfcOn = false;
+        if(nfcAdapter != null) {
+            nfcOn = nfcAdapter.isEnabled();
+        }
+
         return info.res.getString(R.string.battery_label) + Tuils.SPACE + level + "%" + Tuils.NEWLINE +
                 info.res.getString(R.string.wifi_label) + Tuils.SPACE + wifiConnected + Tuils.NEWLINE +
                 info.res.getString(R.string.mobile_data_label) + Tuils.SPACE + mobileOn + Tuils.NEWLINE +
                 info.res.getString(R.string.bluetooth_label) + Tuils.SPACE + bluetoothOn + Tuils.NEWLINE +
                 info.res.getString(R.string.location_label) + Tuils.SPACE + (gps_enabled || network_enabled) + Tuils.NEWLINE +
-                info.res.getString(R.string.brightness_label) + Tuils.SPACE + (autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC ? "(auto) " : Tuils.EMPTYSTRING) + b + "%";
+                info.res.getString(R.string.brightness_label) + Tuils.SPACE + (autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC ? "(auto) " : Tuils.EMPTYSTRING) + b + "%" + Tuils.NEWLINE +
+                info.res.getString(R.string.nfc_label) + Tuils.SPACE + nfcOn;
     }
 
     @Override
