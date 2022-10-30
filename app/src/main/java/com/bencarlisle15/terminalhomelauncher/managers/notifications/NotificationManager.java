@@ -7,7 +7,6 @@ import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManage
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 

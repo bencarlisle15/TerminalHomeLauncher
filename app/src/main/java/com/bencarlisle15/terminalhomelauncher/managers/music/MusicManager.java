@@ -12,7 +12,6 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.MediaController;
 
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;

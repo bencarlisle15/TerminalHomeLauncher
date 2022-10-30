@@ -19,17 +19,29 @@ public abstract class ExecutePack {
         this.commandGroup = group;
     }
 
+    @SuppressWarnings("unchecked")
+    private <T> T convertToGeneric(Class<T> c, Object result) {
+        if (c.isInstance(result)) {
+            return (T) result;
+        }
+        return null;
+    }
+
     public <T> T get(Class<T> c) {
-        return (T) get();
+        return convertToGeneric(c, get());
     }
 
     public <T> T get(Class<T> c, int index) {
-        if (index < args.length) return (T) args[index];
+        if (index < args.length) {
+            return convertToGeneric(c, args[index]);
+        }
         return null;
     }
 
     public Object get() {
-        if (currentIndex < args.length) return args[currentIndex++];
+        if (currentIndex < args.length) {
+            return args[currentIndex++];
+        }
         return null;
     }
 
@@ -45,8 +57,9 @@ public abstract class ExecutePack {
         return (boolean) get();
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList<String> getList() {
-        return (ArrayList<String>) get();
+        return (ArrayList<String>) get(ArrayList.class);
     }
 
     public XMLPrefsSave getPrefsSave() {

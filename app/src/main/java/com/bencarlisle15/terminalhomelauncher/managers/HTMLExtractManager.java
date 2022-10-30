@@ -510,7 +510,9 @@ public class HTMLExtractManager {
                             String f = format == null ? defaultFormat : format;
                             CharSequence copy = Tuils.span(f, outputColor);
 
+                            //noinspection unchecked
                             copy = replaceAllAttributesObject(copy, ((Map<String, Object>) o).entrySet());
+                            //noinspection unchecked
                             copy = replaceTagNameObject(copy, null, (Map<String, Object>) o);
                             copy = replaceNewline(copy);
                             copy = replaceLinkColorReplace(context, copy, url);
@@ -526,8 +528,16 @@ public class HTMLExtractManager {
                             for (int c = 0; c < a.size(); c++) {
                                 String f = format == null ? defaultFormat : format;
                                 CharSequence copy = Tuils.span(f, outputColor);
+                                
+                                Object value =  a.get(c);
+                                
+                                if (!(value instanceof LinkedHashMap)) {
+                                    continue;
+                                }
 
-                                LinkedHashMap<String, Object> m = (LinkedHashMap<String, Object>) a.get(c);
+                                //noinspection unchecked
+                                LinkedHashMap<String, Object> m = (LinkedHashMap<String, Object>) value;
+                                
 
                                 copy = replaceAllAttributesObject(copy, m.entrySet());
                                 copy = replaceTagNameObject(copy, null, m);

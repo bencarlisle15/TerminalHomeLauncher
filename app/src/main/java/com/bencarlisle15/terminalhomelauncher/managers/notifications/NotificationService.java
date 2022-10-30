@@ -11,7 +11,6 @@ import android.os.Parcelable;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 

@@ -162,7 +162,6 @@
     <string name="tuixt_error">El archivo es muy grande, considera abrirlo en otro editor de texto</string>
 
     <!-- phone -->
-    <string name="output_wifi">WiFi activo:</string>
     <string name="output_bluetooth">Bluetooth activo:</string>
     <string name="output_bluetooth_unavailable">Bluetooth no está permitido en este dispositivo</string>
 
@@ -236,7 +235,7 @@
     <string name="help_changelog">Mostrar el registro de cambios de la versión actual</string>
     <string name="help_config">-set [option] [value] -> set the value of an option
         \n-append [option] [value] -> append the given string to the value of the selected option
-        \n-file [file] -> open a config file (behavior.xml, ui.xml, theme.xml, ...)
+        \n-file [file] -> open a config file (behavior.xml, ui.xml, theme.xml, …)
         \n-erase [option] -> set the value of an option to \"\"
         \n-setr [option] [value] -> same to \"-set\", but restarts t-ui automatically
         \n-get [option] -> get the value of an option
@@ -288,7 +287,7 @@
         \n-check [ID or packageName] -> verifique la última notificación de la aplicación vinculada con la ID dada
         \n-tutorial -> abre el tutorial en GitHub</string>
     <string name="help_restart">Restart t-ui and load modified values</string>
-    <string name="help_search">-gg [search this...] -> Google Search
+    <string name="help_search">-gg [search this…] -> Google Search
         \n-ps [search this...] -> Google Play Store
         \n-u [URL] -> abre la URL
         \n-yt [search this...] -> YouTube
@@ -332,7 +331,7 @@
     <string name="help_vibrate">Hacer que tu móvil vibre.
         \n\nUso:
         \n$ vibrate [milisegundos]
-        \n$ vibrate [patrón: espera, vibra, espera, vibra, espera, ...]
+        \n$ vibrate [patrón: espera, vibra, espera, vibra, espera, …]
         \n\nEjemplo:
         \n$ vibrate 300
         \n$ vibrate 0,300,500,300</string>

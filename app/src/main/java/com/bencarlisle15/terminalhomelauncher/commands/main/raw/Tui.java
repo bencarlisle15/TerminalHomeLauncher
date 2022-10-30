@@ -23,6 +23,7 @@ import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.Reloadable;
 import com.bencarlisle15.terminalhomelauncher.tuils.stuff.PolicyReceiver;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Created by francescoandreuzzi on 10/06/2017.
@@ -130,7 +131,7 @@ public class Tui extends ParamCommand {
         reset {
             @Override
             public String exec(ExecutePack pack) {
-                Tuils.deleteContentOnly(Tuils.getFolder());
+                Tuils.deleteContentOnly(Objects.requireNonNull(Tuils.getFolder()));
 
                 ((LauncherActivity) pack.context).addMessage(pack.context.getString(R.string.tui_reset), null);
                 ((Reloadable) pack.context).reload();
@@ -141,7 +142,7 @@ public class Tui extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
 
-                Uri selectedUri = Uri.parse(Tuils.getFolder().getAbsolutePath());
+                Uri selectedUri = Uri.parse(Objects.requireNonNull(Tuils.getFolder()).getAbsolutePath());
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(selectedUri, "resource/folder");
 

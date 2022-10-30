@@ -2,7 +2,6 @@ package com.bencarlisle15.terminalhomelauncher.commands;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.bencarlisle15.terminalhomelauncher.commands.main.specific.APICommand;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
@@ -65,9 +64,10 @@ public class CommandGroup {
 
     private CommandAbstraction buildCommand(String fullCmdName) {
         try {
-            Class<CommandAbstraction> clazz = (Class<CommandAbstraction>) Class.forName(fullCmdName);
+            Class<?> clazz = Class.forName(fullCmdName);
             if (CommandAbstraction.class.isAssignableFrom(clazz)) {
-                Constructor<CommandAbstraction> constructor = clazz.getConstructor();
+                Class<? extends CommandAbstraction> clazz2 = clazz.asSubclass(CommandAbstraction.class);
+                Constructor<? extends CommandAbstraction> constructor = clazz2.getConstructor();
                 return constructor.newInstance();
             }
             return null;

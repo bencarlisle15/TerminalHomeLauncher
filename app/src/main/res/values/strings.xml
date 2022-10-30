@@ -160,7 +160,6 @@
     <string name="tuixt_error">This file is too big, consider opening it with an other text editor</string>
 
     <!-- phone -->
-    <string name="output_wifi">WiFi active:</string>
     <string name="output_bluetooth">Bluetooth active:</string>
     <string name="output_bluetooth_unavailable">Bluetooth is not available on this device</string>
 
@@ -183,7 +182,7 @@
     <string name="location_label">Location:</string>
     <string name="brightness_label">Brightness:</string>
     <string name="bluetooth_label">Bluetooth:</string>
-    <string name="nfc_label">NFC:</string>
+    <string name="nfc_label" translatable="false">NFC:</string>
 
     <!-- contacts -->
     <string name="sms_hint">write your SMS or nothing to cancel</string>
@@ -407,7 +406,6 @@
     <string name="up" translatable="false">Up</string>
     <string name="down" translatable="false">Down</string>
     <string name="paste" translatable="false">Paste</string>
-    <string name="command_output" translatable="false">Command Output</string>
     <string name="command_input" translatable="false">Command Input</string>
 
 </resources>
