@@ -1365,7 +1365,7 @@ public class AppsManager implements XMLPrefsElement {
                     LaunchInfo l2 = infos.get(j);
                     if (l1.publicLabel.equals(l2.publicLabel)) {
                         l1.setLabel(l1.publicLabel + " (" + l1.componentName.getPackageName() + ")");
-                        l2.setLabel(l1.publicLabel + " (" + l2.componentName.getPackageName() + ")");
+                        l2.setLabel(l2.publicLabel + " (" + l2.componentName.getPackageName() + ")");
                     }
                 }
             }
