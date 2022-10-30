@@ -659,10 +659,13 @@ public class Tuils {
         intent.putExtra(PrivateIOReceiver.COLOR, color);
         intent.putExtra(PrivateIOReceiver.TYPE, type);
 
-        if (action instanceof String) intent.putExtra(PrivateIOReceiver.ACTION, (String) action);
-        else if (action instanceof Parcelable)
-            intent.putExtra(PrivateIOReceiver.ACTION, (Parcelable) action);
+        if (action instanceof String) {
+            intent.putExtra(PrivateIOReceiver.ACTION, (String) action);
+        } else if (action instanceof Parcelable) {
+            intent.putExtra(PrivateIOReceiver.ACTION_PARSEABLE, (Parcelable) action);
+        }
 
+        Log.e("SENDING", action + " " + intent.getExtras().toString());
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
@@ -676,15 +679,17 @@ public class Tuils {
         intent.putExtra(PrivateIOReceiver.COLOR, color);
         intent.putExtra(PrivateIOReceiver.TYPE, type);
 
-        if (action instanceof String) intent.putExtra(PrivateIOReceiver.ACTION, (String) action);
-        else if (action instanceof Parcelable)
-            intent.putExtra(PrivateIOReceiver.ACTION, (Parcelable) action);
+        if (action instanceof String) {
+            intent.putExtra(PrivateIOReceiver.ACTION, (String) action);
+        } else if (action instanceof Parcelable) {
+            intent.putExtra(PrivateIOReceiver.ACTION_PARSEABLE, (Parcelable) action);
+        }
 
         if (longAction instanceof String)
             intent.putExtra(PrivateIOReceiver.LONG_ACTION, (String) longAction);
         else if (longAction instanceof Parcelable)
-            intent.putExtra(PrivateIOReceiver.LONG_ACTION, (Parcelable) longAction);
-
+            intent.putExtra(PrivateIOReceiver.LONG_ACTION_PARSEABLE, (Parcelable) longAction);
+        
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 

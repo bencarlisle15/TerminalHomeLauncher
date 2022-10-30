@@ -7,6 +7,7 @@ import static com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManage
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -194,7 +195,6 @@ public class NotificationManager implements XMLPrefsElement {
                         boolean enabled = XMLPrefsManager.getBooleanAttribute(e, ENABLED_ATTRIBUTE);
                         String color = XMLPrefsManager.getStringAttribute(e, COLOR_ATTRIBUTE);
                         String format = XMLPrefsManager.getStringAttribute(e, FORMAT_ATTRIBUTE);
-
                         app = new NotificatedApp(nn, color, format, enabled);
                         apps.add(app);
                     }
@@ -223,6 +223,10 @@ public class NotificationManager implements XMLPrefsElement {
 
         for (NotificatedApp app : apps) {
             try {
+                if (app.format == null) {
+                    continue;
+                }
+
                 int formatID = Integer.parseInt(app.format);
 
                 for (XMLPrefsManager.IdValue idValue : formats) {

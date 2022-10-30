@@ -38,7 +38,9 @@ public class PrivateIOReceiver extends BroadcastReceiver {
     public static final String TYPE = BuildConfig.APPLICATION_ID + ".type";
     public static final String COLOR = BuildConfig.APPLICATION_ID + ".color";
     public static final String ACTION = BuildConfig.APPLICATION_ID + ".action";
+    public static final String ACTION_PARSEABLE = BuildConfig.APPLICATION_ID + ".action_parseable";
     public static final String LONG_ACTION = BuildConfig.APPLICATION_ID + ".longaction";
+    public static final String LONG_ACTION_PARSEABLE = BuildConfig.APPLICATION_ID + ".longaction_parseable";
     public static final String REMOTE_INPUTS = BuildConfig.APPLICATION_ID + ".remote_inputs";
     public static final String BUNDLE = BuildConfig.APPLICATION_ID + ".bundle";
     public static final String PENDING_INTENT = BuildConfig.APPLICATION_ID + ".pending_intent";
@@ -82,9 +84,9 @@ public class PrivateIOReceiver extends BroadcastReceiver {
                 longClickExtraObject = intent.getStringExtra(LONG_ACTION);
 
                 if (singleClickExtraObject == null)
-                    singleClickExtraObject = intent.getParcelableExtra(ACTION);
+                    singleClickExtraObject = intent.getParcelableExtra(ACTION_PARSEABLE);
                 if (longClickExtraObject == null)
-                    longClickExtraObject = intent.getParcelableExtra(LONG_ACTION);
+                    longClickExtraObject = intent.getParcelableExtra(LONG_ACTION_PARSEABLE);
 
                 if (singleClickExtraObject != null || longClickExtraObject != null) {
                     text = new SpannableStringBuilder(text);

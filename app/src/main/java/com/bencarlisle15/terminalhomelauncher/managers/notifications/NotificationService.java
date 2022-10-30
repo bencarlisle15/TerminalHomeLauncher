@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -195,7 +196,7 @@ public class NotificationService extends NotificationListenerService {
                                         String stringed = text.toString().trim();
 
                                         if (length != null) {
-                                            int l = Integer.parseInt(length);
+                                            int l = Math.min(Integer.parseInt(length), stringed.length());
                                             stringed = stringed.substring(0, l);
                                         }
 
