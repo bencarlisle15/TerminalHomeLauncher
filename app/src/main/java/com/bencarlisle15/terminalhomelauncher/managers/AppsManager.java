@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Process;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -50,6 +51,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -397,12 +399,12 @@ public class AppsManager implements XMLPrefsElement {
 //                activityInfos.addAll(launcherApps.getActivityList(info.packageName, android.os.Process.myUserHandle()));
 //            }
 //        } else {
-        Intent i = new Intent(Intent.ACTION_MAIN);
-        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         List<ResolveInfo> main;
         try {
-            main = mgr.queryIntentActivities(i, 0);
+            main = mgr.queryIntentActivities(intent, 0);
         } catch (Exception e) {
             return infos;
         }
@@ -1029,7 +1031,7 @@ public class AppsManager implements XMLPrefsElement {
             setLabel(label);
         }
 
-        protected LaunchInfo(Parcel in) {
+        private LaunchInfo(Parcel in) {
             componentName = in.readParcelable(ComponentName.class.getClassLoader());
             setLabel(in.readString());
             launchedTimes = in.readInt();
@@ -1357,6 +1359,16 @@ public class AppsManager implements XMLPrefsElement {
         }
 
         private void update(boolean refreshSuggestions) {
+            for (int i = 1; i < infos.size(); i++) {
+                LaunchInfo l1 = infos.get(i);
+                for (int j = 0; j < i; j++) {
+                    LaunchInfo l2 = infos.get(j);
+                    if (l1.publicLabel.equals(l2.publicLabel)) {
+                        l1.setLabel(l1.publicLabel + " (" + l1.componentName.getPackageName() + ")");
+                        l2.setLabel(l1.publicLabel + " (" + l2.componentName.getPackageName() + ")");
+                    }
+                }
+            }
             AppUtils.checkEquality(infos);
             sort();
             if (refreshSuggestions) {
