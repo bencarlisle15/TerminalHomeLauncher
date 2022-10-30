@@ -641,7 +641,7 @@ public class RssManager implements XMLPrefsElement {
             public void run() {
                 super.run();
 
-                if (Tuils.hasNoInternetAccess()) {
+                if (Tuils.hasNoInternetAccess(context)) {
                     if (force) Tuils.sendOutput(Color.RED, context, R.string.no_internet);
                     return;
                 }

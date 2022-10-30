@@ -141,8 +141,6 @@ public class XMLPrefsManager {
         if (commonsLoaded) return;
         commonsLoaded = true;
 
-        Tuils.setFolder(context);
-
         File folder = Tuils.getFolder();
         if (folder == null) {
             Tuils.sendOutput(Color.RED, context, R.string.tuinotfound_xmlprefs);

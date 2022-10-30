@@ -19,6 +19,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -47,6 +50,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.bencarlisle15.terminalhomelauncher.BuildConfig;
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
+import com.bencarlisle15.terminalhomelauncher.commands.main.raw.Status;
 import com.bencarlisle15.terminalhomelauncher.managers.TerminalManager;
 import com.bencarlisle15.terminalhomelauncher.managers.music.MusicManager;
 import com.bencarlisle15.terminalhomelauncher.managers.music.Song;
@@ -933,13 +937,16 @@ public class Tuils {
         }
     }
 
-    public static boolean hasNoInternetAccess() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
-            return (urlc.getResponseCode() != 204 || urlc.getContentLength() != 0);
-        } catch (IOException e) {
-            return true;
+    public static boolean hasNoInternetAccess(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        for (Network network : connectivityManager.getAllNetworks()) {
+            NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+            if (networkInfo.isConnected()) {
+                return false;
+            }
         }
+        return true;
     }
 
     public static <T> T getDefaultValue(Class<T> clazz) {
@@ -1119,8 +1126,8 @@ public class Tuils {
         return FileProvider.getUriForFile(context, GenericFileProvider.PROVIDER_NAME, file);
     }
 
-    private static File getTuiFolder(Context context) {
-        File internalDir = context.getFilesDir();
+    private static File getTuiFolder() {
+        File internalDir = Environment.getExternalStorageDirectory();
         return new File(internalDir, TUI_FOLDER);
     }
 
@@ -1221,18 +1228,14 @@ public class Tuils {
     }
 
     public static File getFolder() {
-        return folder;
-    }
-
-    public static void setFolder(Context context) {
-        if (folder != null) return;
+        if (folder != null) return folder;
 
         int elapsedTime = 0;
         while (elapsedTime < 1000) {
-            File tuiFolder = Tuils.getTuiFolder(context);
+            File tuiFolder = Tuils.getTuiFolder();
             if (tuiFolder.exists() && tuiFolder.isDirectory() || tuiFolder.mkdir()) {
                 folder = tuiFolder;
-                return;
+                return folder;
             }
 
             try {
@@ -1243,6 +1246,7 @@ public class Tuils {
 
             elapsedTime += FILEUPDATE_DELAY;
         }
+        return null;
     }
 
     public static int alphabeticCompare(String s1, String s2) {

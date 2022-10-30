@@ -386,7 +386,7 @@ public class HTMLExtractManager {
             public void run() {
                 super.run();
 
-                if (Tuils.hasNoInternetAccess()) {
+                if (Tuils.hasNoInternetAccess(context)) {
                     output(R.string.no_internet, context, weatherArea);
                     return;
                 }

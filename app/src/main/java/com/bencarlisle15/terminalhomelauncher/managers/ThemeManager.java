@@ -80,7 +80,7 @@ public class ThemeManager {
             public void run() {
                 super.run();
 
-                if (Tuils.hasNoInternetAccess()) {
+                if (Tuils.hasNoInternetAccess(context)) {
                     Tuils.sendOutput(Color.RED, context, R.string.no_internet);
                     return;
                 }
