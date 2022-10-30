@@ -1,5 +1,6 @@
 package com.bencarlisle15.terminalhomelauncher.commands.tuixt;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,6 +60,7 @@ public class TuixtActivity extends Activity {
 
     private TuixtPack pack;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +143,7 @@ public class TuixtActivity extends Activity {
         fileView.setTextColor(outputColor);
         fileView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                Log.e("FILE", "ON TOUCH");
                 outputView.setVisibility(View.GONE);
                 outputView.setText(Tuils.EMPTYSTRING);
             }
@@ -254,7 +257,6 @@ public class TuixtActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        this.finish();
     }
 
     private void onNewInput() {

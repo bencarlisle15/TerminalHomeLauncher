@@ -2,6 +2,7 @@ package com.bencarlisle15.terminalhomelauncher.managers.xml;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;

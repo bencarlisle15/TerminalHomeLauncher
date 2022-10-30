@@ -441,6 +441,7 @@ public class Shell {
          *
          * @return Shell command
          */
+        @SuppressWarnings("SameReturnValue")
         public static String shellMountMaster() {
             return "su --mount-master";
         }

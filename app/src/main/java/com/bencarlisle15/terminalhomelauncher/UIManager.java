@@ -1,5 +1,6 @@
 package com.bencarlisle15.terminalhomelauncher;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
@@ -204,6 +205,7 @@ public class UIManager implements OnTouchListener {
         }
     };
 
+    @SuppressLint("ClickableViewAccessibility")
     protected UIManager(final Context context, final ViewGroup rootView, MainPack mainPack, boolean canApplyTheme, CommandExecuter executer) {
 
         labelViews = new TextView[]{
@@ -1018,6 +1020,7 @@ public class UIManager implements OnTouchListener {
         closeKeyboard();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         gestureDetector.onTouchEvent(event);

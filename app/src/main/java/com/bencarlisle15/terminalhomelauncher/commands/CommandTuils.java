@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressLint("DefaultLocale")
 public class CommandTuils {
@@ -342,13 +343,13 @@ public class CommandTuils {
         }
 
         if (info.allExtensions && info.allNames) {
-            files = Arrays.asList(cd.listFiles());
+            files = Arrays.asList(Objects.requireNonNull(cd.listFiles()));
         } else if (info.allNames) {
             extensionFileFilter.setExtension(info.extension);
-            files = Arrays.asList(cd.listFiles(extensionFileFilter));
+            files = Arrays.asList(Objects.requireNonNull(cd.listFiles(extensionFileFilter)));
         } else if (info.allExtensions) {
             nameFileFilter.setName(info.name);
-            files = Arrays.asList(cd.listFiles(nameFileFilter));
+            files = Arrays.asList(Objects.requireNonNull(cd.listFiles(nameFileFilter)));
         } else {
             return null;
         }
@@ -489,7 +490,7 @@ public class CommandTuils {
         public final Object arg;
         public final String residualString;
         public final int n;
-        public boolean found;
+        public final boolean found;
 
         public ArgInfo(Object arg, String residualString, boolean found, int nFound) {
             this.arg = arg;

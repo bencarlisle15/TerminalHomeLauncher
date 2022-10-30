@@ -70,7 +70,9 @@ public class Tuixt implements CommandAbstraction {
         }
 
         try {
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                throw new IOException("Could not create file at " + file.getAbsolutePath());
+            }
         } catch (IOException e) {
             return e.toString();
         }

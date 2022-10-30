@@ -136,6 +136,7 @@ public class Search extends ParamCommand {
         return Param.labels();
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static String google(List<String> args, Context c) {
 
         try {
@@ -156,6 +157,7 @@ public class Search extends ParamCommand {
         return Tuils.EMPTYSTRING;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static String playstore(List<String> args, Context c) {
         String toSearch = Tuils.toPlanString(args, "%20");
 
@@ -168,6 +170,7 @@ public class Search extends ParamCommand {
         return Tuils.EMPTYSTRING;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static String url(String url, Context c) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
@@ -180,6 +183,7 @@ public class Search extends ParamCommand {
         return Tuils.EMPTYSTRING;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static String duckDuck(List<String> args, Context c) {
         try {
             String toSearch = Tuils.toPlanString(args, " ");
@@ -198,6 +202,7 @@ public class Search extends ParamCommand {
         return Tuils.EMPTYSTRING;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private static String youTube(List<String> args, Context c) {
         try {
             String toSearch = Tuils.toPlanString(args, " ");

@@ -834,6 +834,10 @@ public class RssManager implements XMLPrefsElement {
                             continue;
                         }
 
+                        if (d == null) {
+                            continue;
+                        }
+
                         long timeLong = d.getTime();
                         value = TimeManager.instance.replace(timeFormat, timeLong, Integer.MAX_VALUE).toString();
                     } else {

@@ -61,6 +61,7 @@ import it.andreuzzi.comparestring2.AlgMap;
 import it.andreuzzi.comparestring2.CompareObjects;
 import it.andreuzzi.comparestring2.CompareStrings;
 import it.andreuzzi.comparestring2.StringableObject;
+import it.andreuzzi.comparestring2.StringableStringWrapper;
 import it.andreuzzi.comparestring2.algs.interfaces.Algorithm;
 
 /**
@@ -536,7 +537,7 @@ public class SuggestionsManager {
 
                 int n = suggestions.size() - existingViews.length;
                 TextView[] toAdd = null;
-                TextView[] toRecycle = null;
+                TextView[] toRecycle;
                 if (n == 0) {
                     toRecycle = existingViews;
                 } else if (n > 0) {
@@ -894,9 +895,9 @@ public class SuggestionsManager {
         int counter = quickCompare(temp, files, suggestions, beforeLastSpace, suggestionsPerCategory);
         if (suggestionsPerCategory - counter <= 0) return;
 
-        String[] fs = CompareStrings.topMatchesWithDeadline(temp, files, suggestionsPerCategory - counter, suggestionsDeadline, FILE_SPLITTERS, algInstance, alg);
-        for (String f : fs) {
-            suggestions.add(new Suggestion(beforeLastSpace, f, false, Suggestion.TYPE_FILE, afterLastSpaceWithoutALS));
+        StringableStringWrapper[] fs = CompareStrings.topMatchesWithDeadline(temp, files, suggestionsPerCategory - counter, suggestionsDeadline, FILE_SPLITTERS, algInstance, alg);
+        for (StringableStringWrapper f : fs) {
+            suggestions.add(new Suggestion(beforeLastSpace, f.getString(), false, Suggestion.TYPE_FILE, afterLastSpaceWithoutALS));
         }
     }
 

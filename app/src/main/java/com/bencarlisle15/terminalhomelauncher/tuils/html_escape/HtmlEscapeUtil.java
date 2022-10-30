@@ -629,7 +629,7 @@ final class HtmlEscapeUtil {
         final int max = text.length();
 
         int readOffset = offset;
-        int referenceOffset = offset;
+        int referenceOffset;
 
         for (int i = offset; i < max; i++) {
 
@@ -643,7 +643,7 @@ final class HtmlEscapeUtil {
                 continue;
             }
 
-            int codepoint = 0;
+            int codepoint;
 
             final char c1 = text.charAt(i + 1);
 
@@ -879,7 +879,7 @@ final class HtmlEscapeUtil {
                 continue;
             }
 
-            int codepoint = 0;
+            int codepoint;
 
             if (c2 == '\u0020' || // SPACE
                     c2 == '\n' ||     // LF
@@ -1124,7 +1124,7 @@ final class HtmlEscapeUtil {
         final int max = (offset + len);
 
         int readOffset = offset;
-        int referenceOffset = offset;
+        int referenceOffset;
 
         for (int i = offset; i < max; i++) {
 
@@ -1138,7 +1138,7 @@ final class HtmlEscapeUtil {
                 continue;
             }
 
-            int codepoint = 0;
+            int codepoint;
 
             final char c1 = text[i + 1];
 

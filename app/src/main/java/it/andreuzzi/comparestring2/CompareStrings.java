@@ -252,7 +252,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, AlgMap.Alg alg, Object... args) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, AlgMap.Alg alg, Object... args) {
         return topMatchesWithDeadline(s1, ss, n, deadline, null, alg, args);
     }
     
@@ -267,7 +267,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, Algorithm algInstance, AlgMap.Alg alg) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, Algorithm algInstance, AlgMap.Alg alg) {
         return topMatchesWithDeadline(s1, ss.length, Arrays.asList(ss), n, deadline, null, algInstance, alg);
     }
     
@@ -283,7 +283,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, String[] splitters, AlgMap.Alg alg, Object... args) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, String[] splitters, AlgMap.Alg alg, Object... args) {
         Algorithm algInstance = alg.buildAlg(args);
         return topMatchesWithDeadline(s1, ss, n, deadline, splitters, algInstance, alg);
     }
@@ -300,7 +300,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, String[] ss, int n, float deadline, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
         return topMatchesWithDeadline(s1, ss.length, Arrays.asList(ss), n, deadline, splitters, algInstance, alg);
     }
     
@@ -498,7 +498,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, AlgMap.Alg alg, Object... args) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, AlgMap.Alg alg, Object... args) {
         return topMatchesWithDeadline(s1, size, ss, n, deadline, null, alg, args);
     }
     
@@ -514,7 +514,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, Algorithm algInstance, AlgMap.Alg alg) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, Algorithm algInstance, AlgMap.Alg alg) {
         return topMatchesWithDeadline(s1, size, ss, n, deadline, null, algInstance, alg);
     }
     
@@ -531,7 +531,7 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, String[] splitters, AlgMap.Alg alg, Object... args) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, String[] splitters, AlgMap.Alg alg, Object... args) {
         Algorithm algInstance = alg.buildAlg(args);
         return topMatchesWithDeadline(s1, size, ss, n, deadline, splitters, algInstance, alg);
     }
@@ -549,9 +549,9 @@ public class CompareStrings {
      *                      {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code true}, only elements with
      *                      {@code rank <= deadline} if {@link Utils#biggerIsBetter(it.andreuzzi.comparestring2.AlgMap.Alg) Utils.biggerIsBetter(alg)} is {@code false}
      */
-    public static String[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
+    public static StringableStringWrapper[] topMatchesWithDeadline(String s1, int size, Iterable<String> ss, int n, float deadline, String[] splitters, Algorithm algInstance, AlgMap.Alg alg) {
         CompareItem[] items = buildComparePack(s1, ss, size, splitters, algInstance, alg);
         int cutIndex = Utils.firstBeyondDeadline(items, deadline, Utils.biggerIsBetter(alg));
-        return Utils.gather(String.class, items, Math.min(cutIndex, n));
+        return Utils.gather(StringableStringWrapper.class, items, Math.min(cutIndex, n));
     }
 }

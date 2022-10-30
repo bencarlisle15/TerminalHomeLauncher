@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -68,9 +69,10 @@
         android:isScrollContainer="true"
         android:textCursorDrawable="@drawable/cursor"
 
-        android:hint="@string/command_output"
+        android:hint=""
 
         android:background="@null"
-        android:autofillHints="" />
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
 </RelativeLayout>

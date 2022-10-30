@@ -136,6 +136,7 @@ public class MusicManager implements MediaController.MediaPlayerControl {
         musicSrv.pausePlayer();
     }
 
+    @SuppressWarnings("SameReturnValue")
     public String play() {
         if (!musicBound) {
             init();

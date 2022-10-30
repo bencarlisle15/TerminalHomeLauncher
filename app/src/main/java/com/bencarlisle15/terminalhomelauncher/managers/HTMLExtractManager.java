@@ -751,7 +751,7 @@ public class HTMLExtractManager {
             String text = m.group(1);
 
 //            fix relative links
-            if (text.startsWith("/")) {
+            if (text != null && text.startsWith("/")) {
                 Matcher m1 = extractUrl.matcher(url);
                 if (m1.find()) {
                     text = m1.group(1) + text;
