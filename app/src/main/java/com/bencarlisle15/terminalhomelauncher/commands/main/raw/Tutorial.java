@@ -13,7 +13,7 @@ import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 public class Tutorial implements CommandAbstraction {
 
-    final String url = "https://github.com/Andre1299/TUI-ConsoleLauncher/wiki";
+    final String url = "https://github.com/bencarlisle15/TerminalHomeLauncher/wiki";
 
     @Override
     public String exec(ExecutePack pack) throws Exception {
