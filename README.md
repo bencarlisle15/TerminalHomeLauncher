@@ -22,15 +22,14 @@
 - **[Gadget Hacks](https://android.gadgethacks.com/how-to/linux-style-launcher-turns-your-home-screen-into-command-prompt-0177326/)**
 
 ## Contributing
-**Pull requests** are welcome. But **before** you decide to make a major change you should contact me (**[e-mail](mailto:andreuzzi.francesco@gmail.com)**) in order to check if I'm going to include your change in t-ui, so you don't waste your time.
+**Pull requests** are welcome. But **before** you decide to make a major change you should open a Github issue in order to check if I'm going to include your change in t-ui, so you don't waste your time.
 
 ## How to format a bug report
-1. Set "**Bug report**" as subject
-2. Describe the issue, when it happens, how to reproduce it
-3. **English**! (or Italian, at least)
+1. Create a Github issue,
+2. Add the **bug** label
+3. Describe the issue, when it happens, how to reproduce it
 4. Include any **screenshot** that you think could help (*outputs*, *UI*, etc..)
 5. Include any **file** that you think could help (*behavior.xml*, *ui.xml*, etc..)
-6. Send it to **andreuzzi.francesco@gmail.com**
 
 ## Open source libraries
 * [**CompareString2**](https://github.com/fAndreuzzi/CompareString2)
