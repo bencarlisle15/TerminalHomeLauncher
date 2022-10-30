@@ -10,7 +10,7 @@ import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 
 public class Changelog implements CommandAbstraction {
 
-    private final static String CURRENT_CHANGELOG = "Added Android Calendar intergration";
+    private final static String CURRENT_CHANGELOG = "Added Android Calendar integration";
 
     @Override
     public String exec(ExecutePack pack) throws Exception {
