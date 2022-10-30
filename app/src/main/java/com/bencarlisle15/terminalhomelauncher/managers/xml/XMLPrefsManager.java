@@ -791,5 +791,4 @@ public class XMLPrefsManager {
             this.id = id;
         }
     }
-
 }

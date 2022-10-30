@@ -3,21 +3,16 @@
 
     <!-- various text -->
     <string name="app_name">T-UI Modificado</string>
-    <string name="location_off">Enciende el GPS</string>
     <string name="share_label">Compartir</string>
     <string name="output_about">Juanse Mastrangelo (Argentina)\n\t-> Traductor
         \n\nFrancesco Andreuzzi (Italy)\n\t-> Programmer
         \n\nThanks to Luke Winward for his original idea</string>
-    <string name="output_refresh">Refrescar: apps, alias, musica, contactos, rss feeds</string>
+    <string name="output_refresh">Refrescar: apps, alias, música, contactos, rss feeds</string>
     <string name="output_rate">Gracias!</string>
     <string name="start_notification">T-UI iniciado</string>
-    <string name="tui_running">T-UI corriendo</string>
     <string name="admin_permission">Bloquea la pantalla con doble tap</string>
     <string name="tui_reset">t-ui se reseteo a la configuración inicial</string>
     <string name="copied">Copiado:</string>
-    <string name="tui_busy">t-ui está ocupado, usa \"ctrlc\" para frenar el proceso</string>
-    <string name="donate">Te gusta mi trabajo? Puedes comprarme un café usando (cmd: $ donate). Gracias!</string>
-    <string name="open_file_chooser">Abrir archivo con...</string>
 
     <!-- weather -->
     <string name="weather_cant_update">No puede realizar una actualización manual con la clave predeterminada. Tienes que crear una clave personalizada en el sitio web</string>
@@ -39,16 +34,12 @@
     <string name="exclude_notification">Excluyendo notificaciones</string>
     <string name="exclude_app">Excluyendo app</string>
     <string name="reply_notification">Responder a la última notificación</string>
-    <string name="notification_service_not_running">El servicio de notificaciones no se está ejecutando.</string>
 
     <!-- regex -->
     <string name="invalid_regex">Expresiones regulares inválidas:</string>
 
     <!-- theme -->
     <string name="theme_not_found">Tema no encontrado</string>
-    <string name="theme_invalid">Tema inválido</string>
-    <string name="theme_old_not_found">No tienes un tema viejo</string>
-    <string name="theme_reverted">Volvió al tema anterior</string>
     <string name="theme_unable">No se pudo aplicar este tema</string>
 
     <!-- files -->
@@ -58,10 +49,8 @@
     <!-- notifications -->
     <string name="notification_reader">T-UI lector de notificaciones</string>
     <string name="no_notification_access">Desafortunadamente, t-ui no puede redirigirlo a la página \ "Acceso a notificaciones \" de la configuración de su sistema. Prueba nuevamente o ingresa manualmente</string>
-    <string name="notification_low_api">Las notificaciones solo son compatibles con Android 4.3+. Usa \'config -set show_notifications false \' para deshabilitar este mensaje</string>
 
     <!-- helps texts -->
-    <string name="firsthelp_text">Primera vez usando t-ui?\n\ttutorial -> ver tutorial en Github\n\thelp     -> ver lista de los comandos permitidos</string>
     <string name="permissions_toast">Tienes que otorgar permiso de almacenamiento</string>
     <string name="output_usedefapp">Puedes usar \ "apps -default_app \" en su lugar</string>
 
@@ -105,8 +94,6 @@
     <!-- apps -->
     <string name="output_appnotfound">Aplicacion no encontrada</string>
     <string name="activity_not_found">Actividad no encontrada</string>
-    <string name="app_installed">App instalada:</string>
-    <string name="app_uninstalled">App desinstalada:</string>
     <string name="app_shortcut_not_found">Atajo no encontrado</string>
 
     <!-- pending operation -->
@@ -114,20 +101,18 @@
     <string name="restarting">t-ui será cerrado en unos segundos. Click en el boton de inicio para reiniciar</string>
 
     <!-- various errors -->
-    <string name="output_nopermissions">Usted no dió permisos para realizar esta accion</string>
+    <string name="output_nopermissions">Usted no dio permisos para realizar esta acción</string>
     <string name="output_waitingpermission">Esperando permisos</string>
-    <string name="output_problemcamera">Tuvimos problemas para conectarnos a la camara</string>
     <string name="output_invalidarg">Argumentos inválidos</string>
     <string name="output_lessarg">Menos argumentos de lo esperado</string>
     <string name="invalid_integer">Entero inválido</string>
-    <string name="output_nothing_found">No encontrado</string>
     <string name="output_xmlproblem1">Hubo un problema XML con su archivo</string>
     <string name="output_xmlproblem2">, t-ui usará valores predeterminados. \nFix o elimina el archivo para recuperar sus opciones</string>
     <string name="output_errorlabel">Error:</string>
     <string name="output_invalidcolor">Color inválido usa el sistema hexadecimal (eg. #333333)</string>
     <string name="output_groupnotfound">Grupo no encontrado</string>
     <string name="output_groupexists">Este grupo ya existe</string>
-    <string name="output_groupspace">Los espacios no estan permitidos en el nombre de los grupos</string>
+    <string name="output_groupspace">Los espacios no están permitidos en el nombre de los grupos</string>
     <string name="output_notification_error">El servicio de notificaciones no pudo iniciar correctamente:</string>
     <string name="reply_app_not_found">No se pudo encontrar la aplicación enlazada:</string>
     <string name="no_internet">No tienes acceso a Internet</string>
@@ -137,13 +122,11 @@
     <string name="no_result">No se encontraron resultados</string>
     <string name="unavailable_name">Nombre no disponible</string>
     <string name="invalid_name">Nombre inválido</string>
-    <string name="api_low">Version de Android demasiado antigua</string>
     <string name="invalid_datastoretype">Tipo inválido</string>
     <string name="location_error">No se pudo encontrar tu ubicación</string>
 
     <!-- note -->
     <string name="note_not_found">Nota no encontrada</string>
-    <string name="row_used">Esta fila está ocupada</string>
     <string name="note_max_reached">Sus notas alcanzaron el valor establecido en notes_max_lines. Puede desplazarse para verlos todos, cambiar el valor o deshabilitar este mensaje (ui.xml: show_scroll_notes_message).</string>
 
     <!-- id -->
@@ -159,8 +142,6 @@
     <string name="rss_invalid_empty">RSS inválido: el archivo está vacío:</string>
 
     <!-- alias -->
-    <string name="output_aliasnotfound">Alias no encontrado:</string>
-    <string name="output_problemaddingalias">Hubo un problema con tu alias</string>
     <string name="output_notaddingalias1">El nombre de tu alias es:</string>
     <string name="output_notaddingalias2">es igual a su valor Esto puede conducir a malos comportamientos, por lo que ha sido excluido. Debes editar el nombre para usarlo</string>
     <string name="output_notaddingalias3">es igual a la parte de su valor antes del primer espacio (es decir, aliasName=play; aliasValue=play store). Esto puede provocar accidentes y congelamientos, por lo que se ha excluido. Debes editar el nombre para usarlo</string>
@@ -182,14 +163,11 @@
 
     <!-- phone -->
     <string name="output_wifi">WiFi activo:</string>
-    <string name="output_data">Datos móviles activo:</string>
     <string name="output_bluetooth">Bluetooth activo:</string>
     <string name="output_bluetooth_unavailable">Bluetooth no está permitido en este dispositivo</string>
-    <string name="output_airplane">Modo avión activo:</string>
 
     <!-- music -->
     <string name="output_playing">Reproduciendo:</string>
-    <string name="output_stopped">Reproductor frenado</string>
     <string name="output_songnotfound">Canción no encontrada</string>
     <string name="output_musicdisabled">enable_music es falso</string>
     <string name="no_songs">0 canciones encontradas</string>
@@ -199,9 +177,6 @@
     <string name="output_invalid_param">Opción inválida:</string>
 
     <!-- flash -->
-    <string name="output_flashon">Flash ACTIVADO</string>
-    <string name="output_flashoff">Flash APAGADO</string>
-    <string name="output_flashlightnotavailable">Tu dispositivo no soporta flash :(</string>
 
     <!-- status -->
     <string name="battery_label">Bateria:</string>
@@ -218,7 +193,6 @@
     <string name="output_smssent">SMS enviado</string>
 
 
-    <string name="help_airplane">Cambiar modo avión</string>
     <string name="help_alias">-add [aliasName] [alias content] -> agregar un nuevo alias
         \n-rm [aliasName] -> eliminar un alias
         \n-ls -> lista de alias
@@ -272,9 +246,7 @@
         \n-apply [file] -> move a file to the t-ui directory
         \n-tutorial -> abre la página de tutorial
     </string>
-    <string name="help_data">Cambiar datos móviles</string>
     <string name="help_devutils">No hay nada interesante aquí</string>
-    <string name="help_donate">Ofrecele un café al desarrollador (PayPal solamente)</string>
     <string name="help_flash">Cambiar linterna</string>
     <string name="help_help">Muestra los comandos disponibles, o información acerca de los comandos
         \n\nUso:
@@ -293,7 +265,7 @@
         \n-play -> play/pausa el reproductor
         \n-stop -> parar el reproductor
         \n-ls -> lista tus canciones
-        \n-select [cancion] -> reproduce la canción seleccionada
+        \n-select [canción] -> reproduce la canción seleccionada
         \n-info -> muestra información sobre la canción
         \n-seekto [seconds] -> buscar la parte seleccionada de la canción actual</string>
     <string name="help_notes">-add [optional: lock {true/false}] [text] -> crea una nueva nota
@@ -305,7 +277,7 @@
         \n-unlock [id] OR [text] -> desbloquea una nota
         \n-tutorial -> abre el tutorial en GitHub</string>
     <string name="help_rate">Deja un comentario en la página de Play Store</string>
-    <string name="help_refresh">Refresca apps, alias, musica, contactos</string>
+    <string name="help_refresh">Refresca apps, alias, música, contactos</string>
     <string name="help_regex">-add [ID] [regex] -> agregar una nueva expresión regular con la ID dada
         \n-rm [ID] -> elimina una expresión regular
         \n-test [ID] [string] -> probar la expresión regular correspondiente sobre la cadena dada</string>
@@ -343,7 +315,7 @@
     </string>
     <string name="help_tui">-rm -> desinstalar t-ui
         \n-about -> muestra información acerca el desarrollador y la versión actual
-        \n-reset -> eliminar las carpetas de t-ui y vuelve a su estado inicial (requiere el cmd 'restart')
+        \n-reset -> eliminar las carpetas de t-ui y vuelve a su estado inicial (requiere el cmd \'restart\')
         \n-log [fileName] -> registrar el texto en pantalla en el archivo
         \n-priority [command] [int] -> establecer la prioridad del comando seleccionado
         \n-twitter -> muestra el t-ui Twitter
@@ -351,15 +323,12 @@
         \n-telegram -> abre el telegram oficial
         \n-sourcecode -> abre la página en Github
         \n-folder -> muestra la ruta de la carpeta de t-ui</string>
-    <string name="help_tuinotes">-add [line] [text] -> agregue una nueva nota en la línea especificada (la nota se agregará si se omite la línea)
-        \n-rm [line] -> eliminar la nota en la línea especificada
-        \n-clear -> eliminar todas las notas</string>
+
     <string name="help_tutorial">Abre el tutorial en GitHub</string>
     <string name="help_uninstall">Desinstalar una aplicación
         \n\nUso:
         \n$ uninstall [appName]
     </string>
-    <string name="help_wifi">Cambiar wifi</string>
     <string name="help_sms">Enviar SMS.
         \n\nUso:
         \n$ sms [contacto/numbero]
