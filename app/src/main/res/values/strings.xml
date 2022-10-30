@@ -407,6 +407,14 @@
     <string name="down" translatable="false">Down</string>
     <string name="paste" translatable="false">Paste</string>
     <string name="command_input" translatable="false">Command Input</string>
-    <string name="help_calendar">Accesses and modifies the Android Calendar</string>
+    <string name="help_calendar">Accesses and modifies the Android Calendar
+        \nUsage:
+        \n$ calendar -list
+        \n$ calendar -add 12:00pm event title
+        \n$ calendar -add_with_date 1/1 12:00pm event title
+        \n$ calendar -delete 1/1 12:00pm
+        \n$ calendar -delete 12:00pm
+        \n$ calendar -delete_by_name event title
+    </string>
 
 </resources>
