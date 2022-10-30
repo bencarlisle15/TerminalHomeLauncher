@@ -407,5 +407,6 @@
     <string name="down" translatable="false">Down</string>
     <string name="paste" translatable="false">Paste</string>
     <string name="command_input" translatable="false">Command Input</string>
+    <string name="help_calendar">Accesses and modifies the Android Calendar</string>
 
 </resources>
