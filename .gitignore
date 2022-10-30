@@ -27,5 +27,3 @@ target/
 *.iml
 *.properties
 app/app.iml
-
-*.md
