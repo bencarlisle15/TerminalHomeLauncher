@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 
 import androidx.core.app.ActivityCompat;
@@ -22,7 +23,17 @@ public class Flash implements CommandAbstraction {
     public static void modifyTorchMode(Context context, boolean turnOn) {
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         try {
-            String cameraId = cameraManager.getCameraIdList()[0];
+            String cameraId = null;
+            for (String currentCameraId: cameraManager.getCameraIdList()) {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(currentCameraId);
+                if (cameraCharacteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)) {
+                    cameraId = currentCameraId;
+                    break;
+                }
+            }
+            if (cameraId == null) {
+                return;
+            }
             cameraManager.setTorchMode(cameraId, turnOn);
         } catch (CameraAccessException e) {
             e.printStackTrace();
