@@ -149,21 +149,31 @@ public class KeeperService extends Service {
                 startMain.putExtra(PrivateIOReceiver.TEXT, clickCmd);
             }
 
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags |= PendingIntent.FLAG_MUTABLE;
+            }
+
             pendingIntent = PendingIntent.getActivity(
                     c,
                     0,
                     startMain,
-                    PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                    flags
             );
         } else if (clickCmd != null && clickCmd.length() > 0) {
             Intent cmdIntent = new Intent(PublicIOReceiver.ACTION_CMD);
             cmdIntent.putExtra(PrivateIOReceiver.TEXT, clickCmd);
 
+            int flags = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags |= PendingIntent.FLAG_MUTABLE;
+            }
+
             pendingIntent = PendingIntent.getBroadcast(
                     c,
                     0,
                     cmdIntent,
-                    PendingIntent.FLAG_IMMUTABLE
+                    flags
             );
         } else {
             pendingIntent = null;
@@ -218,10 +228,15 @@ public class KeeperService extends Service {
 
             Intent i = new Intent(PublicIOReceiver.ACTION_CMD);
 
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                flags |= PendingIntent.FLAG_MUTABLE;
+            }
+
             NotificationCompat.Action.Builder actionBuilder = new NotificationCompat.Action.Builder(
                     R.mipmap.ic_launcher,
                     cmdLabel,
-                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE))
+                    PendingIntent.getBroadcast(c.getApplicationContext(), 40, i, flags))
                     .addRemoteInput(remoteInput);
 
             builder.addAction(actionBuilder.build());

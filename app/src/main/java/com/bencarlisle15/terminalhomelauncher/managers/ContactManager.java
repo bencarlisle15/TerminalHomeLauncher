@@ -153,7 +153,6 @@ public class ContactManager {
 
     public List<Contact> getContacts() {
         if (contacts == null || contacts.size() == 0) refreshContacts(context);
-
         return new ArrayList<>(contacts);
     }
 

@@ -17,6 +17,7 @@ public abstract class RedirectCommand implements CommandAbstraction {
 
     public abstract String onRedirect(ExecutePack pack);
 
+    @SuppressWarnings("SameReturnValue")
     public abstract int getHint();
 
     public abstract boolean isWaitingPermission();

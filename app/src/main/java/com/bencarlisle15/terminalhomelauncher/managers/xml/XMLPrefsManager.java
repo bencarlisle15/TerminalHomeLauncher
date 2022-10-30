@@ -2,7 +2,6 @@ package com.bencarlisle15.terminalhomelauncher.managers.xml;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.bencarlisle15.terminalhomelauncher.R;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;
@@ -310,8 +309,9 @@ public class XMLPrefsManager {
             if (value != null) {
                 return (int) value;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+//            color not set
+//            e.printStackTrace();
         }
         String def = prefsSave.defaultValue();
         if (def == null || def.length() == 0) {

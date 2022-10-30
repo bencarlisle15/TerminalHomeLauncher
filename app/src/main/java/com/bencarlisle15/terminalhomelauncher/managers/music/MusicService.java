@@ -12,8 +12,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
@@ -164,9 +166,13 @@ public class MusicService extends Service implements
 
     public static Notification buildNotification(Context context, String songTitle) {
         Intent notIntent = new Intent(context, LauncherActivity.class);
-        PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_MUTABLE;
+        }
+        PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, flags);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Music Service", NotificationManager.IMPORTANCE_LOW);
             channel.setDescription("Music service notification");
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
@@ -192,7 +198,7 @@ public class MusicService extends Service implements
         i.putExtra(MainManager.MUSIC_SERVICE, true);
 
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.mipmap.ic_launcher, label,
-                PendingIntent.getBroadcast(context.getApplicationContext(), 10, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE))
+                PendingIntent.getBroadcast(context.getApplicationContext(), 10, i, flags))
                 .addRemoteInput(remoteInput)
                 .build();
 
@@ -231,8 +237,7 @@ public class MusicService extends Service implements
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        setSong(0);
+//        setSong(0);
     }
 
     public void playPlayer() {
@@ -280,7 +285,6 @@ public class MusicService extends Service implements
         super.onDestroy();
 
         player.release();
-        songs.clear();
 
         stopForeground(true);
     }

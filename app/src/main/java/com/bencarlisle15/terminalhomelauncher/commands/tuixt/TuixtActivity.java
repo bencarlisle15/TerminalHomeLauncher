@@ -253,12 +253,7 @@ public class TuixtActivity extends Activity {
         setResult(BACK_PRESSED);
         finish();
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
+    
     private void onNewInput() {
         try {
             String input = inputView.getText().toString();
