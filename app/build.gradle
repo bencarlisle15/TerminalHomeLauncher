@@ -10,12 +10,12 @@ android {
         flavorDimensions "default"
 
         versionName "v6.16"
-        versionCode 206
+        versionCode 208
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
