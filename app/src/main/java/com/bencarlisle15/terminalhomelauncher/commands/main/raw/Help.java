@@ -32,7 +32,7 @@ public class Help implements CommandAbstraction {
 
     @Override
     public int priority() {
-        return 5;
+        return 4;
     }
 
     @Override
