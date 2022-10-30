@@ -33,6 +33,7 @@ import com.bencarlisle15.terminalhomelauncher.UIManager;
 import com.bencarlisle15.terminalhomelauncher.commands.main.MainPack;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.XMLPrefsManager;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsElement;
+import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsEntry;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsList;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.classes.XMLPrefsSave;
 import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Apps;
@@ -1147,7 +1148,7 @@ public class AppsManager implements XMLPrefsElement {
 
     private static class AppsHolder {
 
-        final int MOST_USED = 10, NULL = 11, USER_DEFINIED = 12;
+        final int MOST_USED = 10, NULL = 11, USER_DEFINED = 12;
 
         private final List<LaunchInfo> infos;
         private final XMLPrefsList values;
@@ -1163,7 +1164,11 @@ public class AppsManager implements XMLPrefsElement {
 
                 final String PREFIX = "default_app_n";
                 for (int count = 0; count < 5; count++) {
-                    String vl = values.get(Apps.valueOf(PREFIX + (count + 1))).value;
+                    XMLPrefsEntry element = values.get(Apps.valueOf(PREFIX + (count + 1)));
+                    if (element == null) {
+                        continue;
+                    }
+                    String vl = element.value;
 
                     if (vl.equals(Apps.NULL)) continue;
                     if (vl.equals(Apps.MOST_USED))
@@ -1192,7 +1197,7 @@ public class AppsManager implements XMLPrefsElement {
 
                         LaunchInfo info = AppUtils.findLaunchInfoWithComponent(infos, name);
                         if (info == null) continue;
-                        suggested.add(new SuggestedApp(info, USER_DEFINIED, count + 1));
+                        suggested.add(new SuggestedApp(info, USER_DEFINED, count + 1));
                     }
                 }
 
@@ -1294,10 +1299,10 @@ public class AppsManager implements XMLPrefsElement {
 
                 @Override
                 public int compareTo(@NonNull SuggestedApp other) {
-                    if (this.type == USER_DEFINIED || other.type == USER_DEFINIED) {
-                        if (this.type == USER_DEFINIED && other.type == USER_DEFINIED)
+                    if (this.type == USER_DEFINED || other.type == USER_DEFINED) {
+                        if (this.type == USER_DEFINED && other.type == USER_DEFINED)
                             return other.app.launchedTimes - this.app.launchedTimes;
-                        if (this.type == USER_DEFINIED) return 1;
+                        if (this.type == USER_DEFINED) return 1;
                         return -1;
                     }
 
