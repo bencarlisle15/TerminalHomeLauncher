@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class help implements CommandAbstraction {
+public class Help implements CommandAbstraction {
 
     @Override
     public String exec(ExecutePack pack) throws Exception {

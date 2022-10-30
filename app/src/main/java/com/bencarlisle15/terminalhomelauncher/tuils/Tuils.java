@@ -689,7 +689,7 @@ public class Tuils {
             intent.putExtra(PrivateIOReceiver.LONG_ACTION, (String) longAction);
         else if (longAction instanceof Parcelable)
             intent.putExtra(PrivateIOReceiver.LONG_ACTION_PARSEABLE, (Parcelable) longAction);
-        
+
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 

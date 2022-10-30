@@ -20,7 +20,7 @@ import java.util.List;
  * Created by francescoandreuzzi on 22/08/2017.
  */
 
-public class devutils extends ParamCommand {
+public class Devutils extends ParamCommand {
 
     private static final String CHANNEL_ID = "dev_utils";
 
