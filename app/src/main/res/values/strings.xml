@@ -11,7 +11,6 @@
     <string name="admin_permission">Lock the screen on double tap</string>
     <string name="tui_reset">t-ui reset to default settings</string>
     <string name="copied">Copied:</string>
-    <string name="donate">Do you like my work? You can offer me a coffee (cmd: $ donate). Thank you!</string>
 
     <!-- weather -->
     <string name="weather_cant_update">You can\'t perform a manual update with the default key. You have to create a custom key on the website</string>
@@ -192,7 +191,6 @@
     <string name="output_smssent">SMS sent</string>
 
 
-    <string name="help_airplane">Toggle airplane mode</string>
     <string name="help_alias">-add [aliasName] [alias content] -> add a new alias
         \n-rm [aliasName] -> remove an existing alias
         \n-ls -> list your aliases
@@ -247,7 +245,6 @@
         \n-tutorial -> open the tutorial page
     </string>
     <string name="help_devutils">There\'s nothing interesting there</string>
-    <string name="help_donate">Offer a coffee to the developer (PayPal only)</string>
     <string name="help_flash">Toggle the flashlight</string>
     <string name="help_help">Print the available commands, or info about a command
         \n\nUsage:
@@ -329,7 +326,6 @@
         \n\nUsage:
         \n$ uninstall [appName]
     </string>
-    <string name="help_wifi">Toggle wifi</string>
     <string name="help_sms">Send an SMS.
         \n\nUsage:
         \n$ sms [contactName/number]

@@ -24,7 +24,6 @@ public class MessagesManager {
 
     final String MARKER = "---------------";
 
-    boolean donate = false;
     final int REACH_THIS = 20;
 
     final List<String> original;
@@ -90,23 +89,17 @@ public class MessagesManager {
         } else if (count == REACH_THIS) {
             count = 0;
 
-            if (donate) {
-                Tuils.sendOutput(color, context, R.string.donate);
-            } else {
-                if (copy.size() == 0) {
-                    copy = new ArrayList<>(original);
-                    random = new Random();
-                }
-
-                int index = random.nextInt(copy.size());
-                if (copy.size() <= index) {
-                    return;
-                }
-
-                Tuils.sendOutput(color, context, MARKER + Tuils.NEWLINE + copy.remove(index) + Tuils.NEWLINE + MARKER);
+            if (copy.size() == 0) {
+                copy = new ArrayList<>(original);
+                random = new Random();
             }
 
-            donate = !donate;
+            int index = random.nextInt(copy.size());
+            if (copy.size() <= index) {
+                return;
+            }
+
+            Tuils.sendOutput(color, context, MARKER + Tuils.NEWLINE + copy.remove(index) + Tuils.NEWLINE + MARKER);
         }
     }
 
