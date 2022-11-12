@@ -306,6 +306,10 @@ public class TerminalManager {
         writeToView(output, type);
     }
 
+    public ScrollView getScrollView() {
+        return mScrollView;
+    }
+
     public void setOutput(int color, CharSequence output) {
         if (output == null || output.length() == 0) return;
 

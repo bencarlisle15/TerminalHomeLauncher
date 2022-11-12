@@ -10,7 +10,7 @@ android {
         flavorDimensions "default"
 
         versionName "v6.17"
-        versionCode 211
+        versionCode 212
     }
     buildTypes {
         release {

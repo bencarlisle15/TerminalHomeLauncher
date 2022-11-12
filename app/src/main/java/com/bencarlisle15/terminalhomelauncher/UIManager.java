@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.Gravity;
@@ -399,6 +400,15 @@ public class UIManager implements OnTouchListener {
 
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                    boolean isAtTop = !mTerminalAdapter.getScrollView().canScrollVertically(-1);
+                    boolean isAtBottom = !mTerminalAdapter.getScrollView().canScrollVertically(1);
+                    boolean isSwipeUp = velocityY < 0;
+                    boolean isSwipeDown = velocityY > 0;
+                    if (isAtBottom && isSwipeUp) {
+                        openKeyboard();
+                    } else if (isAtTop && isSwipeDown) {
+                        closeKeyboard();
+                    }
                     return false;
                 }
             });
