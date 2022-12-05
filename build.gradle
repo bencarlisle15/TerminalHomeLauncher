@@ -17,6 +17,9 @@ task clean(type: Delete) {
 allprojects {
     repositories {
         google()
+        maven { url "https://jitpack.io" } // for MPAndroidChard, not on jcenter yet
+        maven { url "https://maven.google.com" } // for appcompat
+        mavenLocal()        // for updates to local rstack
         mavenCentral()
     }
 }
