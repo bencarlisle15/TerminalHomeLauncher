@@ -404,10 +404,26 @@ public enum Theme implements XMLPrefsSave {
             return new String[]{"#ff000000"};
         }
     },
-    suggestions_bgrectcolor {
+    status_bgrectcolor {
         @Override
         public String defaultValue() {
             return "#00000000";
+        }
+
+        @Override
+        public String info() {
+            return "The color of borders around the toolbar, defaults to output_bgrectcolor.";
+        }
+
+        @Override
+        public String[] invalidValues() {
+            return new String[]{"#ff000000"};
+        }
+    },
+    suggestions_bgrectcolor {
+        @Override
+        public String defaultValue() {
+            return "#ff210000";
         }
 
         @Override
