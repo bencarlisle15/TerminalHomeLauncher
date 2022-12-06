@@ -971,6 +971,22 @@ public enum Ui implements XMLPrefsSave {
         public String info() {
             return "[horizontal_margin],[vertical_margin],[horizontal_padding],[vertical_padding]";
         }
+    },
+    status_borders {
+        @Override
+        public String defaultValue() {
+            return "false";
+        }
+
+        @Override
+        public String info() {
+            return "If true, the status area will contain a border of color status_bordercolor.";
+        }
+
+        @Override
+        public String type() {
+            return XMLPrefsSave.BOOLEAN;
+        }
     };
 
     @Override

@@ -842,6 +842,23 @@ public class UIManager implements OnTouchListener {
             rootView.findViewById(R.id.suggestions_group).setVisibility(View.GONE);
         }
 
+        LinearLayout about_view = rootView.findViewById(R.id.tv_about);
+        boolean status_borders = XMLPrefsManager.getBoolean(Ui.status_borders);
+        if (status_borders){
+            GradientDrawable border = new GradientDrawable();
+            border.setShape(GradientDrawable.RECTANGLE);
+            border.setCornerRadius(cornerRadius);
+            int border_color = XMLPrefsManager.getColor(Theme.status_bgrectcolor);
+            if (border_color == 0)
+                border_color = XMLPrefsManager.getColor(Theme.output_bgrectcolor);
+            border.setStroke(strokeWidth, border_color);
+
+            about_view.setBackground(border);
+            about_view.setPadding(strokeWidth, strokeWidth, strokeWidth, strokeWidth);
+        } else {
+            about_view.setBackgroundResource(0);
+            about_view.setPadding(0,0,0,0);
+        }
         int drawTimes = XMLPrefsManager.getInt(Ui.text_redraw_times);
         if (drawTimes <= 0) drawTimes = 1;
         OutlineTextView.redrawTimes = drawTimes;
