@@ -243,7 +243,7 @@ public class XMLPrefsManager {
 
             }
 
-            if (enums.size() == 0) {
+            if (enums.isEmpty()) {
                 if (needToWrite) writeTo(d, file);
                 continue;
             }
@@ -272,7 +272,7 @@ public class XMLPrefsManager {
         if (c == float.class) return Float.parseFloat(s);
         if (c == double.class) return Double.parseDouble(s);
         if (c == File.class) {
-            if (s.length() == 0) return null;
+            if (s.isEmpty()) return null;
 
             File file = new File(s);
             if (!file.exists()) throw new UnsupportedOperationException();
@@ -312,7 +312,7 @@ public class XMLPrefsManager {
 //            e.printStackTrace();
         }
         String def = prefsSave.defaultValue();
-        if (def == null || def.length() == 0) {
+        if (def == null || def.isEmpty()) {
             return Integer.MAX_VALUE;
         }
 
@@ -365,7 +365,7 @@ public class XMLPrefsManager {
 
     public static boolean wasChanged(XMLPrefsSave save, boolean allowLengthZero) {
         String value = get(save);
-        return (allowLengthZero || value.length() > 0) && !value.equals(save.defaultValue());
+        return (allowLengthZero || !value.isEmpty()) && !value.equals(save.defaultValue());
     }
 
     static final Pattern p1 = Pattern.compile(">");
@@ -522,7 +522,7 @@ public class XMLPrefsManager {
 
             if (nFound < elementNames.length) {
                 for (int count = 0; count < elementNames.length; count++) {
-                    if (elementNames[count] == null || elementNames[count].length() == 0) continue;
+                    if (elementNames[count] == null || elementNames[count].isEmpty()) continue;
 
                     if (!addIfNotFound) continue;
 

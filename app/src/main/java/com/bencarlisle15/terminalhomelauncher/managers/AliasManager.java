@@ -17,12 +17,12 @@ import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -104,7 +104,7 @@ public class AliasManager {
 
             String aliasValue;
             while (true) {
-                aliasValue = getALias(alias);
+                aliasValue = getAlias(alias);
                 if (aliasValue != null) break;
                 else {
                     int index = alias.lastIndexOf(Tuils.SPACE);
@@ -118,7 +118,7 @@ public class AliasManager {
 
             return new String[]{aliasValue, alias, args.toString()};
         } else {
-            return new String[]{getALias(alias), alias, Tuils.EMPTYSTRING};
+            return new String[]{getAlias(alias), alias, Tuils.EMPTYSTRING};
         }
     }
 
@@ -128,7 +128,7 @@ public class AliasManager {
 
     public String format(String aliasValue, String params) {
         params = params.trim();
-        if (params.length() == 0) return aliasValue;
+        if (params.isEmpty()) return aliasValue;
 
         int before = aliasValue.length();
         aliasValue = parameterPattern.matcher(aliasValue).replaceAll(SECURITY_REPLACEMENT);
@@ -146,7 +146,7 @@ public class AliasManager {
         return aliasValue;
     }
 
-    private String getALias(String name) {
+    private String getAlias(String name) {
         for (Alias a : aliases) {
             if (name.equals(a.name)) return a.value;
         }
@@ -191,7 +191,7 @@ public class AliasManager {
                 throw new IOException("Could not create new file at " + file.getAbsolutePath());
             }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath())));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -282,11 +282,11 @@ public class AliasManager {
         }
     }
 
-    public List<Alias> getAliases(boolean excludeEmtpy) {
+    public List<Alias> getAliases(boolean excludeEmpty) {
         List<Alias> l = new ArrayList<>(aliases);
-        if (excludeEmtpy) {
+        if (excludeEmpty) {
             for (int c = 0; c < l.size(); c++) {
-                if (l.get(c).name.length() == 0) {
+                if (l.get(c).name.isEmpty()) {
                     l.remove(c);
                     break;
                 }

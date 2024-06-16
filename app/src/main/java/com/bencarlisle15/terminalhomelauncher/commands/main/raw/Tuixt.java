@@ -57,7 +57,7 @@ public class Tuixt implements CommandAbstraction {
         MainPack info = (MainPack) pack;
 
         String path = info.getString();
-        if (path == null || path.length() == 0) {
+        if (path == null || path.isEmpty()) {
             return onNotArgEnough(info, info.args.length);
         }
 

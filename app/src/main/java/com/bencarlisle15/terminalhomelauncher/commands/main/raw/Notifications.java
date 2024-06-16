@@ -32,7 +32,7 @@ public class Notifications extends ParamCommand implements APICommand {
             @Override
             public String exec(ExecutePack pack) {
                 String output = NotificationManager.setState(pack.getLaunchInfo().componentName.getPackageName(), true);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -50,7 +50,7 @@ public class Notifications extends ParamCommand implements APICommand {
             @Override
             public String exec(ExecutePack pack) {
                 String output = NotificationManager.setState(pack.getLaunchInfo().componentName.getPackageName(), false);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -69,7 +69,7 @@ public class Notifications extends ParamCommand implements APICommand {
             public String exec(ExecutePack pack) {
                 String color = pack.getString();
                 String output = NotificationManager.setColor(pack.getLaunchInfo().componentName.getPackageName(), color);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -92,7 +92,7 @@ public class Notifications extends ParamCommand implements APICommand {
             public String exec(ExecutePack pack) {
                 String s = pack.getString();
                 String output = NotificationManager.setFormat(pack.getLaunchInfo().componentName.getPackageName(), s);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -111,7 +111,7 @@ public class Notifications extends ParamCommand implements APICommand {
             public String exec(ExecutePack pack) {
                 int id = pack.getInt();
                 String output = NotificationManager.addFilter(pack.getString(), id);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -130,7 +130,7 @@ public class Notifications extends ParamCommand implements APICommand {
             public String exec(ExecutePack pack) {
                 int id = pack.getInt();
                 String output = NotificationManager.addFormat(pack.getString(), id);
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -148,7 +148,7 @@ public class Notifications extends ParamCommand implements APICommand {
             @Override
             public String exec(ExecutePack pack) {
                 String output = NotificationManager.rmFilter(pack.getInt());
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 
@@ -166,7 +166,7 @@ public class Notifications extends ParamCommand implements APICommand {
             @Override
             public String exec(ExecutePack pack) {
                 String output = NotificationManager.rmFormat(pack.getInt());
-                if (output == null || output.length() == 0) return null;
+                if (output == null || output.isEmpty()) return null;
                 return output;
             }
 

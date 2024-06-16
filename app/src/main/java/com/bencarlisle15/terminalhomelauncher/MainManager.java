@@ -37,7 +37,7 @@ import com.bencarlisle15.terminalhomelauncher.managers.xml.options.Theme;
 import com.bencarlisle15.terminalhomelauncher.tuils.PrivateIOReceiver;
 import com.bencarlisle15.terminalhomelauncher.tuils.StoppableThread;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecuter;
+import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecutor;
 import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.OnRedirectionListener;
 import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.Redirectator;
 import com.bencarlisle15.terminalhomelauncher.tuils.libsuperuser.Shell;
@@ -280,7 +280,7 @@ public class MainManager {
         }
 
         String[] cmds;
-        if (multipleCmdSeparator.length() > 0) {
+        if (!multipleCmdSeparator.isEmpty()) {
             cmds = input.split(multipleCmdSeparator);
         } else {
             cmds = new String[]{input};
@@ -362,7 +362,7 @@ public class MainManager {
         return mainPack;
     }
 
-    public CommandExecuter executer() {
+    public CommandExecutor executer() {
         return (input, obj) -> {
             AppsManager.LaunchInfo li = obj instanceof AppsManager.LaunchInfo ? (AppsManager.LaunchInfo) obj : null;
 

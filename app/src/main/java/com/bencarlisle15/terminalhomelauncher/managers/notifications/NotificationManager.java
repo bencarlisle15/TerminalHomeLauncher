@@ -200,7 +200,7 @@ public class NotificationManager implements XMLPrefsElement {
                 }
             }
 
-            if (enums.size() > 0) {
+            if (!enums.isEmpty()) {
                 for (XMLPrefsSave s : enums) {
                     String value = s.defaultValue();
 

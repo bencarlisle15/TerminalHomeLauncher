@@ -79,6 +79,8 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.channels.Channels;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -300,7 +302,7 @@ public class Tuils {
         List<Song> songs = new ArrayList<>();
 
         File[] files = folder.listFiles();
-        if (files == null || files.length == 0) {
+        if (files == null) {
             return songs;
         }
 
@@ -710,7 +712,7 @@ public class Tuils {
 
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/meminfo")));
+            reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("/proc/meminfo"))));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -808,10 +810,10 @@ public class Tuils {
         if (!XMLPrefsManager.getBoolean(Ui.show_session_info)) return null;
 
         String format = XMLPrefsManager.get(Behavior.session_info_format);
-        if (format.length() == 0) return null;
+        if (format.isEmpty()) return null;
 
         String deviceName = XMLPrefsManager.get(Ui.device_name);
-        if (deviceName == null || deviceName.length() == 0) {
+        if (deviceName == null || deviceName.isEmpty()) {
             deviceName = Build.DEVICE;
         }
 
@@ -842,14 +844,11 @@ public class Tuils {
     }
 
     public static void addPrefix(List<String> list, String prefix) {
-        for (int count = 0; count < list.size(); count++) {
-            list.set(count, prefix.concat(list.get(count)));
-        }
+        list.replaceAll(prefix::concat);
     }
 
     public static void addSeparator(List<String> list, String separator) {
-        for (int count = 0; count < list.size(); count++)
-            list.set(count, list.get(count).concat(separator));
+        list.replaceAll(s -> s.concat(separator));
     }
 
     public static String toPlanString(String[] strings, String separator) {
@@ -1072,7 +1071,7 @@ public class Tuils {
     }
 
     public static boolean isNumber(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return false;
         }
 

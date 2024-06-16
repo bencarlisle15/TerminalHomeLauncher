@@ -107,7 +107,7 @@ public class ThemeManager {
                         string = Tuils.EMPTYSTRING;
                     }
 
-                    if (string.length() == 0) {
+                    if (string.isEmpty()) {
                         Tuils.sendOutput(context, R.string.theme_not_found);
                         return;
                     }

@@ -11,9 +11,6 @@ import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by bencarlisle15 on 15/11/15.
- */
 public class Alias extends ParamCommand {
 
     private enum Param implements com.bencarlisle15.terminalhomelauncher.commands.main.Param {
@@ -37,7 +34,7 @@ public class Alias extends ParamCommand {
             @Override
             public String exec(ExecutePack pack) {
                 ArrayList<String> args = pack.getList();
-                if (args.size() < 1) return pack.context.getString(R.string.output_lessarg);
+                if (args.isEmpty()) return pack.context.getString(R.string.output_lessarg);
                 ((MainPack) pack).aliasManager.remove(pack.context, args.get(0));
                 return null;
             }

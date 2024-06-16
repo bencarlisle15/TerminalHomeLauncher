@@ -22,9 +22,9 @@ public class Levenshtein implements MetricStringDistance {
      * The Levenshtein distance, or edit distance, between two words is the
      * minimum number of single-character edits (insertions, deletions or
      * substitutions) required to change one word into the other.
-     *
-     * http://en.wikipedia.org/wiki/Levenshtein_distance
-     *
+     * <p>
+     <a href="  * <a href="http://en.wikipedia.org/wiki/Levenshtein_dist">...</a>">...</a>ance
+     * <p>
      * It is always at least the difference of the sizes of the two strings.
      * It is at most the length of the longer string.
      * It is zero if and only if the strings are equal.
@@ -33,7 +33,7 @@ public class Levenshtein implements MetricStringDistance {
      * The Levenshtein distance verifies the triangle inequality (the distance
      * between two strings is no greater than the sum Levenshtein distances from
      * a third string).
-     *
+     * <p>
      * Implementation uses dynamic programming (Wagner–Fischer algorithm), with
      * only 2 rows of data. The space requirement is thus O(m) and the algorithm
      * runs in O(mn).
@@ -62,11 +62,11 @@ public class Levenshtein implements MetricStringDistance {
             return 0;
         }
 
-        if (s1.length() == 0) {
+        if (s1.isEmpty()) {
             return s2.length();
         }
 
-        if (s2.length() == 0) {
+        if (s2.isEmpty()) {
             return s1.length();
         }
 

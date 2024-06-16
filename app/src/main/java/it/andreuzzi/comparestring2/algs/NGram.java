@@ -6,12 +6,12 @@ import it.andreuzzi.comparestring2.algs.interfaces.NormalizedStringDistance;
  * N-Gram Similarity as defined by Kondrak, "N-Gram Similarity and Distance",
  * String Processing and Information Retrieval, Lecture Notes in Computer
  * Science Volume 3772, 2005, pp 115-126.
- *
+ * <p>
  * The algorithm uses affixing with special character '\n' to increase the
  * weight of first characters. The normalization is achieved by dividing the
  * total similarity score the original length of the longest word.
- *
- * http://webdocs.cs.ualberta.ca/~kondrak/papers/spire05.pdf
+ *<a href=" <p>
+ * http://webdocs.cs.ualberta.ca/~kondrak/papers/spi">...</a>re05.pdf
  */
 public class NGram implements NormalizedStringDistance {
 

@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.Gravity;
@@ -66,7 +65,7 @@ import com.bencarlisle15.terminalhomelauncher.tuils.AllowEqualsSequence;
 import com.bencarlisle15.terminalhomelauncher.tuils.NetworkUtils;
 import com.bencarlisle15.terminalhomelauncher.tuils.OutlineTextView;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecuter;
+import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecutor;
 import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.OnBatteryUpdate;
 import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.OnRedirectionListener;
 import com.bencarlisle15.terminalhomelauncher.tuils.stuff.PolicyReceiver;
@@ -208,7 +207,7 @@ public class UIManager implements OnTouchListener {
     };
 
     @SuppressLint("ClickableViewAccessibility")
-    protected UIManager(final Context context, final ViewGroup rootView, MainPack mainPack, boolean canApplyTheme, CommandExecuter executer) {
+    protected UIManager(final Context context, final ViewGroup rootView, MainPack mainPack, boolean canApplyTheme, CommandExecutor executer) {
 
         labelViews = new TextView[]{
                 rootView.findViewById(R.id.tv0),
@@ -428,7 +427,7 @@ public class UIManager implements OnTouchListener {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
 
-                    if (doubleTapCmd != null && doubleTapCmd.length() > 0) {
+                    if (doubleTapCmd != null && !doubleTapCmd.isEmpty()) {
                         String input = mTerminalAdapter.getInput();
                         mTerminalAdapter.setInput(doubleTapCmd);
                         mTerminalAdapter.simulateEnter();
@@ -615,7 +614,7 @@ public class UIManager implements OnTouchListener {
 
             String username = XMLPrefsManager.get(Ui.username);
             String deviceName = XMLPrefsManager.get(Ui.device_name);
-            if (deviceName == null || deviceName.length() == 0) {
+            if (deviceName == null || deviceName.isEmpty()) {
                 deviceName = Build.DEVICE;
             }
 
@@ -728,7 +727,7 @@ public class UIManager implements OnTouchListener {
             m = timePattern.matcher(unlockFormat);
             if (m.find()) {
                 String s = m.group(3);
-                if (s == null || s.length() == 0) s = "1";
+                if (s == null || s.isEmpty()) s = "1";
 
                 lastUnlocks = new long[Integer.parseInt(s)];
 
@@ -835,7 +834,7 @@ public class UIManager implements OnTouchListener {
             inputView.addTextChangedListener(new SuggestionTextWatcher(suggestionsManager, (currentText, before) -> {
                 if (!hideToolbarNoInput || toolbarView == null) return;
 
-                if (currentText.length() == 0) toolbarView.setVisibility(View.GONE);
+                if (currentText.isEmpty()) toolbarView.setVisibility(View.GONE);
                 else if (before == 0) toolbarView.setVisibility(View.VISIBLE);
             }));
         } else {
@@ -1675,7 +1674,7 @@ public class UIManager implements OnTouchListener {
             weatherDelay *= 1000;
 
             String where = XMLPrefsManager.get(Behavior.weather_location);
-            if (where == null || where.length() == 0 || (!Tuils.isNumber(where) && !where.contains(","))) {
+            if (where == null || where.isEmpty() || (!Tuils.isNumber(where) && !where.contains(","))) {
 
                 TuiLocationManager l = TuiLocationManager.instance(mContext);
                 l.add(mContext, ACTION_WEATHER_GOT_LOCATION);

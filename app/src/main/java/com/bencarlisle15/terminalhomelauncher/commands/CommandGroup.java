@@ -20,18 +20,18 @@ public class CommandGroup {
 
     public CommandGroup(Context c, String packageName) {
 
-        List<String> cmds;
+        List<String> commands;
         try {
-            cmds = Tuils.getClassesInPackage(packageName, c);
+            commands = Tuils.getClassesInPackage(packageName, c);
         } catch (IOException e) {
             return;
         }
 
         List<CommandAbstraction> cmdAbs = new ArrayList<>();
 
-        Collections.sort(cmds);
+        Collections.sort(commands);
 
-        Iterator<String> iterator = cmds.iterator();
+        Iterator<String> iterator = commands.iterator();
 
         List<String> commandNamesList = new ArrayList<>();
 
@@ -48,8 +48,8 @@ public class CommandGroup {
         commandNames = commandNamesList.toArray(new String[0]);
 
         cmdAbs.sort((o1, o2) -> o2.priority() - o1.priority());
-        commands = new CommandAbstraction[cmdAbs.size()];
-        cmdAbs.toArray(commands);
+        this.commands = new CommandAbstraction[cmdAbs.size()];
+        cmdAbs.toArray(this.commands);
     }
 
     public CommandAbstraction getCommandByName(String name) {

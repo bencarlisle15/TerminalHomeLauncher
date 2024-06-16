@@ -101,7 +101,7 @@ public class RegexManager {
 
                         busyIds.add(id);
 
-                        if (value != null && value.length() > 0) {
+                        if (value != null && !value.isEmpty()) {
                             regexes.add(new Regex(value, id));
                         }
                     }

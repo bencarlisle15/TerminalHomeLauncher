@@ -7,16 +7,16 @@ import it.andreuzzi.comparestring2.algs.interfaces.StringDistance;
  * subsequence common to two (or more) sequences. It differs from problems of
  * finding common substrings: unlike substrings, subsequences are not required
  * to occupy consecutive positions within the original sequences.
- *
+ * <p>
  * It is used by the diff utility, by Git for reconciling multiple changes, etc.
- *
+ * <p>
  * The LCS distance between Strings X (length n) and Y (length m) is n + m - 2
  * |LCS(X, Y)| min = 0 max = n + m
- *
+ * <p>
  * LCS distance is equivalent to Levenshtein distance, when only insertion and
  * deletion is allowed (no substitution), or when the cost of the substitution
  * is the double of the cost of an insertion or deletion.
- *
+ * <p>
  * ! This class currently implements the dynamic programming approach, which has
  * a space requirement O(m * n)!
  *

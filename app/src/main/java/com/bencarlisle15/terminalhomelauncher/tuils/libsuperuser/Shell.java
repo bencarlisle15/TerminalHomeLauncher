@@ -25,10 +25,11 @@ import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -354,7 +355,7 @@ public class Shell {
                 if (ret != null) {
                     for (String line : ret) {
                         if (!internal) {
-                            if (!line.trim().equals("")) {
+                            if (!line.trim().isEmpty()) {
                                 version = line;
                                 break;
                             }
@@ -461,7 +462,7 @@ public class Shell {
             File f = new File("/sys/fs/selinux/enforce");
             if (f.exists()) {
                 try {
-                    InputStream is = new FileInputStream("/sys/fs/selinux/enforce");
+                    InputStream is = Files.newInputStream(Paths.get("/sys/fs/selinux/enforce"));
                     enforcing = (is.read() == '1');
                 } catch (IOException e) {
                     // we might not be allowed to read, thanks SELinux
@@ -1203,7 +1204,7 @@ public class Shell {
             }
             watchdogCount = 0;
             watchdog = new ScheduledThreadPoolExecutor(1);
-            watchdog.scheduleAtFixedRate(this::handleWatchdog, 1, 1, TimeUnit.SECONDS);
+            watchdog.scheduleWithFixedDelay(this::handleWatchdog, 1, 1, TimeUnit.SECONDS);
         }
 
         /**
@@ -1228,7 +1229,7 @@ public class Shell {
             if (!running)
                 idle = true;
 
-            if (running && idle && (commands.size() > 0)) {
+            if (running && idle && (!commands.isEmpty())) {
                 Command command = commands.get(0);
                 commands.remove(0);
 
@@ -1264,7 +1265,7 @@ public class Shell {
                 }
             } else if (!running) {
                 // our shell died for unknown reasons - abort all submissions
-                while (commands.size() > 0) {
+                while (!commands.isEmpty()) {
                     postCallback(commands.remove(0), OnCommandResultListener.SHELL_DIED, null);
                 }
             }
@@ -1391,7 +1392,7 @@ public class Shell {
             try {
                 // setup our process, retrieve STDIN stream, and STDOUT/STDERR
                 // gobblers
-                if (environment.size() == 0) {
+                if (environment.isEmpty()) {
                     process = Runtime.getRuntime().exec(shell);
                 } else {
                     Map<String, String> newEnvironment = new HashMap<>();
@@ -1649,22 +1650,23 @@ public class Shell {
                     }
                 }
 
-                if ((handler != null) &&
-                        (handler.getLooper() != null) &&
-                        (handler.getLooper() != Looper.myLooper())) {
-                    // If the callbacks are posted to a different thread than
-                    // this one, we can wait until all callbacks have called
-                    // before returning. If we don't use a Handler at all, the
-                    // callbacks are already called before we get here. If we do
-                    // use a Handler but we use the same Looper, waiting here
-                    // would actually block the callbacks from being called
+                if ((handler != null)) {
+                    handler.getLooper();
+                    if (handler.getLooper() != Looper.myLooper()) {
+                        // If the callbacks are posted to a different thread than
+                        // this one, we can wait until all callbacks have called
+                        // before returning. If we don't use a Handler at all, the
+                        // callbacks are already called before we get here. If we do
+                        // use a Handler but we use the same Looper, waiting here
+                        // would actually block the callbacks from being called
 
-                    synchronized (callbackSync) {
-                        while (callbacks > 0) {
-                            try {
-                                callbackSync.wait();
-                            } catch (InterruptedException e) {
-                                return;
+                        synchronized (callbackSync) {
+                            while (callbacks > 0) {
+                                try {
+                                    callbackSync.wait();
+                                } catch (InterruptedException e) {
+                                    return;
+                                }
                             }
                         }
                     }

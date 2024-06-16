@@ -1,6 +1,6 @@
 package com.bencarlisle15.terminalhomelauncher.managers.suggestions;
 
-import static com.bencarlisle15.terminalhomelauncher.commands.CommandTuils.xmlPrefsEntrys;
+import static com.bencarlisle15.terminalhomelauncher.commands.CommandTuils.xmlPrefsEntries;
 import static com.bencarlisle15.terminalhomelauncher.commands.CommandTuils.xmlPrefsFiles;
 
 import android.app.Activity;
@@ -386,7 +386,7 @@ public class SuggestionsManager {
         } else {
             boolean addSpace = suggestion.type != SuggestionsManager.Suggestion.TYPE_FILE && suggestion.type != SuggestionsManager.Suggestion.TYPE_COLOR;
 
-            if (multipleCmdSeparator.length() > 0) {
+            if (!multipleCmdSeparator.isEmpty()) {
 //                try to understand if the user is using a multiple cmd
                 String[] split = input.split(multipleCmdSeparator);
 
@@ -477,7 +477,7 @@ public class SuggestionsManager {
 
                 String before, lastWord;
                 String lastInput;
-                if (multipleCmdSeparator.length() > 0) {
+                if (!multipleCmdSeparator.isEmpty()) {
                     String[] split = input.split(multipleCmdSeparator);
                     if (split.length == 0) lastInput = input;
                     else lastInput = split[split.length - 1];
@@ -503,11 +503,11 @@ public class SuggestionsManager {
                     return;
                 }
 
-                if (suggestions.size() == 0) {
+                if (suggestions.isEmpty()) {
                     ((Activity) pack.context).runOnUiThread(removeAllSuggestions);
                     removeAllSuggestions.isGoingToRun = true;
 
-                    if (hideViewValue == HideSuggestionViewValues.ALWAYS || (hideViewValue == HideSuggestionViewValues.TRUE && input.length() == 0)) {
+                    if (hideViewValue == HideSuggestionViewValues.ALWAYS || (hideViewValue == HideSuggestionViewValues.TRUE && input.isEmpty())) {
                         hide();
                     }
 
@@ -581,10 +581,10 @@ public class SuggestionsManager {
         lastWord = lastWord.trim();
 
 //        lastword = 0
-        if (lastWord.length() == 0) {
+        if (lastWord.isEmpty()) {
 
 //            lastword = 0 && beforeLastSpace = 0
-            if (beforeLastSpace.length() == 0) {
+            if (beforeLastSpace.isEmpty()) {
                 comparator.noInput = true;
 
                 AppsManager.LaunchInfo[] apps = pack.appsManager.getSuggestedApps();
@@ -655,7 +655,7 @@ public class SuggestionsManager {
         else {
             comparator.noInput = false;
 
-            if (beforeLastSpace.length() > 0) {
+            if (!beforeLastSpace.isEmpty()) {
 //                lastword > 0 && beforeLastSpace  > 0
                 Command cmd = null;
                 try {
@@ -717,10 +717,10 @@ public class SuggestionsManager {
     }
 
     private void suggestAlias(AliasManager aliasManager, List<Suggestion> suggestions, String lastWord) {
-        int canInsert = lastWord == null || lastWord.length() == 0 ? noInputCounts[Suggestion.TYPE_ALIAS] : counts[Suggestion.TYPE_ALIAS];
+        int canInsert = lastWord == null || lastWord.isEmpty() ? noInputCounts[Suggestion.TYPE_ALIAS] : counts[Suggestion.TYPE_ALIAS];
 
         for (AliasManager.Alias a : aliasManager.getAliases(true)) {
-            if (lastWord != null && (lastWord.length() == 0 || a.name.startsWith(lastWord))) {
+            if (lastWord != null && (lastWord.isEmpty() || a.name.startsWith(lastWord))) {
                 if (canInsert == 0) return;
                 canInsert--;
 
@@ -735,7 +735,7 @@ public class SuggestionsManager {
             return;
         }
 
-        if (lastWord == null || lastWord.length() == 0) {
+        if (lastWord == null || lastWord.isEmpty()) {
             for (String s : cmd.params()) {
                 Param p = cmd.getParam(pack, s).getValue();
                 if (p == null) continue;
@@ -817,7 +817,7 @@ public class SuggestionsManager {
     }
 
     private void suggestFile(MainPack info, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
-        boolean noAfterLastSpace = afterLastSpace == null || afterLastSpace.length() == 0;
+        boolean noAfterLastSpace = afterLastSpace == null || afterLastSpace.isEmpty();
         boolean afterLastSpaceNotEndsWithSeparator = noAfterLastSpace || !afterLastSpace.endsWith(File.separator);
 
         if (noAfterLastSpace || afterLastSpaceNotEndsWithSeparator) {
@@ -880,7 +880,7 @@ public class SuggestionsManager {
     private void suggestFilesInDir(List<Suggestion> suggestions, File dir, String afterLastSeparator, String beforeLastSpace, String afterLastSpaceWithoutALS) {
         if (dir == null || !dir.isDirectory()) return;
 
-        if (afterLastSeparator == null || afterLastSeparator.length() == 0) {
+        if (afterLastSeparator == null || afterLastSeparator.isEmpty()) {
             suggestFilesInDir(null, suggestions, dir, beforeLastSpace);
             return;
         }
@@ -966,9 +966,9 @@ public class SuggestionsManager {
 
     private void suggestContact(MainPack info, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
         List<ContactManager.Contact> contacts = info.contacts.getContacts();
-        if (contacts == null || contacts.size() == 0) return;
+        if (contacts == null || contacts.isEmpty()) return;
 
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (ContactManager.Contact contact : contacts)
                 suggestions.add(new Suggestion(beforeLastSpace, contact.name, true, Suggestion.TYPE_CONTACT, contact));
         } else {
@@ -993,9 +993,9 @@ public class SuggestionsManager {
         if (info.player == null) return;
 
         List<Song> songs = info.player.getSongs();
-        if (songs == null || songs.size() == 0) return;
+        if (songs == null || songs.isEmpty()) return;
 
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (Song s : songs) {
                 suggestions.add(new Suggestion(beforeLastSpace, s.getTitle(), clickToLaunch, Suggestion.TYPE_SONG));
             }
@@ -1012,7 +1012,7 @@ public class SuggestionsManager {
     }
 
     private void suggestCommand(MainPack info, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             suggestCommand(info, suggestions, beforeLastSpace);
             return;
         }
@@ -1043,7 +1043,7 @@ public class SuggestionsManager {
         if (cmds == null) return;
 
 //        if there's a beforelastspace -> help ...
-        int canInsert = beforeLastSpace != null && beforeLastSpace.length() > 0 ? Integer.MAX_VALUE : noInputCounts[Suggestion.TYPE_COMMAND];
+        int canInsert = beforeLastSpace != null && !beforeLastSpace.isEmpty() ? Integer.MAX_VALUE : noInputCounts[Suggestion.TYPE_COMMAND];
 
         for (CommandAbstraction cmd : cmds) {
             if (canInsert == 0 || Thread.currentThread().isInterrupted()) return;
@@ -1059,7 +1059,7 @@ public class SuggestionsManager {
     }
 
     private void suggestColor(List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
-        if (afterLastSpace == null || afterLastSpace.length() == 0 || (afterLastSpace.length() == 1 && afterLastSpace.charAt(0) != '#')) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty() || (afterLastSpace.length() == 1 && afterLastSpace.charAt(0) != '#')) {
             suggestions.add(new Suggestion(beforeLastSpace, "#", false, Suggestion.TYPE_COLOR));
         }
     }
@@ -1086,11 +1086,11 @@ public class SuggestionsManager {
     }
 
     private void suggestApp(List<AppsManager.LaunchInfo> apps, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace, boolean canClickToLaunch) {
-        if (apps == null || apps.size() == 0) return;
+        if (apps == null || apps.isEmpty()) return;
         apps = new ArrayList<>(apps);
 
         int canInsert = counts[Suggestion.TYPE_APP];
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (AppsManager.LaunchInfo l : apps) {
                 if (canInsert == 0) return;
                 canInsert--;
@@ -1113,21 +1113,21 @@ public class SuggestionsManager {
     }
 
     private void suggestConfigEntry(List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
-        if (xmlPrefsEntrys == null) {
-            xmlPrefsEntrys = new ArrayList<>();
+        if (xmlPrefsEntries == null) {
+            xmlPrefsEntries = new ArrayList<>();
 
             for (XMLPrefsManager.XMLPrefsRoot element : XMLPrefsManager.XMLPrefsRoot.values())
-                xmlPrefsEntrys.addAll(element.enums);
+                xmlPrefsEntries.addAll(element.enums);
 
-            Collections.addAll(xmlPrefsEntrys, Apps.values());
-            Collections.addAll(xmlPrefsEntrys, Notifications.values());
-            Collections.addAll(xmlPrefsEntrys, Rss.values());
-            Collections.addAll(xmlPrefsEntrys, Reply.values());
+            Collections.addAll(xmlPrefsEntries, Apps.values());
+            Collections.addAll(xmlPrefsEntries, Notifications.values());
+            Collections.addAll(xmlPrefsEntries, Rss.values());
+            Collections.addAll(xmlPrefsEntries, Reply.values());
         }
 
-        List<XMLPrefsSave> list = new ArrayList<>(xmlPrefsEntrys);
+        List<XMLPrefsSave> list = new ArrayList<>(xmlPrefsEntries);
 
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (XMLPrefsSave s : list) {
                 Suggestion sg = new Suggestion(beforeLastSpace, s.label(), false, Suggestion.TYPE_COMMAND);
                 suggestions.add(sg);
@@ -1154,7 +1154,7 @@ public class SuggestionsManager {
             xmlPrefsFiles.add(RssManager.PATH);
         }
 
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (String s : xmlPrefsFiles) {
                 Suggestion sg = new Suggestion(beforeLastSpace, s, false, Suggestion.TYPE_CONFIGFILE, afterLastSpace);
                 suggestions.add(sg);
@@ -1173,10 +1173,10 @@ public class SuggestionsManager {
 
     private void suggestAppGroup(MainPack pack, List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
         List<AppsManager.Group> groups = new ArrayList<>(pack.appsManager.groups);
-        if (groups.size() == 0) return;
+        if (groups.isEmpty()) return;
 
         int canInsert;
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             canInsert = noInputCounts[Suggestion.TYPE_APPGP];
             for (AppsManager.Group g : groups) {
                 if (canInsert == 0) return;
@@ -1238,7 +1238,7 @@ public class SuggestionsManager {
         AppsManager.Group g = pack.appsManager.groups.get(index);
 
         List<AppsManager.Group.GroupLaunchInfo> apps = new ArrayList<>((List<AppsManager.Group.GroupLaunchInfo>) g.members());
-        if (apps.size() > 0) {
+        if (!apps.isEmpty()) {
             if (app.length() == 0) {
                 for (AppsManager.Group.GroupLaunchInfo o : apps) {
                     suggestions.add(new Suggestion(beforeLastSpace, o.publicLabel, clickToLaunch, Suggestion.TYPE_APP, o));
@@ -1260,9 +1260,9 @@ public class SuggestionsManager {
 
     private void suggestBoundReplyApp(List<Suggestion> suggestions, String afterLastSpace, String beforeLastSpace) {
         List<BoundApp> apps = new ArrayList<>(ReplyManager.boundApps);
-        if (apps.size() == 0) return;
+        if (apps.isEmpty()) return;
 
-        if (afterLastSpace == null || afterLastSpace.length() == 0) {
+        if (afterLastSpace == null || afterLastSpace.isEmpty()) {
             for (BoundApp b : apps) {
                 suggestions.add(new Suggestion(beforeLastSpace, b.label, false, Suggestion.TYPE_APP));
             }
@@ -1355,7 +1355,7 @@ public class SuggestionsManager {
                         text;
             }
 
-            if (textBefore == null || textBefore.length() == 0) {
+            if (textBefore == null || textBefore.isEmpty()) {
                 return text;
             } else {
                 return textBefore + Tuils.SPACE + text;

@@ -147,13 +147,13 @@ public class NotificationService extends NotificationListenerService {
                                         String color = m.group(2);
                                         String value = m.group(3);
 
-                                        if (value == null || value.length() == 0)
+                                        if (value == null || value.isEmpty())
                                             value = m.group(4);
 
                                         if (value != null) value = value.trim();
                                         else continue;
 
-                                        if (value.length() == 0) continue;
+                                        if (value.isEmpty()) continue;
 
                                         if (value.equals("ttl")) value = "title";
                                         else if (value.equals("txt")) value = "text";

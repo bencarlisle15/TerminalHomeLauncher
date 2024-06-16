@@ -145,7 +145,7 @@ public class KeeperService extends Service {
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            if (clickCmd != null && clickCmd.length() > 0) {
+            if (clickCmd != null && !clickCmd.isEmpty()) {
                 startMain.putExtra(PrivateIOReceiver.TEXT, clickCmd);
             }
 
@@ -160,7 +160,7 @@ public class KeeperService extends Service {
                     startMain,
                     flags
             );
-        } else if (clickCmd != null && clickCmd.length() > 0) {
+        } else if (clickCmd != null && !clickCmd.isEmpty()) {
             Intent cmdIntent = new Intent(PublicIOReceiver.ACTION_CMD);
             cmdIntent.putExtra(PrivateIOReceiver.TEXT, clickCmd);
 
@@ -180,14 +180,12 @@ public class KeeperService extends Service {
         }
 
         {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                int oPriority = Tuils.scale(new int[]{0, 4}, new int[]{2, 4}, priority + 2);
-                if (oPriority < 2 || oPriority > 4)
+            int oPriority = Tuils.scale(new int[]{0, 4}, new int[]{2, 4}, priority + 2);
+            if (oPriority < 2 || oPriority > 4)
                     oPriority = NotificationManager.IMPORTANCE_UNSPECIFIED;
 
-                NotificationChannel notificationChannel = new NotificationChannel(BuildConfig.APPLICATION_ID, c.getString(R.string.app_name), oPriority);
-                ((NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
-            }
+            NotificationChannel notificationChannel = new NotificationChannel(BuildConfig.APPLICATION_ID, c.getString(R.string.app_name), oPriority);
+            ((NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(c, BuildConfig.APPLICATION_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)

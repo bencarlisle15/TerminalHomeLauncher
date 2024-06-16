@@ -288,10 +288,10 @@
         \n-tutorial -> abre el tutorial en GitHub</string>
     <string name="help_restart">Restart t-ui and load modified values</string>
     <string name="help_search">-gg [search this…] -> Google Search
-        \n-ps [search this...] -> Google Play Store
+        \n-ps [search this…] -> Google Play Store
         \n-u [URL] -> abre la URL
-        \n-yt [search this...] -> YouTube
-        \n-dd [search this...] -> DuckDuck Go
+        \n-yt [search this…] -> YouTube
+        \n-dd [search this…] -> DuckDuck Go
     </string>
     <string name="help_share">$ share [pathToFile]
     </string>

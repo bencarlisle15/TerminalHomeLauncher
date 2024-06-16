@@ -158,7 +158,7 @@ public class MusicManager implements MediaController.MediaPlayerControl {
     }
 
     public String lsSongs() {
-        if (songs.size() == 0) return "[]";
+        if (songs.isEmpty()) return "[]";
 
         List<String> ss = new ArrayList<>();
         for (Song s : songs) {
@@ -198,7 +198,7 @@ public class MusicManager implements MediaController.MediaPlayerControl {
                         }
                     } else {
                         String path = XMLPrefsManager.get(Behavior.songs_folder);
-                        if (path.length() == 0) return;
+                        if (path.isEmpty()) return;
 
                         File file;
                         if (path.startsWith(File.separator)) {

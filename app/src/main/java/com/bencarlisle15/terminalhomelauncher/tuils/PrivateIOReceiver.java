@@ -69,7 +69,7 @@ public class PrivateIOReceiver extends BroadcastReceiver {
         currentId++;
 
         Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
-        if (remoteInput == null || remoteInput.size() == 0) {
+        if (remoteInput == null || remoteInput.isEmpty()) {
             CharSequence text = intent.getCharSequenceExtra(TEXT);
             if (text == null) text = intent.getStringExtra(TEXT);
             if (text == null) return;

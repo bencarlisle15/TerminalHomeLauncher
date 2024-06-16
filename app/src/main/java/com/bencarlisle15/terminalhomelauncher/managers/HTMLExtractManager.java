@@ -25,11 +25,10 @@ import com.bencarlisle15.terminalhomelauncher.tuils.LongClickableSpan;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
 import com.jayway.jsonpath.JsonPath;
 
-import net.minidev.json.JSONArray;
-
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
+import org.json.JSONArray;
 import org.jsoup.Jsoup;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -175,7 +174,7 @@ public class HTMLExtractManager {
                     case ACTION_EDIT: {
                         int id = intent.getIntExtra(ID, Integer.MAX_VALUE);
                         String newExpression = intent.getStringExtra(XMLPrefsManager.VALUE_ATTRIBUTE);
-                        if (newExpression == null || newExpression.length() == 0) return;
+                        if (newExpression == null || newExpression.isEmpty()) return;
 
                         for (int c = 0; c < xpaths.size(); c++) {
                             if (xpaths.get(c).id == id) {
@@ -215,7 +214,7 @@ public class HTMLExtractManager {
                             }
                         } catch (Exception e) {
                             builder.append("XPaths:").append(Tuils.NEWLINE);
-                            if (xpaths.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            if (xpaths.isEmpty()) builder.append("[]").append(Tuils.NEWLINE);
                             else {
                                 for (StoreableValue v : xpaths) {
                                     builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
@@ -223,7 +222,7 @@ public class HTMLExtractManager {
                             }
 
                             builder.append("JsonPaths:").append(Tuils.NEWLINE);
-                            if (jsons.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            if (jsons.isEmpty()) builder.append("[]").append(Tuils.NEWLINE);
                             else {
                                 for (StoreableValue v : jsons) {
                                     builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
@@ -231,7 +230,7 @@ public class HTMLExtractManager {
                             }
 
                             builder.append("Formats:").append(Tuils.NEWLINE);
-                            if (formats.size() == 0) builder.append("[]").append(Tuils.NEWLINE);
+                            if (formats.isEmpty()) builder.append("[]").append(Tuils.NEWLINE);
                             else {
                                 for (StoreableValue v : formats) {
                                     builder.append(Tuils.DOUBLE_SPACE).append("- ID: ").append(v.id).append(" -> ").append(v.value).append(Tuils.NEWLINE);
@@ -240,7 +239,7 @@ public class HTMLExtractManager {
                         }
 
                         String text = builder.toString().trim();
-                        if (text.length() == 0) text = "[]";
+                        if (text.isEmpty()) text = "[]";
                         Tuils.sendOutput(context, text);
                         break;
                     }
@@ -433,7 +432,7 @@ public class HTMLExtractManager {
                         while (m.find()) {
                             String name = m.group(1);
                             String delay = m.group(2);
-                            if (delay == null || delay.length() == 0) delay = "1";
+                            if (delay == null || delay.isEmpty()) delay = "1";
                             String converter = m.group(3);
 
                             int stopAt = Integer.parseInt(delay);
@@ -444,11 +443,11 @@ public class HTMLExtractManager {
                             while (m1.find()) {
                                 if (c == stopAt) {
                                     String value = m1.group(1);
-                                    if (value == null || value.length() == 0) {
+                                    if (value == null || value.isEmpty()) {
                                         value = m1.group(2);
                                     }
 
-                                    if (converter != null && converter.length() > 0) {
+                                    if (converter != null && !converter.isEmpty()) {
                                         try {
                                             double d = Double.parseDouble(Objects.requireNonNull(value));
                                             d = Tuils.textCalculus(d, converter);
@@ -496,7 +495,7 @@ public class HTMLExtractManager {
                             copy = replaceLinkColorReplace(context, copy, url);
                             copy = removeDelimiter(copy);
 
-                            if (copy.toString().trim().length() > 0)
+                            if (!copy.toString().trim().isEmpty())
                                 output = TextUtils.concat(output, (c != 0 ? Tuils.NEWLINE + Tuils.NEWLINE : Tuils.EMPTYSTRING), copy);
                         }
 
@@ -525,7 +524,7 @@ public class HTMLExtractManager {
 //                            this is an array of JSON objects
                             JSONArray a = (JSONArray) o;
 
-                            for (int c = 0; c < a.size(); c++) {
+                            for (int c = 0; c < a.length(); c++) {
                                 String f = format == null ? defaultFormat : format;
                                 CharSequence copy = Tuils.span(f, outputColor);
                                 
@@ -545,7 +544,7 @@ public class HTMLExtractManager {
                                 copy = replaceLinkColorReplace(context, copy, url);
                                 copy = removeDelimiter(copy);
 
-                                if (copy.toString().trim().length() > 0)
+                                if (!copy.toString().trim().isEmpty())
                                     output = TextUtils.concat(output, (c != 0 ? Tuils.NEWLINE + Tuils.NEWLINE : Tuils.EMPTYSTRING), copy);
                             }
 
@@ -648,11 +647,11 @@ public class HTMLExtractManager {
             if (tag == null) tag = "null";
 
             String replace = "null";
-            if (attribute == null || attribute.length() == 0) {
+            if (attribute == null || attribute.isEmpty()) {
                 replace = tag;
             } else if (attributes.containsKey(attribute)) {
                 replace = Objects.requireNonNull(attributes.get(attribute)).toString();
-                if (replace.length() == 0) replace = "null";
+                if (replace.isEmpty()) replace = "null";
             }
 
             return TextUtils.replace(original, new String[]{tagMatcher.group()}, new CharSequence[]{delimiterStart + replace + delimiterEnd});
@@ -697,11 +696,11 @@ public class HTMLExtractManager {
             if (tag == null) tag = "null";
 
             String replace = "null";
-            if (attribute == null || attribute.length() == 0) {
+            if (attribute == null || attribute.isEmpty()) {
                 replace = tag;
             } else if (attributes != null) {
                 replace = attributes.get(attribute);
-                if (replace == null || replace.length() == 0) replace = "null";
+                if (replace == null || replace.isEmpty()) replace = "null";
             }
 
             return TextUtils.replace(original, new String[]{tagMatcher.group()}, new CharSequence[]{delimiterStart + replace + delimiterEnd});
@@ -853,7 +852,7 @@ public class HTMLExtractManager {
 
             String output = XMLPrefsManager.add(file, tag, new String[]{ID, XMLPrefsManager.VALUE_ATTRIBUTE}, new String[]{String.valueOf(id), path});
             if (output != null) {
-                if (output.length() > 0) Tuils.sendOutput(Color.RED, context, output);
+                if (!output.isEmpty()) Tuils.sendOutput(Color.RED, context, output);
                 else Tuils.sendOutput(Color.RED, context, R.string.output_error);
                 return null;
             }
@@ -869,7 +868,7 @@ public class HTMLExtractManager {
 
             String output = XMLPrefsManager.removeNode(file, type.name(), new String[]{ID}, new String[]{String.valueOf(id)});
             if (output != null) {
-                if (output.length() > 0) Tuils.sendOutput(Color.RED, context, output);
+                if (!output.isEmpty()) Tuils.sendOutput(Color.RED, context, output);
                 else {
                     Tuils.sendOutput(Color.RED, context, R.string.id_notfound);
                 }
@@ -884,7 +883,7 @@ public class HTMLExtractManager {
 
             String output = XMLPrefsManager.set(file, type.name(), new String[]{ID}, new String[]{String.valueOf(id)}, new String[]{XMLPrefsManager.VALUE_ATTRIBUTE}, new String[]{newExpression}, false);
             if (output != null) {
-                if (output.length() > 0) Tuils.sendOutput(Color.RED, context, output);
+                if (!output.isEmpty()) Tuils.sendOutput(Color.RED, context, output);
                 else {
                     Tuils.sendOutput(Color.RED, context, R.string.id_notfound);
                 }

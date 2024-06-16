@@ -89,7 +89,7 @@ public class MessagesManager {
         } else if (count == REACH_THIS) {
             count = 0;
 
-            if (copy.size() == 0) {
+            if (copy.isEmpty()) {
                 copy = new ArrayList<>(original);
                 random = new Random();
             }

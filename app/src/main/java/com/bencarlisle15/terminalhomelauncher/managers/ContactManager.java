@@ -90,7 +90,7 @@ public class ContactManager {
 
                     int lastId = -1;
                     List<String> lastNumbers = new ArrayList<>();
-                    List<String> nrml = new ArrayList<>();
+                    List<String> normalizedList = new ArrayList<>();
                     int defaultNumber = 0;
                     String name = null, number;
                     int id, prim;
@@ -104,7 +104,7 @@ public class ContactManager {
                             defaultNumber = lastNumbers.size();
                         }
 
-                        if (number == null || number.length() == 0) continue;
+                        if (number == null || number.isEmpty()) continue;
 
                         if (phones.isFirst()) {
                             lastId = id;
@@ -117,15 +117,15 @@ public class ContactManager {
                             }
 
                             lastNumbers = new ArrayList<>();
-                            nrml = new ArrayList<>();
+                            normalizedList = new ArrayList<>();
                             defaultNumber = 0;
 
                             name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                         }
 
                         String normalized = number.replaceAll(Tuils.SPACE, Tuils.EMPTYSTRING);
-                        if (!nrml.contains(normalized)) {
-                            nrml.add(normalized);
+                        if (!normalizedList.contains(normalized)) {
+                            normalizedList.add(normalized);
                             lastNumbers.add(number);
                         }
 
@@ -136,7 +136,7 @@ public class ContactManager {
                     phones.close();
                 }
 
-                contacts.removeIf(c -> c.numbers.size() == 0);
+                contacts.removeIf(c -> c.numbers.isEmpty());
 
                 Collections.sort(contacts);
             }
@@ -144,7 +144,7 @@ public class ContactManager {
     }
 
     public List<String> listNames() {
-        if (contacts == null || contacts.size() == 0) refreshContacts(context);
+        if (contacts == null || contacts.isEmpty()) refreshContacts(context);
 
         List<String> names = new ArrayList<>();
         for (Contact c : contacts) names.add(c.name);
@@ -152,12 +152,12 @@ public class ContactManager {
     }
 
     public List<Contact> getContacts() {
-        if (contacts == null || contacts.size() == 0) refreshContacts(context);
+        if (contacts == null || contacts.isEmpty()) refreshContacts(context);
         return new ArrayList<>(contacts);
     }
 
     public List<String> listNamesAndNumbers() {
-        if (contacts == null || contacts.size() == 0) refreshContacts(context);
+        if (contacts == null || contacts.isEmpty()) refreshContacts(context);
 
         List<String> c = new ArrayList<>();
 
@@ -229,7 +229,7 @@ public class ContactManager {
             if (tempL > 0) lastContacted = Math.min(tempL, lastContacted);
 
             @SuppressLint("Range") String n = mCursor.getString(mCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            about[NUMBERS] = (about[NUMBERS].length() > 0 ? about[NUMBERS] + Tuils.NEWLINE : Tuils.EMPTYSTRING) + n;
+            about[NUMBERS] = (!about[NUMBERS].isEmpty() ? about[NUMBERS] + Tuils.NEWLINE : Tuils.EMPTYSTRING) + n;
         } while (mCursor.moveToNext());
 
         about[TIME_CONTACTED] = String.valueOf(timesContacted);
@@ -267,7 +267,7 @@ public class ContactManager {
         for (int count = 0; count < contacts.size(); count++) {
             Contact c = contacts.get(count);
             if (c.name.equalsIgnoreCase(name)) {
-                if (c.numbers.size() > 0) return c.numbers.get(0);
+                if (!c.numbers.isEmpty()) return c.numbers.get(0);
             }
         }
 

@@ -78,7 +78,7 @@ public class Reply extends ParamCommand implements APICommand {
                 String output = ReplyManager.unbind(pack.getLaunchInfo().componentName.getPackageName());
                 LocalBroadcastManager.getInstance(pack.context).sendBroadcast(new Intent(ReplyManager.ACTION_UPDATE));
 
-                if (output != null && output.length() == 0)
+                if (output != null && output.isEmpty())
                     return pack.context.getString(R.string.reply_app_not_found) + pack.getLaunchInfo().componentName.getPackageName();
                 return output;
             }

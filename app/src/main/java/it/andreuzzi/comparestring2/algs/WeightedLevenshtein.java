@@ -90,11 +90,11 @@ public class WeightedLevenshtein implements StringDistance {
             return 0;
         }
 
-        if (s1.length() == 0) {
+        if (s1.isEmpty()) {
             return s2.length();
         }
 
-        if (s2.length() == 0) {
+        if (s2.isEmpty()) {
             return s1.length();
         }
 

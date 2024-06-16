@@ -112,7 +112,7 @@ public class FileManager {
         }
         file = new File(path);
 
-        if (notFound.length() <= 0)
+        if (notFound.isEmpty())
             notFound = null;
         else if (notFound.length() > 1) {
             if (notFound.startsWith(File.separator))
@@ -168,8 +168,8 @@ public class FileManager {
             this.name = name;
             this.extension = extension;
 
-            allNames = name.length() == 0 || name.equals(ASTERISK);
-            allExtensions = extension.length() == 0 || extension.equals(ASTERISK);
+            allNames = name.isEmpty() || name.equals(ASTERISK);
+            allExtensions = extension.isEmpty() || extension.equals(ASTERISK);
         }
 
         public WildcardInfo(boolean all) {

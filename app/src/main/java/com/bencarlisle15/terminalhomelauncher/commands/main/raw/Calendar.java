@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -243,7 +242,7 @@ public class Calendar extends ParamCommand {
             public String exec(ExecutePack pack) {
                 List<String> params = pack.getList();
 
-                if (params.size() < 1 || params.size() > 2) {
+                if (params.isEmpty() || params.size() > 2) {
                     return "Invalid params, expecting: calendar -delete 1/1 12:00pm or calendar -delete_with_date 12:00pm";
                 }
 
@@ -285,7 +284,7 @@ public class Calendar extends ParamCommand {
             public String exec(ExecutePack pack) {
                 List<String> params = pack.getList();
 
-                if (params.size() < 1) {
+                if (params.isEmpty()) {
                     return "Invalid params";
                 }
 

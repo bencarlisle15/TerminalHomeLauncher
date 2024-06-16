@@ -3,7 +3,7 @@ android {
     defaultConfig {
         applicationId "com.bencarlisle15.terminalhomelauncher"
 
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 34
 
         versionName "v6.17"
@@ -16,6 +16,10 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     flavorDimensions += "default"

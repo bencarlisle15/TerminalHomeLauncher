@@ -124,11 +124,6 @@ public class Notes extends ParamCommand {
         },
         tutorial {
             @Override
-            public int[] args() {
-                return new int[0];
-            }
-
-            @Override
             public String exec(ExecutePack pack) {
                 pack.context.startActivity(Tuils.webPage("https://github.com/bencarlisle15/TerminalHomeLauncher/wiki/Notes"));
                 return null;

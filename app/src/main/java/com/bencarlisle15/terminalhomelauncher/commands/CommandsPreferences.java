@@ -32,7 +32,7 @@ public class CommandsPreferences {
 
     public String get(XMLPrefsSave save) {
         String v = get(save.label());
-        if (v == null || v.length() == 0) v = save.defaultValue();
+        if (v == null || v.isEmpty()) v = save.defaultValue();
         return v;
     }
 

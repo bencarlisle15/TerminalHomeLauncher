@@ -29,7 +29,7 @@ import com.bencarlisle15.terminalhomelauncher.tuils.LongClickMovementMethod;
 import com.bencarlisle15.terminalhomelauncher.tuils.LongClickableSpan;
 import com.bencarlisle15.terminalhomelauncher.tuils.PrivateIOReceiver;
 import com.bencarlisle15.terminalhomelauncher.tuils.Tuils;
-import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecuter;
+import com.bencarlisle15.terminalhomelauncher.tuils.interfaces.CommandExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,10 +100,10 @@ public class TerminalManager {
 
     public Context mContext;
 
-    private final CommandExecuter executer;
+    private final CommandExecutor executer;
 
     public TerminalManager(final TextView terminalView, EditText inputView, TextView prefixView, ImageView submitView, final ImageView backView, ImageButton nextView, ImageButton deleteView,
-                           ImageButton pasteView, final Context context, MainPack mainPack, CommandExecuter executer) {
+                           ImageButton pasteView, final Context context, MainPack mainPack, CommandExecutor executer) {
         if (terminalView == null || inputView == null || prefixView == null)
             throw new UnsupportedOperationException();
 
@@ -155,7 +155,7 @@ public class TerminalManager {
             pasteView.setColorFilter(XMLPrefsManager.getColor(Theme.toolbar_color));
             pasteView.setOnClickListener(v -> {
                 String text = Tuils.getTextFromClipboard(context);
-                if (text != null && text.length() > 0) {
+                if (text != null && !text.isEmpty()) {
                     setInput(getInput() + text);
                 }
             });
@@ -329,7 +329,7 @@ public class TerminalManager {
     }
 
     public void onBackPressed() {
-        if (cmdList.size() > 0) {
+        if (!cmdList.isEmpty()) {
 
             if (howBack == -1) {
                 howBack = cmdList.size();

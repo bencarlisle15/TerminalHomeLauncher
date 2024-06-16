@@ -35,7 +35,7 @@ public class CommandTuils {
     private static final FileManager.SpecificExtensionFileFilter extensionFileFilter = new FileManager.SpecificExtensionFileFilter();
     private static final FileManager.SpecificNameFileFilter nameFileFilter = new FileManager.SpecificNameFileFilter();
 
-    public static List<XMLPrefsSave> xmlPrefsEntrys;
+    public static List<XMLPrefsSave> xmlPrefsEntries;
     public static List<String> xmlPrefsFiles;
 
     //	parse a command
@@ -86,7 +86,7 @@ public class CommandTuils {
                     if (input == null) break;
 
                     input = input.trim();
-                    if (input.length() == 0) {
+                    if (input.isEmpty()) {
                         break;
                     }
 
@@ -241,7 +241,7 @@ public class CommandTuils {
         }
 
         Object result = Boolean.parseBoolean(used);
-        return new ArgInfo(result, notUsed, used.length() > 0, used.length() > 0 ? 1 : 0);
+        return new ArgInfo(result, notUsed, !used.isEmpty(), !used.isEmpty() ? 1 : 0);
     }
 
     private static ArgInfo plainText(String input) {
@@ -354,7 +354,7 @@ public class CommandTuils {
             return null;
         }
 
-        if (files.size() > 0) {
+        if (!files.isEmpty()) {
             return files;
         } else {
             return null;
@@ -362,7 +362,7 @@ public class CommandTuils {
     }
 
     private static ArgInfo param(MainPack pack, ParamCommand cmd, String input) {
-        if (input == null || input.trim().length() == 0) return null;
+        if (input == null || input.trim().isEmpty()) return null;
 
         int indexOfFirstSpace = input.indexOf(Tuils.SPACE);
         if (indexOfFirstSpace == -1) {
@@ -425,19 +425,19 @@ public class CommandTuils {
     private static ArgInfo configEntry(String input) {
         int index = input.indexOf(Tuils.SPACE);
 
-        if (xmlPrefsEntrys == null) {
-            xmlPrefsEntrys = new ArrayList<>();
+        if (xmlPrefsEntries == null) {
+            xmlPrefsEntries = new ArrayList<>();
 
             for (XMLPrefsManager.XMLPrefsRoot element : XMLPrefsManager.XMLPrefsRoot.values()) {
-                xmlPrefsEntrys.addAll(element.enums);
+                xmlPrefsEntries.addAll(element.enums);
             }
-            Collections.addAll(xmlPrefsEntrys, Apps.values());
-            Collections.addAll(xmlPrefsEntrys, Notifications.values());
-            Collections.addAll(xmlPrefsEntrys, Rss.values());
+            Collections.addAll(xmlPrefsEntries, Apps.values());
+            Collections.addAll(xmlPrefsEntries, Notifications.values());
+            Collections.addAll(xmlPrefsEntries, Rss.values());
         }
 
         String candidate = index == -1 ? input : input.substring(0, index);
-        for (XMLPrefsSave xs : xmlPrefsEntrys) {
+        for (XMLPrefsSave xs : xmlPrefsEntries) {
             if (xs.label().equals(candidate)) {
                 return new ArgInfo(xs, index == -1 ? null : input.substring(index + 1), true, 1);
             }

@@ -137,7 +137,7 @@ public class CompareObjects {
      * @return            the single best match of {@code s1} with each element of {@code ss}, found using the given {@link Alg} {@code alg}
      */
     public static <T extends StringableObject> T bestMatch(Class<T> clazz, String s1, T[] ss, String[] splitters, Algorithm algInstance, Alg alg) {
-        T[] matches = topNmatches(clazz, s1,ss, 1, splitters, algInstance, alg);
+        T[] matches = topNMatches(clazz, s1,ss, 1, splitters, algInstance, alg);
         if(matches.length == 0) return null;
         return matches[0];
     }
@@ -154,8 +154,8 @@ public class CompareObjects {
      * @param args        a list of Object that can be used to build an instance of {@link Algorithm}
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the results given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, T[] ss, int n, Alg alg, Object... args) {
-        return topNmatches(clazz, s1,ss, n, null, alg, args);
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, T[] ss, int n, Alg alg, Object... args) {
+        return topNMatches(clazz, s1,ss, n, null, alg, args);
     }
     
     /**
@@ -168,8 +168,8 @@ public class CompareObjects {
      * @param alg         an instance of {@link Alg}. It must refer to the same algorithm referred by {@code algInstance}. Check {@link AlgMap} 
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the results given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, T[] ss, int n, Algorithm algInstance, Alg alg) {
-        return topNmatches(clazz, s1,ss.length, Arrays.asList(ss), n, null, algInstance, alg);
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, T[] ss, int n, Algorithm algInstance, Alg alg) {
+        return topNMatches(clazz, s1,ss.length, Arrays.asList(ss), n, null, algInstance, alg);
     }
     
     /**
@@ -183,9 +183,9 @@ public class CompareObjects {
      * @param args        a list of Object that can be used to build an instance of {@link Algorithm}
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the ranks given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, T[] ss, int n, String[] splitters, Alg alg, Object... args) {
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, T[] ss, int n, String[] splitters, Alg alg, Object... args) {
         Algorithm algInstance = alg.buildAlg(args);
-        return topNmatches(clazz, s1,ss, n, splitters, algInstance, alg);
+        return topNMatches(clazz, s1,ss, n, splitters, algInstance, alg);
     }
     
     /**
@@ -199,8 +199,8 @@ public class CompareObjects {
      * @param alg         an instance of {@link Alg}. It must refer to the same algorithm referred by {@code algInstance}. Check {@link AlgMap} 
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the results given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, T[] ss, int n, String[] splitters, Algorithm algInstance, Alg alg) {
-        return topNmatches(clazz, s1,ss.length, Arrays.asList(ss), n, splitters, algInstance, alg);
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, T[] ss, int n, String[] splitters, Algorithm algInstance, Alg alg) {
+        return topNMatches(clazz, s1,ss.length, Arrays.asList(ss), n, splitters, algInstance, alg);
     }
     
 //    --------------------------------------------------------
@@ -403,7 +403,7 @@ public class CompareObjects {
      * @return            the best match with {@code s1} within {@code ss}, found using the given {@link Alg} {@code alg}
      */
     public static <T extends StringableObject> T bestMatch(Class<T> clazz, String s1, int size, Iterable<T> ss, String[] splitters, Algorithm algInstance, Alg alg) {
-        T[] matches = topNmatches(clazz, s1,size, ss, 1, splitters, algInstance, alg);
+        T[] matches = topNMatches(clazz, s1,size, ss, 1, splitters, algInstance, alg);
         if(matches.length == 0) return null;
         return matches[0];
     }
@@ -421,8 +421,8 @@ public class CompareObjects {
      * @param args        a list of Object that can be used to build an instance of {@link Algorithm}
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the ranks given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, Alg alg, Object... args) {
-        return topNmatches(clazz, s1,size, ss, n, null, alg, args);
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, Alg alg, Object... args) {
+        return topNMatches(clazz, s1,size, ss, n, null, alg, args);
     }
     
     /**
@@ -436,8 +436,8 @@ public class CompareObjects {
      * @param alg         an instance of {@link Alg}. It must refer to the same algorithm referred by {@code algInstance}. Check {@link AlgMap} 
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the ranks given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, Algorithm algInstance, Alg alg) {
-        return topNmatches(clazz, s1,size, ss, n, null, algInstance, alg);
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, Algorithm algInstance, Alg alg) {
+        return topNMatches(clazz, s1,size, ss, n, null, algInstance, alg);
     }
     
     /**
@@ -452,9 +452,9 @@ public class CompareObjects {
      * @param args        a list of Object that can be used to build an instance of {@link Algorithm}
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the ranks given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, String[] splitters, Alg alg, Object... args) {
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, String[] splitters, Alg alg, Object... args) {
         Algorithm algInstance = alg.buildAlg(args);
-        return topNmatches(clazz, s1,size, ss, n, splitters, algInstance, alg);
+        return topNMatches(clazz, s1,size, ss, n, splitters, algInstance, alg);
     }
     
     /**
@@ -469,7 +469,7 @@ public class CompareObjects {
      * @param alg         an instance of {@link Alg}. It must refer to the same algorithm referred by {@code algInstance}. Check {@link AlgMap} 
      * @return            a sorted array of {@code T} of length {@code n}. The sorting operation is based on the ranks given by the algorithm {@code alg}
      */
-    public static <T extends StringableObject> T[] topNmatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, String[] splitters, Algorithm algInstance, Alg alg) {
+    public static <T extends StringableObject> T[] topNMatches(Class<T> clazz, String s1, int size, Iterable<T> ss, int n, String[] splitters, Algorithm algInstance, Alg alg) {
         CompareItem[] items = buildComparePack(s1,ss, size, splitters, algInstance, alg);
         return Utils.gather(clazz, items, n);
     }

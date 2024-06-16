@@ -9,9 +9,6 @@ import com.bencarlisle15.terminalhomelauncher.UIManager;
 import com.bencarlisle15.terminalhomelauncher.commands.CommandAbstraction;
 import com.bencarlisle15.terminalhomelauncher.commands.ExecutePack;
 
-/**
- * Created by bencarlisle15 on 07/11/15.
- */
 public class Clear implements CommandAbstraction {
 
     @Override

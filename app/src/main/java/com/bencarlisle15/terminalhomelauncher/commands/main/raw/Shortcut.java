@@ -1,6 +1,5 @@
 package com.bencarlisle15.terminalhomelauncher.commands.main.raw;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.LauncherApps;
 import android.content.pm.ShortcutInfo;
@@ -21,7 +20,6 @@ import java.util.List;
  * Created by francescoandreuzzi on 24/03/2018.
  */
 
-@TargetApi(Build.VERSION_CODES.N_MR1)
 public class Shortcut extends ParamCommand implements APICommand {
 
     private enum Param implements com.bencarlisle15.terminalhomelauncher.commands.main.Param {
@@ -42,13 +40,13 @@ public class Shortcut extends ParamCommand implements APICommand {
                 try {
                     index = Integer.parseInt(id);
 
-                    if (li.shortcuts == null || li.shortcuts.size() == 0) return "[]";
+                    if (li.shortcuts == null || li.shortcuts.isEmpty()) return "[]";
                     if (index >= li.shortcuts.size())
                         return pack.context.getString(R.string.shortcut_index_greater);
                     shortcut = li.shortcuts.get(index);
                 } catch (Exception e) {
                     if (li != null) {
-                        if (li.shortcuts == null || li.shortcuts.size() == 0)
+                        if (li.shortcuts == null || li.shortcuts.isEmpty())
                             return pack.context.getString(R.string.app_shortcut_not_found);
 
                         for (ShortcutInfo i : li.shortcuts) {
@@ -77,7 +75,7 @@ public class Shortcut extends ParamCommand implements APICommand {
 
                 Out:
                 for (AppsManager.LaunchInfo l : ((MainPack) pack).appsManager.shownApps()) {
-                    if (l.shortcuts == null || l.shortcuts.size() == 0) continue;
+                    if (l.shortcuts == null || l.shortcuts.isEmpty()) continue;
 
                     for (ShortcutInfo i : l.shortcuts) {
                         if (i.getId().equals(id)) {
@@ -109,7 +107,7 @@ public class Shortcut extends ParamCommand implements APICommand {
             @Override
             public String exec(ExecutePack pack) {
                 AppsManager.LaunchInfo li = pack.getLaunchInfo();
-                if (li.shortcuts == null || li.shortcuts.size() == 0) return "[]";
+                if (li.shortcuts == null || li.shortcuts.isEmpty()) return "[]";
 
                 StringBuilder builder = new StringBuilder();
                 append(builder, li.shortcuts, Tuils.EMPTYSTRING);
@@ -123,14 +121,14 @@ public class Shortcut extends ParamCommand implements APICommand {
                 StringBuilder builder = new StringBuilder();
 
                 for (AppsManager.LaunchInfo l : infos) {
-                    if (l.shortcuts == null || l.shortcuts.size() == 0) continue;
+                    if (l.shortcuts == null || l.shortcuts.isEmpty()) continue;
 
                     builder.append(l.publicLabel).append(Tuils.NEWLINE);
                     append(builder, l.shortcuts, Tuils.DOUBLE_SPACE);
                 }
 
                 String s = builder.toString().trim();
-                if (s.length() == 0) return "[]";
+                if (s.isEmpty()) return "[]";
 
                 return s;
             }

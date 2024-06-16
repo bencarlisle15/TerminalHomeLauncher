@@ -31,18 +31,16 @@ public class Devutils extends ParamCommand {
                 List<String> text = pack.getList();
 
                 String title, txt = null;
-                if (text.size() == 0) return null;
+                if (text.isEmpty()) return null;
                 else {
                     title = text.remove(0);
                     if (text.size() >= 2) txt = Tuils.toPlanString(text, Tuils.SPACE);
                 }
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Dev Utils Notify", NotificationManager.IMPORTANCE_LOW);
-                    channel.setDescription("Dev utils notification");
-                    NotificationManager notificationManager = pack.context.getSystemService(NotificationManager.class);
-                    notificationManager.createNotificationChannel(channel);
-                }
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Dev Utils Notify", NotificationManager.IMPORTANCE_LOW);
+                channel.setDescription("Dev utils notification");
+                NotificationManager notificationManager = pack.context.getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
 
 
                 NotificationManagerCompat.from(pack.context).notify(200,

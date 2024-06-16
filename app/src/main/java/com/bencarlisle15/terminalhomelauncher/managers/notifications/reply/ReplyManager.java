@@ -193,7 +193,7 @@ public class ReplyManager implements XMLPrefsElement {
                 }
             }
 
-            if (loadPrefs && enums.size() > 0) {
+            if (loadPrefs && !enums.isEmpty()) {
                 for (XMLPrefsSave s : enums) {
                     String value = s.defaultValue();
 
@@ -408,7 +408,7 @@ public class ReplyManager implements XMLPrefsElement {
                 builder.append(a.packageName).append(" -> ").append(a.applicationId).append(Tuils.NEWLINE);
         }
         String s = builder.toString();
-        if (s.length() == 0) s = "[]";
+        if (s.isEmpty()) s = "[]";
 
         Tuils.sendOutput(context, s);
     }

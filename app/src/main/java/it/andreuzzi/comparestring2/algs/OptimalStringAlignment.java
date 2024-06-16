@@ -28,7 +28,7 @@ import it.andreuzzi.comparestring2.algs.interfaces.StringDistance;
 /**
  * Implementation of the the Optimal String Alignment (sometimes called the
  * restricted edit distance) variant of the Damerau-Levenshtein distance.
- *
+ * <p>
  * The difference between the two algorithms consists in that the Optimal String
  * Alignment algorithm computes the number of edit operations needed to make the
  * strings equal under the condition that no substring is edited more than once,

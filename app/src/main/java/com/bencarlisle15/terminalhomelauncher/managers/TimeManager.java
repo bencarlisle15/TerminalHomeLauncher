@@ -110,7 +110,7 @@ public class TimeManager {
         Matcher matcher = extractor.matcher(cs);
         while (matcher.find()) {
             String number = matcher.group(1);
-            if (number == null || number.length() == 0) number = "0";
+            if (number == null || number.isEmpty()) number = "0";
 
             Map.Entry<Integer, SimpleDateFormat> entry = get(Integer.parseInt(number));
             if (entry == null) continue;
@@ -160,7 +160,7 @@ public class TimeManager {
         Matcher matcher = extractor.matcher(s);
         if (matcher.find()) {
             String number = matcher.group(1);
-            if (number == null || number.length() == 0) number = "0";
+            if (number == null || number.isEmpty()) number = "0";
 
             Map.Entry<Integer, SimpleDateFormat> entry = get(Integer.parseInt(number));
             if (entry == null) {

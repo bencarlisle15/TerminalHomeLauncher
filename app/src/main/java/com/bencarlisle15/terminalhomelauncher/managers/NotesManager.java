@@ -264,11 +264,11 @@ public class NotesManager {
         Matcher mh = optionalPattern.matcher(header);
         while (mh.find()) {
             if (mh.groupCount() > 0) {
-                header = header.replace(Objects.requireNonNull(mh.group(0)), mh.groupCount() == 2 ? Objects.requireNonNull(mh.group(notes.size() > 0 ? 1 : 2)) : Tuils.EMPTYSTRING);
+                header = header.replace(Objects.requireNonNull(mh.group(0)), mh.groupCount() == 2 ? Objects.requireNonNull(mh.group(!notes.isEmpty() ? 1 : 2)) : Tuils.EMPTYSTRING);
             }
         }
 
-        if (header.length() > 0) {
+        if (!header.isEmpty()) {
             String h = countPattern.matcher(header).replaceAll(String.valueOf(notes.size()));
             h = Tuils.patternNewline.matcher(h).replaceAll(Tuils.NEWLINE);
             oldNotes = Tuils.span(h, this.color);
@@ -319,11 +319,11 @@ public class NotesManager {
         Matcher mf = optionalPattern.matcher(footer);
         while (mf.find()) {
             if (mf.groupCount() > 0) {
-                footer = footer.replace(Objects.requireNonNull(mf.group(0)), mf.groupCount() == 2 ? Objects.requireNonNull(mf.group(notes.size() > 0 ? 1 : 2)) : Tuils.EMPTYSTRING);
+                footer = footer.replace(Objects.requireNonNull(mf.group(0)), mf.groupCount() == 2 ? Objects.requireNonNull(mf.group(!notes.isEmpty() ? 1 : 2)) : Tuils.EMPTYSTRING);
             }
         }
 
-        if (footer.length() > 0) {
+        if (!footer.isEmpty()) {
             String h = countPattern.matcher(footer).replaceAll(String.valueOf(notes.size()));
             h = Tuils.patternNewline.matcher(h).replaceAll(Tuils.NEWLINE);
             oldNotes = TextUtils.concat(oldNotes, Tuils.span(h, this.color));
@@ -383,7 +383,7 @@ public class NotesManager {
 
         String output = XMLPrefsManager.add(file, NOTE_NODE, new String[]{CREATION_TIME, VALUE_ATTRIBUTE, LOCK}, new String[]{String.valueOf(t), s, String.valueOf(lock)});
         if (output != null) {
-            if (output.length() > 0) Tuils.sendOutput(mContext, output);
+            if (!output.isEmpty()) Tuils.sendOutput(mContext, output);
             else Tuils.sendOutput(mContext, R.string.output_error);
         }
 
@@ -406,7 +406,7 @@ public class NotesManager {
 
         String output = XMLPrefsManager.removeNode(file, new String[]{CREATION_TIME}, new String[]{String.valueOf(time)});
         if (output != null) {
-            if (output.length() > 0) Tuils.sendOutput(mContext, output);
+            if (!output.isEmpty()) Tuils.sendOutput(mContext, output);
         }
 
         invalidateNotes();
@@ -437,7 +437,7 @@ public class NotesManager {
         if (!file.exists()) resetFile(file, NAME);
 
         String output = XMLPrefsManager.removeNode(file, new String[]{LOCK}, new String[]{String.valueOf(false)}, true, true);
-        if (output != null && output.length() > 0) Tuils.sendOutput(Color.RED, context, output);
+        if (output != null && !output.isEmpty()) Tuils.sendOutput(Color.RED, context, output);
 
         invalidateNotes();
     }
@@ -472,7 +472,7 @@ public class NotesManager {
         }
 
         String output = XMLPrefsManager.set(file, NOTE_NODE, new String[]{CREATION_TIME}, new String[]{String.valueOf(time)}, new String[]{LOCK}, new String[]{String.valueOf(lock)}, true);
-        if (output != null && output.length() > 0) Tuils.sendOutput(context, output);
+        if (output != null && !output.isEmpty()) Tuils.sendOutput(context, output);
 
         invalidateNotes();
     }

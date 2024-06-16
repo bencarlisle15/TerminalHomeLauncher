@@ -41,7 +41,7 @@ public class SorensenDice extends ShingleBased implements
     /**
      * Sorensen-Dice coefficient, aka Sørensen index, Dice's coefficient or
      * Czekanowski's binary (non-quantitative) index.
-     *
+     * <p>
      * The strings are first converted to boolean sets of k-shingles (sequences
      * of k characters), then the similarity is computed as 2 * |A inter B| /
      * (|A| + |B|). Attention: Sorensen-Dice distance (and similarity) does not
@@ -55,7 +55,7 @@ public class SorensenDice extends ShingleBased implements
     /**
      * Sorensen-Dice coefficient, aka Sørensen index, Dice's coefficient or
      * Czekanowski's binary (non-quantitative) index.
-     *
+     * <p>
      * The strings are first converted to boolean sets of k-shingles (sequences
      * of k characters), then the similarity is computed as 2 * |A inter B| /
      * (|A| + |B|). Attention: Sorensen-Dice distance (and similarity) does not

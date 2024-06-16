@@ -21,7 +21,7 @@ public class Regex extends ParamCommand {
             public String exec(ExecutePack pack) {
                 String output = RegexManager.instance.add(pack.getInt(), pack.getString());
                 if (output == null) return null;
-                if (output.length() == 0) return pack.context.getString(R.string.id_already);
+                if (output.isEmpty()) return pack.context.getString(R.string.id_already);
                 else return output;
             }
 
@@ -35,7 +35,7 @@ public class Regex extends ParamCommand {
             public String exec(ExecutePack pack) {
                 String output = RegexManager.instance.rm(pack.getInt());
                 if (output == null) return null;
-                if (output.length() == 0) return pack.context.getString(R.string.id_notfound);
+                if (output.isEmpty()) return pack.context.getString(R.string.id_notfound);
                 return output;
             }
 

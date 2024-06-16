@@ -163,7 +163,7 @@ public class Config extends ParamCommand {
             public String exec(ExecutePack pack) {
                 XMLPrefsSave save = pack.getPrefsSave();
                 String s = XMLPrefsManager.get(String.class, save);
-                if (s.length() == 0) return "\"\"";
+                if (s.isEmpty()) return "\"\"";
                 return s;
             }
         },

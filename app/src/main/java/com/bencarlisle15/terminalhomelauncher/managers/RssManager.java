@@ -263,13 +263,13 @@ public class RssManager implements XMLPrefsElement {
                                         }
 
                                         String regex = XMLPrefsManager.getStringAttribute(e, XMLPrefsManager.VALUE_ATTRIBUTE);
-                                        if (regex == null || regex.length() == 0) continue;
+                                        if (regex == null || regex.isEmpty()) continue;
 
                                         String on = XMLPrefsManager.getStringAttribute(e, ON_ATTRIBUTE);
-                                        if (on == null || on.length() == 0) continue;
+                                        if (on == null || on.isEmpty()) continue;
 
                                         String cmd = XMLPrefsManager.getStringAttribute(e, CMD_ATTRIBUTE);
-                                        if (cmd == null || cmd.length() == 0) continue;
+                                        if (cmd == null || cmd.isEmpty()) continue;
 
                                         cmdRegexes.add(new CmdableRegex(id, on, regex, cmd));
                                         break;
@@ -279,7 +279,7 @@ public class RssManager implements XMLPrefsElement {
                         }
                     }
 
-                    if (enums.size() > 0) {
+                    if (!enums.isEmpty()) {
                         for (XMLPrefsSave s : enums) {
                             String value = s.defaultValue();
 
@@ -405,7 +405,7 @@ public class RssManager implements XMLPrefsElement {
         if (output == null) {
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.id_notfound);
         }
     }
@@ -423,7 +423,7 @@ public class RssManager implements XMLPrefsElement {
 
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             else return context.getString(R.string.rss_not_found);
         }
     }
@@ -435,7 +435,7 @@ public class RssManager implements XMLPrefsElement {
         }
 
         String output = builder.toString().trim();
-        if (output.length() == 0) return "[]";
+        if (output.isEmpty()) return "[]";
         return output;
     }
 
@@ -463,7 +463,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.show = show;
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -475,7 +475,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.updateTimeSeconds = timeSeconds;
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -487,7 +487,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.timeFormat = new SimpleDateFormat(format, Locale.getDefault());
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -499,7 +499,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.setFormat(formats, format);
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -511,7 +511,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.color = Color.parseColor(color);
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -523,7 +523,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.dateTag = tag;
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -535,7 +535,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.entryTag = tag;
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -547,7 +547,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.setIncludeIfMatches(regex);
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -559,7 +559,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.setExcludeIfMatches(regex);
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -572,7 +572,7 @@ public class RssManager implements XMLPrefsElement {
             if (r != null) r.wifiOnly = wifiOnly;
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.rss_not_found);
         }
     }
@@ -584,7 +584,7 @@ public class RssManager implements XMLPrefsElement {
             cmdRegexes.add(new CmdableRegex(id, on, regex, cmd));
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.output_error);
         }
     }
@@ -598,7 +598,7 @@ public class RssManager implements XMLPrefsElement {
 
             return null;
         } else {
-            if (output.length() > 0) return output;
+            if (!output.isEmpty()) return output;
             return context.getString(R.string.id_notfound);
         }
     }
@@ -866,7 +866,7 @@ public class RssManager implements XMLPrefsElement {
                 }
 
                 CharSequence replace;
-                if (cl != feed.color && value.length() > 0) {
+                if (cl != feed.color && !value.isEmpty()) {
                     replace = Tuils.span(value, cl);
                 } else {
                     replace = value;
@@ -912,13 +912,13 @@ public class RssManager implements XMLPrefsElement {
             Node n = list.item(0);
             url = n.getTextContent();
 
-            if (n.getNodeType() == Node.ELEMENT_NODE && (url == null || url.length() == 0)) {
+            if (n.getNodeType() == Node.ELEMENT_NODE && (url == null || url.isEmpty())) {
                 url = ((Element) n).getAttribute(HREF_ATTRIBUTE);
             }
         }
 
         String action;
-        if (url == null || url.length() == 0) action = null;
+        if (url == null || url.isEmpty()) action = null;
         else action = OPEN_URL + url;
 
         Tuils.sendOutput(context, s, TerminalManager.CATEGORY_NO_COLOR, click ? action : null);

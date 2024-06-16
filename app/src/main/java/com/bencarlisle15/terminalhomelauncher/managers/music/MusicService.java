@@ -60,7 +60,7 @@ public class MusicService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (System.currentTimeMillis() - lastNotificationChange < 500 || songTitle == null || songTitle.length() == 0)
+        if (System.currentTimeMillis() - lastNotificationChange < 500 || songTitle == null || songTitle.isEmpty())
             return super.onStartCommand(intent, flags, startId);
 
         lastNotificationChange = System.currentTimeMillis();
@@ -71,7 +71,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        if (songTitle == null || songTitle.length() == 0) return;
+        if (songTitle == null || songTitle.isEmpty()) return;
 
         lastNotificationChange = System.currentTimeMillis();
 
@@ -171,12 +171,10 @@ public class MusicService extends Service implements
         }
         PendingIntent pendInt = PendingIntent.getActivity(context, 0, notIntent, flags);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Music Service", NotificationManager.IMPORTANCE_LOW);
-            channel.setDescription("Music service notification");
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Music Service", NotificationManager.IMPORTANCE_LOW);
+        channel.setDescription("Music service notification");
+        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
 
 
         Notification not;
@@ -252,13 +250,13 @@ public class MusicService extends Service implements
     }
 
     public String playPrev() {
-        if (songs.size() == 0) return getString(R.string.no_songs);
+        if (songs.isEmpty()) return getString(R.string.no_songs);
         songPosn = previous();
         return playSong();
     }
 
     public String playNext() {
-        if (songs.size() == 0) return getString(R.string.no_songs);
+        if (songs.isEmpty()) return getString(R.string.no_songs);
         songPosn = next();
         return playSong();
     }

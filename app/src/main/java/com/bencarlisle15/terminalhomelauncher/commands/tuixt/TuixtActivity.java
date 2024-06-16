@@ -260,7 +260,7 @@ public class TuixtActivity extends Activity {
             inputView.setText(Tuils.EMPTYSTRING);
 
             input = input.trim();
-            if (input.length() == 0) {
+            if (input.isEmpty()) {
                 return;
             }
 

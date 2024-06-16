@@ -59,7 +59,7 @@ final class HtmlEscapeSymbols {
      *   Unicode Codepoint
      *      Each of the int values conforming the Unicode code space.
      *      Normally corresponding to a Java char primitive value (codepoint <= \uFFFF),
-     *      but might be two chars for codepoints \u10000 to \u10FFFF if the first char is a high
+     *      but might be two chars for codepoints က0 to ჿFF if the first char is a high
      *      surrogate (\uD800 to \uDBFF) and the second is a low surrogate (\uDC00 to \uDFFF).
      *      See: http://www.oracle.com/technetwork/articles/javase/supplementary-142654.html
      *
@@ -283,7 +283,7 @@ final class HtmlEscapeSymbols {
 
 
         // Only create the overflow map if it is really needed.
-        if (ncrsByCodepointOverflow.size() > 0) {
+        if (!ncrsByCodepointOverflow.isEmpty()) {
             NCRS_BY_CODEPOINT_OVERFLOW = ncrsByCodepointOverflow;
         } else {
             NCRS_BY_CODEPOINT_OVERFLOW = null;
@@ -291,7 +291,7 @@ final class HtmlEscapeSymbols {
 
 
         // Finally, the double-codepoints structure can be initialized, if really needed.
-        if (doubleCodepoints.size() > 0) {
+        if (!doubleCodepoints.isEmpty()) {
             DOUBLE_CODEPOINTS = new int[doubleCodepoints.size()][];
             for (int i = 0; i < DOUBLE_CODEPOINTS.length; i++) {
                 DOUBLE_CODEPOINTS[i] = doubleCodepoints.get(i);
@@ -412,11 +412,11 @@ final class HtmlEscapeSymbols {
 
 
 
-    /*
+    /**
      * These two methods (two versions: for String and for char[]) are used during unescape at the
      * {@link HtmlEscapeUtil} class in order to quickly find the NCR corresponding to a preselected fragment
      * of text (if there is such NCR).
-     *
+     * <p>
      * Note this operation supports partial matching (based on the above 'compare(...)' methods). That way,
      * if an exact match is not found but a partial match exists, the partial match will be returned.
      */

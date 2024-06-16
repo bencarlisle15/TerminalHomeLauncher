@@ -52,7 +52,7 @@ final class HtmlEscapeUtil {
      *   Unicode Codepoint
      *      Each of the int values conforming the Unicode code space.
      *      Normally corresponding to a Java char primitive value (codepoint <= \uFFFF),
-     *      but might be two chars for codepoints \u10000 to \u10FFFF if the first char is a high
+     *      but might be two chars for codepoints က0 to ჿFF if the first char is a high
      *      surrogate (\uD800 to \uDBFF) and the second is a low surrogate (\uDC00 to \uDFFF).
      *      See: http://www.oracle.com/technetwork/articles/javase/supplementary-142654.html
      *
@@ -647,12 +647,12 @@ final class HtmlEscapeUtil {
 
             final char c1 = text.charAt(i + 1);
 
-            if (c1 == '\u0020' || // SPACE
+            if (c1 == ' ' || // SPACE
                     c1 == '\n' ||     // LF
-                    c1 == '\u0009' || // TAB
+                    c1 == '\t' || // TAB
                     c1 == '\u000C' || // FF
-                    c1 == '\u003C' || // LES-THAN SIGN
-                    c1 == '\u0026') { // AMPERSAND
+                    c1 == '<' || // LES-THAN SIGN
+                    c1 == '&') { // AMPERSAND
                 // Not a character references. No characters are consumed, and nothing is returned.
                 continue;
 
@@ -881,12 +881,12 @@ final class HtmlEscapeUtil {
 
             int codepoint;
 
-            if (c2 == '\u0020' || // SPACE
+            if (c2 == ' ' || // SPACE
                     c2 == '\n' ||     // LF
-                    c2 == '\u0009' || // TAB
+                    c2 == '\t' || // TAB
                     c2 == '\u000C' || // FF
-                    c2 == '\u003C' || // LES-THAN SIGN
-                    c2 == '\u0026') { // AMPERSAND
+                    c2 == '<' || // LES-THAN SIGN
+                    c2 == '&') { // AMPERSAND
                 // Not a character references. No characters are consumed, and nothing is returned.
                 writer.write(c1);
                 continue;
@@ -1142,12 +1142,12 @@ final class HtmlEscapeUtil {
 
             final char c1 = text[i + 1];
 
-            if (c1 == '\u0020' || // SPACE
+            if (c1 == ' ' || // SPACE
                     c1 == '\n' ||     // LF
-                    c1 == '\u0009' || // TAB
+                    c1 == '\t' || // TAB
                     c1 == '\u000C' || // FF
-                    c1 == '\u003C' || // LES-THAN SIGN
-                    c1 == '\u0026') { // AMPERSAND
+                    c1 == '<' || // LES-THAN SIGN
+                    c1 == '&') { // AMPERSAND
                 // Not a character references. No characters are consumed, and nothing is returned.
                 continue;
 

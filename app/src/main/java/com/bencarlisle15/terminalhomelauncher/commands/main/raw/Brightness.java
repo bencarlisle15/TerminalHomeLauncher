@@ -38,14 +38,14 @@ public class Brightness implements CommandAbstraction {
 
             b = b * 255 / 100;
 
-            int autobrightnessState;
+            int autoBrightnessState;
             try {
-                autobrightnessState = Settings.System.getInt(pack.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE);
+                autoBrightnessState = Settings.System.getInt(pack.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE);
             } catch (Exception e) {
-                autobrightnessState = SCREEN_BRIGHTNESS_MODE_MANUAL;
+                autoBrightnessState = SCREEN_BRIGHTNESS_MODE_MANUAL;
             }
 
-            if (autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC)
+            if (autoBrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC)
                 Settings.System.putInt(pack.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
 
             ContentResolver cResolver = pack.context.getApplicationContext().getContentResolver();
@@ -53,7 +53,7 @@ public class Brightness implements CommandAbstraction {
 
             refreshBrightness(((Activity) pack.context).getWindow(), b);
 
-//                if(autobrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC) setAutoBrightness((Activity) pack.context, true);
+//                if(autoBrightnessState == SCREEN_BRIGHTNESS_MODE_AUTOMATIC) setAutoBrightness((Activity) pack.context, true);
         });
 
         return null;

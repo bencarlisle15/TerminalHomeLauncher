@@ -97,10 +97,6 @@ public enum Notifications implements XMLPrefsSave {
             return "If false, the \"Exclude app\" option won't be shown in the long click popup menu";
         }
 
-        @Override
-        public String type() {
-            return XMLPrefsSave.BOOLEAN;
-        }
     },
     notification_popup_exclude_notification {
         @Override
@@ -113,10 +109,6 @@ public enum Notifications implements XMLPrefsSave {
             return "If false, the \"Exclude notification\" option won't be shown in the long click popup menu";
         }
 
-        @Override
-        public String type() {
-            return XMLPrefsSave.BOOLEAN;
-        }
     },
     notification_popup_reply {
         @Override
@@ -129,10 +121,6 @@ public enum Notifications implements XMLPrefsSave {
             return "If false, the \"Reply to the last notification\" option won't be shown in the long click popup menu";
         }
 
-        @Override
-        public String type() {
-            return XMLPrefsSave.BOOLEAN;
-        }
     };
 
     @Override

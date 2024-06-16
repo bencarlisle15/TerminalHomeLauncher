@@ -10,10 +10,6 @@ buildscript {
     }
 }
 
-tasks.register('clean', Delete) {
-    delete rootProject.buildDir
-}
-
 allprojects {
     repositories {
         google()

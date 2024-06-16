@@ -20,7 +20,7 @@ public class QGram extends ShingleBased implements StringDistance {
     /**
      * Q-gram similarity and distance. Defined by Ukkonen in "Approximate
      * string-matching with q-grams and maximal matches",
-     * http://www.sciencedirect.com/science/article/pii/0304397592901434 The
+     * <a href="http://www.sciencedirect.com/science/article/pii/0304397592901434">...</a> The
      * distance between two strings is defined as the L1 norm of the difference
      * of their profiles (the number of occurences of each k-shingle). Q-gram
      * distance is a lower bound on Levenshtein distance, but can be computed in
@@ -34,7 +34,7 @@ public class QGram extends ShingleBased implements StringDistance {
     /**
      * Q-gram similarity and distance. Defined by Ukkonen in "Approximate
      * string-matching with q-grams and maximal matches",
-     * http://www.sciencedirect.com/science/article/pii/0304397592901434 The
+     * <a href="http://www.sciencedirect.com/science/article/pii/0304397592901434">...</a> The
      * distance between two strings is defined as the L1 norm of the difference
      * of their profiles (the number of occurence of each k-shingle). Q-gram
      * distance is a lower bound on Levenshtein distance, but can be computed in
